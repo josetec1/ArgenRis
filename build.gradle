@@ -13,6 +13,8 @@ buildscript {
 version "0.1"
 group "argenris"
 
+apply plugin: 'jacoco'
+
 apply plugin:"eclipse"
 apply plugin:"idea"
 apply plugin:"war"
@@ -100,4 +102,13 @@ tasks.withType(Test) {
 assets {
     minifyJs = true
     minifyCss = true
+}
+
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
 }
