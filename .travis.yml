@@ -8,3 +8,4 @@ cache:
 language: groovy # 
 jdk:
   - oraclejdk8 #
+dist: trusty #
