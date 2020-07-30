@@ -86,6 +86,7 @@ bootRun {
     systemProperty springProfilesActive, System.getProperty(springProfilesActive)
 }
 
+//TODO  esto lo comente por que no anda sino... fix
 webdriverBinaries {
    // chromedriver '2.45.0'
     geckodriver '0.24.0'
