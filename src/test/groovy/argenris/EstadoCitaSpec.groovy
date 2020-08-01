@@ -13,6 +13,6 @@ class EstadoCitaSpec extends Specification implements DomainUnitTest<EstadoCita>
 
     void "test something"() {
         expect:"fix me"
-            true == true
+            true
     }
 }

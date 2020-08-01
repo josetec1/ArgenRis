@@ -5,5 +5,7 @@ class EstadoCitaCancelada extends EstadoCita  {
     static constraints = {
     }
 
-    boolean estaVencida(){ true}
+    boolean estaVigente(){ false
+    }
+
 }

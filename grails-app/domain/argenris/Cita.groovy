@@ -16,8 +16,8 @@ class Cita {
         this.estadoDeCita = new EstadoCitaCancelada()
     }
 
-    boolean estaVencida(){
-        return this.estadoDeCita.estaVencida()
+    boolean estaVigente(){
+        return this.estadoDeCita.estaVigente()
     }
 
 }

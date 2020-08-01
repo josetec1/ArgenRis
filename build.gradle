@@ -13,7 +13,7 @@ buildscript {
 version "0.1"
 group "argenris"
 
-apply plugin: 'jacoco'
+//apply plugin: 'jacoco'
 
 apply plugin:"eclipse"
 apply plugin:"idea"
@@ -104,10 +104,11 @@ assets {
     minifyJs = true
     minifyCss = true
 }
-
+/*
 test {
     finalizedBy jacocoTestReport // report is always generated after tests run
 }
 jacocoTestReport {
     dependsOn test // tests are required to run before generating the report
 }
+*/

@@ -11,7 +11,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
     def cleanup() {
     }
 
-     void "test al crear una cita, su estado es registrada" (){
+     void "test al crear una cita, se encuentra vigente" (){
 	
         when:'una cita recien creada'
 
@@ -20,24 +20,24 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
 	    then: "la cita tiene el estado registrado"	
 
             //unaCita.estadoDeCita == new EstadoCitaRegistrada()
-            unaCita.estaVencida() == false
+            unaCita.estaVigente() == true
 
     }
-/*
-    void "test al cancelar una cita, su estado es cancelada" (){
+
+    void "test al cancelar una cita,deberia quedar no vigente" (){
 	
         given: 'una cita recien creada'
             def Cita unaCita= new Cita ()
 
         when:
-            unaCita.cancelar()      
+        unaCita.cancelar()
 	
 	    then: "la cita tiene el estado cancelado"	
-            println unaCita.estadoDeCita.
-           // unaCita.estadoDeCita == new EstadoCitaRegistrada()
-            unaCita.estaVencida() == true
+
+
+        unaCita.estaVigente() == false
 
     }
-*/
+
 
 }
