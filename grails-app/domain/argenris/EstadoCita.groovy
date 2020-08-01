@@ -7,5 +7,5 @@ abstract class EstadoCita {
     }
 
  
-   abstract  boolean estaVigente()
+   abstract  boolean estaVencida()
 }

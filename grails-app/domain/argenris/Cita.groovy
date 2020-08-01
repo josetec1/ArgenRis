@@ -1,14 +1,19 @@
 package argenris
 
+import java.time.LocalDateTime
+
 class Cita {
 
     EstadoCita estadoDeCita
+    LocalDateTime fechaYHora
+
     static constraints = {
     }
 
-    Cita (){
+    Cita ( LocalDateTime fechaYHora){
 
         this.estadoDeCita = new EstadoCitaRegistrada()
+        this.fechaYHora = fechaYHora
 
     }
 
@@ -16,8 +21,10 @@ class Cita {
         this.estadoDeCita = new EstadoCitaCancelada()
     }
 
-    boolean estaVigente(){
-        return this.estadoDeCita.estaVigente()
+    boolean estaVencida(LocalDateTime fechaYHoraActual){
+
+        fechaYHoraActual != this.fechaYHora
+
     }
 
 }

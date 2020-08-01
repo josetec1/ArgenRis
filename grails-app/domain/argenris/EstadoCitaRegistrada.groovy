@@ -5,5 +5,5 @@ class EstadoCitaRegistrada extends EstadoCita  {
     static constraints = {
     }
 
-    boolean estaVigente(){ true}
+    boolean estaVencida(){ false}
 }
