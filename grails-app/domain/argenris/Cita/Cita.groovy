@@ -12,8 +12,7 @@ class Cita {
 
     static constraints = {
 
-       // fechaYHora nullable: false
-        // estadoDeCita nullable: false
+    
     }
 
     Cita(LocalDateTime fechaYHora) {
@@ -32,7 +31,7 @@ class Cita {
 
     }
 
-    boolean pacienteArribando(LocalDateTime fechaYHoraActual) {
+    void pacienteArribando(LocalDateTime fechaYHoraActual) {
         this.estadoDeCita= this.estadoDeCita.pacienteArribando (fechaYHora, fechaYHoraActual)
     }
 }
