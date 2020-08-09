@@ -1,5 +1,6 @@
 package argenris
 
+import argenris.Cita.Cita
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
@@ -37,13 +38,13 @@ class CitaFactorySpec extends Specification implements DomainUnitTest<CitaFactor
 
     void "cita Factory crea una cita Urgente cuando recibe prioridad normal"() {
         given:'Cita factory es creada, fechaCita es creada'
-        CitaFactory factory = CitaFactory.obtenerInstancia()
-        LocalDateTime fechaCita = new LocalDateTime(new LocalDate(1998, 1, 23), new LocalTime(23, 00, 00, 00))
+            CitaFactory factory = CitaFactory.obtenerInstancia()
+            LocalDateTime fechaCita = new LocalDateTime(new LocalDate(1998, 1, 23), new LocalTime(23, 00, 00, 00))
         when:'se llama a citaFactory crear cita con la fecha creada y prioridad URGENTE'
-        Cita nuevaCita = factory.crearCita(fechaCita, 'URGENTE')
+            Cita nuevaCita = factory.crearCita(fechaCita, 'URGENTE')
         then:'debuelve la cita normal esperada'
-        nuevaCita.fechaYHora == fechaCita
-        nuevaCita.prioridad == Prioridad.URGENTE
+            nuevaCita.fechaYHora == fechaCita
+            nuevaCita.prioridad == Prioridad.URGENTE
     }
 
     void "cita Factory devuelve Excepcion cuando recibe prioridad INEXISTENTE"() throws Exception{

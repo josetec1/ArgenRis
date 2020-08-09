@@ -1,5 +1,6 @@
 package argenris
 
+import argenris.Cita.Cita
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 

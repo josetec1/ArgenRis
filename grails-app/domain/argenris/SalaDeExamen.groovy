@@ -1,5 +1,7 @@
 package argenris
 
+import argenris.Cita.Cita
+
 import java.time.LocalDateTime
 
 class SalaDeExamen extends AreaDeExamen{

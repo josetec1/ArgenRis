@@ -1,4 +1,8 @@
-package argenris
+package argenris.Cita
+
+import argenris.Cita.EstadoCita.EstadoCita
+import argenris.Cita.EstadoCita.EstadoCitaRegistrada
+import argenris.Prioridad
 
 import java.time.Duration
 import java.time.LocalDateTime
@@ -10,23 +14,28 @@ class Cita {
     Prioridad prioridad
 
     static constraints = {
+
+    
     }
 
-    Cita ( LocalDateTime fechaYHora, Prioridad prioridad){
-
+    Cita(LocalDateTime fechaYHora, Prioridad prioridad) {
+        this.prioridad = prioridad
         this.estadoDeCita = new EstadoCitaRegistrada()
         this.fechaYHora = fechaYHora
-        this.prioridad = prioridad
 
     }
 
-    void cancelar(){
-        this.estadoDeCita = new EstadoCitaCancelada()
+    void cancelar() {
+        this.estadoDeCita = this.estadoDeCita.cancelar()
     }
 
-    boolean estaVencida(LocalDateTime fechaYHoraActual){
+    boolean estaVencida(LocalDateTime fechaYHoraActual) {
+        this.estadoDeCita.estaVencida(fechaYHora, fechaYHoraActual)
 
-        fechaYHoraActual != this.fechaYHora
+    }
+
+    void pacienteArribando(LocalDateTime fechaYHoraActual) {
+        this.estadoDeCita= this.estadoDeCita.pacienteArribando (fechaYHora, fechaYHoraActual)
     }
 
     boolean seSuperponeCon(LocalDateTime fechaYHoraActual) {
@@ -35,5 +44,4 @@ class Cita {
         }
         Duration.between(fechaYHoraActual, this.fechaYHora).toMinutes() <= prioridad.obtenerRango()
     }
-
 }
