@@ -27,7 +27,6 @@ class Cita {
     boolean estaVencida(LocalDateTime fechaYHoraActual){
 
         fechaYHoraActual != this.fechaYHora
-
     }
 
     boolean seSuperponeCon(LocalDateTime fechaYHoraActual) {

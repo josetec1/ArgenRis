@@ -7,7 +7,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-class AreaDeExamenDummySpec extends Specification {
+class AreaDeExamenSpec extends Specification {
 
     def setup() {
     }
