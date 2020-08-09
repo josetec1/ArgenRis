@@ -1,5 +1,7 @@
 package argenris
 
+import argenris.Cita.Cita
+import argenris.Cita.EstadoCita.EstadoCitaRegistrada
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
