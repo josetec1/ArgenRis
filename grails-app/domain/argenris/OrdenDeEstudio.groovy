@@ -16,7 +16,7 @@ class OrdenDeEstudio {
     LocalDateTime dateCreated  //fecha real en que se ingresa en el sistema la orden
     LocalDateTime fecha       // fecha de creacion que ingresa el medico
     String notaAdicional
-    Cita cita
+   // Cita cita
     EstadoDeLaOrden estadoDeLaOrden
     Procedimiento procedimiento
     
@@ -39,7 +39,7 @@ class OrdenDeEstudio {
         this.notaAdicional = nota
         this.procedimiento = procedimiento
         
-        this.cita = null  //todo deberia haber un NullPattern
+    //    this.cita = null  //todo deberia haber un NullPattern
         this.estadoDeLaOrden =  new EstadoOrdenRegistrada()
         
         

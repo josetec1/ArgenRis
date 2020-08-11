@@ -12,9 +12,9 @@ class Procedimiento {
         
     }
     
-    Tipo tipo
-    String nombre
-    double costo
+    //Tipo tipo
+  //  String nombre
+  //  double costo
     
     
     static constraints = {

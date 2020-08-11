@@ -47,7 +47,7 @@ class OrdenDeEstudioSpec extends Specification implements DomainUnitTest<OrdenDe
         unaOrden.estadoDeLaOrden != new EstadoOrdenAsignada()  //ojo por que podes implementar mal el equals y da siempre true
         
     }
-    
+  /*
     void "test02 una orden de estudio sin cita, puedoAgregarCita debe dar true" (){
         
         given:'una orden de estudio recien creada'
@@ -67,7 +67,7 @@ class OrdenDeEstudioSpec extends Specification implements DomainUnitTest<OrdenDe
         puedoAgregarCita == true
         
     }
-    
+    */
   
     
 }
