@@ -1,8 +1,6 @@
-
-
+import argenris.Cita.Cita
 import argenris.CitaFactory
 import argenris.Prioridad
-import argenris.cita.Cita
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 

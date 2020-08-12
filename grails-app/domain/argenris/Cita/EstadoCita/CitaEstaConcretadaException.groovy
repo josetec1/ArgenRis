@@ -1,4 +1,4 @@
-package argenris.cita.estadoCita
+package argenris.Cita.EstadoCita
 
 class CitaEstaConcretadaException extends RuntimeException{
 

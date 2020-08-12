@@ -1,8 +1,9 @@
-package argenris.cita
+package argenris.Cita
 
+import argenris.Cita.EstadoCita.EstadoCita
+import argenris.Cita.EstadoCita.EstadoCitaRegistrada
 import argenris.Prioridad
-import argenris.cita.estadoCita.EstadoCita
-import argenris.cita.estadoCita.EstadoCitaRegistrada
+
 
 import java.time.Duration
 import java.time.LocalDateTime
