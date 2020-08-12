@@ -5,28 +5,34 @@ import java.time.LocalDateTime
 
 //todo falta implementar. constructor etc.
 
-//todo la anotacion hay que quitarla, la uso momentaneamente
-@groovy.transform.ToString
 class Medico {
 
     String nombre
-  //  OrdenDeEstudio ordenDeEstudio //todo esto tiene que ser una coleccion
+    Set<OrdenDeEstudio> ordenesDeEstudio =[]
+  
+    static hasMany = [
+            ordenesDeEstudio: OrdenDeEstudio
+    ]
+    
     static constraints = {
+        nombre nullable: false
     }
     
-    Medico (String nombre) {this.nombre = nombre}
+    Medico (String nombre) {
+        this.nombre = nombre
+    }
+
+    
     
     OrdenDeEstudio crearOrdenDeEstudio (Paciente paciente,
                                         Prioridad prioridad,
                                         LocalDateTime fechaDeCreacion,
                                         String nota,
                                         Procedimiento procedimiento){
-    
         
-        
-     //  this.ordenDeEstudio = new OrdenDeEstudio(this,paciente,prioridad,fechaDeCreacion,nota,procedimiento)
-    
-        new OrdenDeEstudio(this,paciente,prioridad,fechaDeCreacion,nota,procedimiento)
+        OrdenDeEstudio orden = new OrdenDeEstudio(this,paciente,prioridad,fechaDeCreacion,nota,procedimiento)
+        this.ordenesDeEstudio << orden
+        orden
     }
 }
 

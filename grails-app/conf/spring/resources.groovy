@@ -1,4 +1,3 @@
-package argenris
 import argenris.repositorios.MedicoActualRepositorio
 import argenris.repositorios.PacienteRepositorio
 import argenris.repositorios.ProcedimientoRepositorio

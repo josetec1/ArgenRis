@@ -22,8 +22,11 @@ class OrdenService {
         // no agregar logica en el servicio.
         
         // 1 obtener paciente del repositorio
-        Paciente paciente = pacienteRepositorio.getById(pacienteID)
-        Procedimiento procedimiento = procedimientoRepositorio.getById(procedimientoID)
+          Paciente paciente = pacienteRepositorio.getById(pacienteID).orElseThrow(
+                  { ->new IllegalStateException ("no hay paciente con id=${pacienteID}") })
+        
+        Procedimiento procedimiento = procedimientoRepositorio.getById(procedimientoID).orElseThrow(
+                { ->new IllegalStateException ("no hay procedimiento con id=${procedimientoID}") })
         
         //2 obtener el medico actual
         Medico medico = medicoActualRepositorio.buscar()
@@ -32,6 +35,6 @@ class OrdenService {
         def orden = medico.crearOrdenDeEstudio(paciente,prioridad,fechaCreacion,nota,procedimiento)
         
         //4 persistirla
-        orden.save()
+       orden.save(failOnError : true)
     }
 }

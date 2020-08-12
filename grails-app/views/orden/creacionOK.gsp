@@ -16,5 +16,10 @@ Se creo Ok la orden para el paciente'${pacienteId}'
 
 
 <g:link action="ordenes">ver ordenes</g:link>
+<br/>
+<g:link action="index">Volver al Inicio</g:link>
+<br/><br/>
+<a href="http://localhost:8015/h2-console/">H2 Consola</a>
+
 </body>
 </html>

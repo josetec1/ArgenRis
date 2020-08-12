@@ -16,7 +16,7 @@
 
 
 <p> listar las  opciones de esta pantalla </p>
-
+<br/>
 <g:link action="ordenes">ver ordenes</g:link>
 
 <g:link action="medicos">ver medicos</g:link>
@@ -55,10 +55,8 @@
 
 <!-- todo reemplazar esto con mapping -->
 <g:link action="nuevaOrden">Crear una nueva orden</g:link>
-
-
-
-
+<br/><br/>
+<a href="http://localhost:8015/h2-console/">H2 Consola</a>
 
 </body>
 </html>

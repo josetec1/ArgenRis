@@ -9,16 +9,16 @@ class CreacionCommand{
     Long pacienteId
     Long procedimientoId
     String nota
-    String prioridad
-    String fecha
+    String prioridad  //todo pasar a prioridad
+    String fecha //todo pasar a fecha
     
     static constraints = {
-   
-         pacienteId nullable: false, blank: false
-         procedimientoId nullable: false, blank: false
+   //todo revisar estas validaciones
+         pacienteId nullable: false   //en numero blank no tiene sentido
+         procedimientoId nullable: false
          nota nullable: false, blank: false
          prioridad nullable: false, blank: false
-         fecha nullable: false, blank: true
+         fecha nullable: true, blank: true
 
     }
     
@@ -45,7 +45,6 @@ class OrdenController {
         
         def pacientes = Paciente.list()    //provisorio no usar esto
         
-   
         [
           pacientes: pacientes.collect { paciente ->
               [
@@ -78,11 +77,14 @@ class OrdenController {
             render view: "creacionOK", model: [pacienteId: command.pacienteId]
     
             //4.1 mostrar una pantalla de error
-        }else {render view: "nuevaOrden", model: [faltanParametros : 1]}
-        
+       }else {render view: "nuevaOrden", model: [faltanParametros : 1]} //todo mostrar el erro y mantener los datos ingresados. y rompe los select
+       
     }
     
     def nuevaOrden() {
+        [
+         procedimientos:Procedimiento.list(), pacientes:Paciente.list()  //provisorio no usar esto
+        ]
     }
     
     def medicos() {

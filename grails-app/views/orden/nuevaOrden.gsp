@@ -12,8 +12,8 @@
 </head>
 
 <body>
-<p>ingrese la informacion para la nueva orden de estudio</p>
-
+<strong> Ingrese la informacion para la nueva orden de estudio</strong>
+<br/>
 
 <g:if test="${faltanParametros}">
     <strong> completa los campos </strong>
@@ -31,20 +31,22 @@
 
 
 <g:form action="crear">
-    Numero Paciente: <input type="text" name="pacienteId"/>
-    <br/>
+    Numero Paciente: <g:select noSelection="['': 'Seleccionar Paciente']" optionKey="id" optionValue="nombre" name="pacienteId" from= "${pacientes}" />
+    <br/><br/>
+
     Prioridad: <input type="text" name="prioridad" />
-    <br/>
-    ProcedimientoID: <input type="text" name="procedimientoId" />
-    <br/>
+    <br/><br/>
+    ProcedimientoID: <g:select noSelection="['': 'Seleccionar Procedimiento']" optionKey="id" optionValue="id" name="procedimientoId" from= "${procedimientos}" />
+    <br/><br/>
     Nota: <input type="text" name="nota" />
-    <br/>
+    <br/><br/>
     Fecha de creacion: <input type="text" name="fecha" />
-    <br/>
+    <br/><br/>
     <button type="submit">Crear</button>
 </g:form>
 </body>
 
+<g:link action="index">Volver al Inicio</g:link>
 
 
 </body>

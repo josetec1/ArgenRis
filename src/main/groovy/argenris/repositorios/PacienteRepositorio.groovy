@@ -8,17 +8,10 @@ import org.springframework.stereotype.Component
 
 class PacienteRepositorio {
 	
-	Paciente getById (Long id) {
-		Paciente paciente = Paciente.get(id)
-		if (!paciente) throw new IllegalStateException ("no hay paciente con id=${id}")
-		paciente
+	Optional<Paciente> getById(Long id) {
+		Optional.ofNullable(Paciente.get(id)) //este opcional puede inicializarse con null si no hay paciente, tiene maps filter...
 	}
 	
-	
-	//todo hay que ver como usar este
-	Optional<Paciente> getByIdOptional (long id) {
-		Optional.ofNullable(Paciente.get(id))
-	}
 	
 	
 }

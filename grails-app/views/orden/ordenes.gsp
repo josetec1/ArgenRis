@@ -13,6 +13,7 @@
 
 <body>
 
+<g:link action="index">Volver al Inicio</g:link>
 
 <g:if test="${!ordenes}">
     <strong> no hay ordenes</strong>
@@ -23,6 +24,9 @@
 
 <!-- muestro los  -->
 <p>muentro las ordenes</p>
+
+
+
 <table style="border: 1px solid black;">
 
     <thead>
@@ -50,6 +54,7 @@
 
 <!-- todo reemplazar esto con mapping -->
 <g:link action="nuevaOrden">Crear una nueva orden</g:link>
+
 
 
 

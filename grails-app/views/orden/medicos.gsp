@@ -49,6 +49,7 @@
 
 <!-- todo reemplazar esto con mapping -->
 <g:link action="nuevaOrden">Crear una nueva orden</g:link>
+<g:link action="index">Volver al Inicio</g:link>
 
 
 
