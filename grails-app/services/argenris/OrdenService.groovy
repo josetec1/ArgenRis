@@ -8,7 +8,7 @@ import argenris.Procedimiento
 import grails.gorm.transactions.Transactional
 import java.time.LocalDateTime
 
-@Transactional
+@Transactional // es para indicar que sea una transaccion (se hace completo o no se hace nada)
 class OrdenService {
     
     def pacienteRepositorio
@@ -16,6 +16,10 @@ class OrdenService {
     def medicoActualRepositorio
     
     OrdenDeEstudio crear(Long pacienteID, Prioridad prioridad, LocalDateTime fechaCreacion, String nota, Long procedimientoID) {
+        
+        //el controlador tuvo que hacer validacion del estilo " los campos estan todos, vino un id, etc
+        // al margen de  eso, el dominio tiene que hacer sus propias validaciones de reglas de negocio
+        // no agregar logica en el servicio.
         
         // 1 obtener paciente del repositorio
         Paciente paciente = pacienteRepositorio.getById(pacienteID)

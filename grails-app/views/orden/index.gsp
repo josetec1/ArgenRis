@@ -21,7 +21,7 @@
 
 <g:link action="medicos">ver medicos</g:link>
 
-<g:link action="crear">crea una orden</g:link>
+
 
 
 <!-- muestro los pacientes -->
