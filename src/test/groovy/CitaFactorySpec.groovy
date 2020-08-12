@@ -1,6 +1,8 @@
-package argenris
 
-import argenris.Cita.Cita
+
+import argenris.CitaFactory
+import argenris.Prioridad
+import argenris.cita.Cita
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
@@ -30,7 +32,7 @@ class CitaFactorySpec extends Specification implements DomainUnitTest<CitaFactor
             CitaFactory factory = CitaFactory.obtenerInstancia()
             LocalDateTime fechaCita = new LocalDateTime(new LocalDate(1998, 1, 23), new LocalTime(23, 00, 00, 00))
         when:'se llama a citaFactory crear cita con la fecha creada'
-            Cita nuevaCita = factory.crearCita(fechaCita, 'NORMAL')
+        Cita nuevaCita = factory.crearCita(fechaCita, 'NORMAL')
         then:'debuelve la cita normal esperada'
             nuevaCita.fechaYHora == fechaCita
             nuevaCita.prioridad == Prioridad.NORMAL

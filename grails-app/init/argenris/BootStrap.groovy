@@ -1,11 +1,13 @@
 package argenris
 
+
+
 import java.time.LocalDateTime
 
 class BootStrap {
 
     def init = { servletContext ->
-        
+       
         new Medico (nombre: "DocRiviera").save(failOnError : true)
         new Medico (nombre: "DocHibbert").save(failOnError : true)
         
@@ -19,7 +21,7 @@ class BootStrap {
                 "orden de estudio powered by BootStrap",
                 new Procedimiento()).save(failOnError : true)
         
-        new Procedimiento()
+        new Procedimiento().save(failOnError : true)
         
         
         

@@ -1,6 +1,7 @@
-package argenris
 
-import argenris.Cita.Cita
+
+import argenris.AreaDeExamen
+import argenris.cita.Cita
 
 import java.time.LocalDateTime
 

@@ -1,23 +1,28 @@
-package argenris
 
 
+import argenris.EstadoOrdenAsignada
+import argenris.EstadoOrdenRegistrada
+import argenris.Paciente
+import argenris.Prioridad
+import argenris.Procedimiento
 import grails.testing.gorm.DomainUnitTest
+
 import spock.lang.Specification
 
 import java.time.LocalDateTime
 
-class OrdenDeEstudioSpec extends Specification implements DomainUnitTest<OrdenDeEstudio> {
+class OrdenDeEstudioSpec extends Specification implements DomainUnitTest<argenris.OrdenDeEstudio> {
     
-    Medico medico
-    Paciente paciente
-    Prioridad prioridad
+    argenris.Medico medico
+	Paciente paciente
+	Prioridad prioridad
     LocalDateTime fechaDeCreacion
     String nota
-    Procedimiento procedimiento
+	Procedimiento procedimiento
     
     def setup() {
         
-        Medico medico = mockDomain Medico
+        argenris.Medico medico = mockDomain argenris.Medico
         Paciente paciente = mockDomain Paciente
         Prioridad prioridad = Prioridad.NORMAL
         LocalDateTime fechaDeCreacion =LocalDateTime.of(2020,8,9,2,54)
@@ -34,7 +39,7 @@ class OrdenDeEstudioSpec extends Specification implements DomainUnitTest<OrdenDe
         
         when: 'una orden de estudio recien creada'
         
-        OrdenDeEstudio unaOrden= new OrdenDeEstudio(
+        argenris.OrdenDeEstudio unaOrden= new argenris.OrdenDeEstudio(
                 medico,
                 paciente,
                 prioridad,

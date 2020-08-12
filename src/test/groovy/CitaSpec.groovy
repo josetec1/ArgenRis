@@ -1,12 +1,14 @@
-package argenris
 
-import argenris.Cita.Cita
-import argenris.Cita.EstadoCita.CitaEstaCanceladaException
-import argenris.Cita.EstadoCita.CitaEstaConcretadaException
-import argenris.Cita.EstadoCita.CitaNoSePuedeArribarException
-import argenris.Cita.EstadoCita.EstadoCitaCancelada
-import argenris.Cita.EstadoCita.EstadoCitaConcretada
-import argenris.Cita.EstadoCita.EstadoCitaRegistrada
+
+
+import argenris.Prioridad
+import argenris.cita.Cita
+import argenris.cita.estadoCita.CitaEstaCanceladaException
+import argenris.cita.estadoCita.CitaEstaConcretadaException
+import argenris.cita.estadoCita.CitaNoSePuedeArribarException
+import argenris.cita.estadoCita.EstadoCitaCancelada
+import argenris.cita.estadoCita.EstadoCitaConcretada
+import argenris.cita.estadoCita.EstadoCitaRegistrada
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
@@ -17,7 +19,7 @@ import java.time.LocalTime
 class CitaSpec extends Specification implements DomainUnitTest<Cita> {
     
     LocalDateTime fechaDeCita
-    Prioridad prioridadNormal = Prioridad.NORMAL
+	Prioridad prioridadNormal = Prioridad.NORMAL
 
     def setup() {
         fechaDeCita = new LocalDateTime(new LocalDate(1998,1,23),new LocalTime(23,00,00,00))

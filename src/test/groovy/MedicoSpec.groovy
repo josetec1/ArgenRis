@@ -1,9 +1,10 @@
-package argenris
+
+
 
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-class PacienteSpec extends Specification implements DomainUnitTest<Paciente> {
+class MedicoSpec extends Specification implements DomainUnitTest<argenris.Medico> {
 
     def setup() {
     }

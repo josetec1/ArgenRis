@@ -1,6 +1,6 @@
 package argenris
 
-import argenris.Cita.Cita
+import argenris.cita.Cita
 
 import java.time.LocalDateTime
 
@@ -10,7 +10,7 @@ abstract class AreaDeExamen {
     }
 
     List<Cita> citas
-
+    
     Cita crearCita(LocalDateTime fechaYHoraCita, String prioridad) throws Exception{
         CitaFactory.obtenerInstancia().crearCita(fechaYHoraCita, prioridad)
     }

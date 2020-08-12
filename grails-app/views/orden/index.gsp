@@ -21,6 +21,9 @@
 
 <g:link action="medicos">ver medicos</g:link>
 
+<g:link action="crear">crea una orden</g:link>
+
+
 <!-- muestro los pacientes -->
 <p>muentro los pacientes</p>
 <table style="border: 1px solid black;">

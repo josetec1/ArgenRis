@@ -1,54 +1,33 @@
 package argenris
 
+import argenris.Medico
+import argenris.OrdenDeEstudio
+import argenris.Paciente
+import argenris.Prioridad
+import argenris.Procedimiento
 import grails.gorm.transactions.Transactional
-
-
 import java.time.LocalDateTime
 
 @Transactional
-
 class OrdenService {
     
-  //  def pacienteRepositorio
+    def pacienteRepositorio
+    def procedimientoRepositorio
+    def medicoActualRepositorio
     
- //   def medicoActualRepositorio
-     
-    
-    
-    OrdenDeEstudio crear(Long pacienteID,Prioridad prioridad, LocalDateTime fechaCreacion,String nota, Long procedimientoID) {
+    OrdenDeEstudio crear(Long pacienteID, Prioridad prioridad, LocalDateTime fechaCreacion, String nota, Long procedimientoID) {
         
         // 1 obtener paciente del repositorio
-        Paciente paciente = Paciente.get (pacienteID) // hay que ver por que no inyecta la dependencia
-        //2 obtener los demas datos
-       
-        Procedimiento procedimiento = Procedimiento.get (procedimientoID)
+        Paciente paciente = pacienteRepositorio.getById(pacienteID)
+        Procedimiento procedimiento = procedimientoRepositorio.getById(procedimientoID)
         
+        //2 obtener el medico actual
+        Medico medico = medicoActualRepositorio.buscar()
         
+        //3 crear la orden de estudio
+        def orden = medico.crearOrdenDeEstudio(paciente,prioridad,fechaCreacion,nota,procedimiento)
         
-        //3 obtener el medico actual
-        //   def medico = medicoActualRepositorio.buscar()
-        Medico medico = new Medico("juan")
-        
-       
-        //4 crear la orden de estudio
-        
-            /*
-           OrdenDeEstudio orden =  medico.crearOrdenDeEstudio(paciente,
-                    prioridad,
-                    fechaCreacion,
-                    nota,
-                    procedimiento)
-        */
-         OrdenDeEstudio orden =  new OrdenDeEstudio(medico,paciente,prioridad,fechaCreacion,nota,procedimiento)
-    
-       
-        
-        
-        
-            //5 persistirla
-            orden.save()
-            
-        
-        
+        //4 persistirla
+        orden.save()
     }
 }

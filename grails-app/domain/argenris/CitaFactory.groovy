@@ -1,6 +1,6 @@
 package argenris
 
-import argenris.Cita.Cita
+
 
 import java.time.LocalDateTime
 
@@ -16,13 +16,13 @@ class CitaFactory {
     static CitaFactory obtenerInstancia() {
         return INSTANCIA
     }
-
-    Cita crearCita(LocalDateTime fechaCita, String prioridad) throws Exception{
+    
+    argenris.cita.Cita crearCita(LocalDateTime fechaCita, String prioridad) throws Exception{
         if(prioridad == 'URGENTE') {
-            return new Cita(fechaCita, Prioridad.URGENTE)
+            return new argenris.cita.Cita(fechaCita, Prioridad.URGENTE)
         }
         if(prioridad == 'NORMAL') {
-            return new Cita(fechaCita, Prioridad.NORMAL)
+            return new argenris.cita.Cita(fechaCita, Prioridad.NORMAL)
         }
         else {
             throw new Exception('La prioridad recibida no existe')

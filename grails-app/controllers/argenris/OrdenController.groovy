@@ -39,7 +39,7 @@ class OrdenController {
         //validar el command
         //llamar al servicio para crear la orden
             //ordenService.crear(pacienteID,Prioridad.NORMAL,fechaCreacion,nota,procedimientoID)
-            ordenService.crear(1,Prioridad.NORMAL, LocalDateTime.now(),"Creada por el service",1)
+            ordenService.crear(1,Prioridad.NORMAL, LocalDateTime.now(),"Creada por el service33",1)
     
     
         

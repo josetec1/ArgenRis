@@ -1,7 +1,5 @@
-package argenris.Cita.EstadoCita
+package argenris.cita.estadoCita
 
-import argenris.Cita.EstadoCita.EstadoCita
-import com.sun.media.sound.InvalidDataException
 
 import java.time.LocalDateTime
 

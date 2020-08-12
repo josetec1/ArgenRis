@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component
 
 
 //@Component  //quiero crear un bean de esta clase y que spring maneje el siclo de vida
+
 class PacienteRepositorio {
 	
 	Paciente getById (Long id) {

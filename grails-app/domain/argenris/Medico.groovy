@@ -1,5 +1,6 @@
 package argenris
 
+
 import java.time.LocalDateTime
 
 //todo falta implementar. constructor etc.
@@ -21,11 +22,11 @@ class Medico {
                                         String nota,
                                         Procedimiento procedimiento){
     
-      
-        
-      //  this.ordenDeEstudio = new OrdenDeEstudio(this,paciente,prioridad,fechaDeCreacion,nota,procedimiento)
         
         
+     //  this.ordenDeEstudio = new OrdenDeEstudio(this,paciente,prioridad,fechaDeCreacion,nota,procedimiento)
+    
+        new OrdenDeEstudio(this,paciente,prioridad,fechaDeCreacion,nota,procedimiento)
     }
 }
 

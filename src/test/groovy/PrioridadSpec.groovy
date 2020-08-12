@@ -1,5 +1,6 @@
-package argenris
 
+
+import argenris.Prioridad
 import spock.lang.Specification
 
 class PrioridadSpec extends Specification{
