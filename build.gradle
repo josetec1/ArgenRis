@@ -77,10 +77,10 @@ dependencies {
 
 bootRun {
     jvmArgs(
-        '-Dspring.output.ansi.enabled=always', 
-        '-noverify', 
-        '-XX:TieredStopAtLevel=1',
-        '-Xmx1024m')
+            '-Dspring.output.ansi.enabled=always',
+            '-noverify',
+            '-XX:TieredStopAtLevel=1',
+            '-Xmx1024m')
     sourceResources sourceSets.main
     String springProfilesActive = 'spring.profiles.active'
     systemProperty springProfilesActive, System.getProperty(springProfilesActive)
@@ -88,7 +88,7 @@ bootRun {
 
 //TODO  esto lo comente por que no anda sino... fix
 webdriverBinaries {
-   // chromedriver '2.45.0'
+    // chromedriver '2.45.0'
     geckodriver '0.24.0'
 }
 
@@ -104,11 +104,3 @@ assets {
     minifyJs = true
     minifyCss = true
 }
-/*
-test {
-    finalizedBy jacocoTestReport // report is always generated after tests run
-}
-jacocoTestReport {
-    dependsOn test // tests are required to run before generating the report
-}
-*/

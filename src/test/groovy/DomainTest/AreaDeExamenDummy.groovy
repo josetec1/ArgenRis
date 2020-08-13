@@ -1,5 +1,6 @@
-package argenris
+package DomainTest
 
+import argenris.AreaDeExamen
 import argenris.Cita.Cita
 
 import java.time.LocalDateTime

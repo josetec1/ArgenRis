@@ -16,7 +16,7 @@ class CitaFactory {
     static CitaFactory obtenerInstancia() {
         return INSTANCIA
     }
-
+    
     Cita crearCita(LocalDateTime fechaCita, String prioridad) throws Exception{
         if(prioridad == 'URGENTE') {
             return new Cita(fechaCita, Prioridad.URGENTE)

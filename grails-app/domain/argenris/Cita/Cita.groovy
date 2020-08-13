@@ -4,6 +4,7 @@ import argenris.Cita.EstadoCita.EstadoCita
 import argenris.Cita.EstadoCita.EstadoCitaRegistrada
 import argenris.Prioridad
 
+
 import java.time.Duration
 import java.time.LocalDateTime
 
@@ -14,7 +15,8 @@ class Cita {
     Prioridad prioridad
 
     static constraints = {
-
+        fechaYHora nullable: false
+        prioridad nullable: false
     
     }
 

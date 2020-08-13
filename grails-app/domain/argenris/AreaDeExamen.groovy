@@ -10,7 +10,7 @@ abstract class AreaDeExamen {
     }
 
     List<Cita> citas
-
+    
     Cita crearCita(LocalDateTime fechaYHoraCita, String prioridad) throws Exception{
         CitaFactory.obtenerInstancia().crearCita(fechaYHoraCita, prioridad)
     }

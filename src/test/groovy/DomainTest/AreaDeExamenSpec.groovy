@@ -1,6 +1,6 @@
-package argenris
+package DomainTest
 
-import grails.testing.gorm.DomainUnitTest
+import argenris.Prioridad
 import spock.lang.Specification
 
 import java.time.LocalDate

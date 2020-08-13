@@ -4,27 +4,27 @@ import argenris.Cita.Cita
 
 import java.time.LocalDateTime
 
-class SalaDeExamen extends AreaDeExamen{
-
-
+class SalaDeExamen  extends AreaDeExamen {
+    
+    
     SalaDeExamen(List<Cita> citas) {
         this.citas = citas
     }
-
+    
     @Override
     List<Cita> obtenerCitasDelDia(LocalDateTime dia) {
-        this.citas.findAll() {cita -> cita.getFechaYHora().getDayOfWeek() == dia.getDayOfWeek()}
+        this.citas.findAll() { cita -> cita.getFechaYHora().getDayOfWeek() == dia.getDayOfWeek() }
     }
-
+    
     //TODO: VER CASOS BORDE
     @Override
     boolean puedoAgregarCita(LocalDateTime fechaCita) {
-        this.citas.every {cita -> !cita.seSuperponeCon(fechaCita) }
+        this.citas.every { cita -> !cita.seSuperponeCon(fechaCita) }
     }
-
+    
     @Override
     Cita crearCita(LocalDateTime fechaYHoraCita, String prioridad) {
-
+        
         if(puedoAgregarCita(fechaYHoraCita)){
             Cita nuevaCita = super.crearCita(fechaYHoraCita, prioridad)
             this.citas.add(nuevaCita)
@@ -34,3 +34,5 @@ class SalaDeExamen extends AreaDeExamen{
         }
     }
 }
+
+

@@ -1,5 +1,6 @@
 package argenris.Cita.EstadoCita
 
+
 import java.time.LocalDateTime
 
 class EstadoCitaConcretada extends EstadoCita{

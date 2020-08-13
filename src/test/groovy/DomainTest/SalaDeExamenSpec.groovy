@@ -1,13 +1,16 @@
-package argenris
+package DomainTest
 
 import argenris.Cita.Cita
+import argenris.CitaFactory
+import argenris.Prioridad
+import argenris.SalaDeExamen
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-import java.util.List
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+
 
 class SalaDeExamenSpec extends Specification implements DomainUnitTest<SalaDeExamen>{
 
@@ -23,14 +26,14 @@ class SalaDeExamenSpec extends Specification implements DomainUnitTest<SalaDeExa
             LocalDateTime fechaDeCreacionCita2 =  new LocalDateTime(new LocalDate(2020,3,1),new LocalTime(20,00,00,00))
             LocalDateTime fechaDeCreacionCita3 =  new LocalDateTime(new LocalDate(2020,5,1),new LocalTime(20,00,00,00))
             LocalDateTime fechaDeCreacionCita4 =  new LocalDateTime(new LocalDate(2020,7,1),new LocalTime(20,00,00,00))
-            Cita cita1 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita1,'NORMAL')
+        Cita cita1 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita1,'NORMAL')
             Cita cita2 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita2,'NORMAL')
             Cita cita3 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita3,'NORMAL')
             List<Cita> listaDeCitas = new ArrayList<Cita>()
             listaDeCitas.add(cita1)
             listaDeCitas.add(cita2)
             listaDeCitas.add(cita3)
-            SalaDeExamen salaDeExamen = new SalaDeExamen(listaDeCitas)
+        SalaDeExamen salaDeExamen = new SalaDeExamen(listaDeCitas)
         when:'se llama a puedoCrearCita con fechaDeCreacion4 '
             def puedoGuardar = salaDeExamen.puedoAgregarCita(fechaDeCreacionCita4)
         then:'puedo guardar es true'
