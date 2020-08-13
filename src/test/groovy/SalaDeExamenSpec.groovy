@@ -1,6 +1,7 @@
 import argenris.Cita.Cita
 import argenris.CitaFactory
 import argenris.Prioridad
+import argenris.SalaDeExamen
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
@@ -9,7 +10,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 
-class SalaDeExamenSpec extends Specification implements DomainUnitTest<argenris.SalaDeExamen>{
+class SalaDeExamenSpec extends Specification implements DomainUnitTest<SalaDeExamen>{
 
     def setup() {
     }
@@ -30,7 +31,7 @@ class SalaDeExamenSpec extends Specification implements DomainUnitTest<argenris.
             listaDeCitas.add(cita1)
             listaDeCitas.add(cita2)
             listaDeCitas.add(cita3)
-            argenris.SalaDeExamen salaDeExamen = new argenris.SalaDeExamen(listaDeCitas)
+        SalaDeExamen salaDeExamen = new SalaDeExamen(listaDeCitas)
         when:'se llama a puedoCrearCita con fechaDeCreacion4 '
             def puedoGuardar = salaDeExamen.puedoAgregarCita(fechaDeCreacionCita4)
         then:'puedo guardar es true'
@@ -49,7 +50,7 @@ class SalaDeExamenSpec extends Specification implements DomainUnitTest<argenris.
             listaDeCitas.add(cita1)
             listaDeCitas.add(cita2)
             listaDeCitas.add(cita3)
-            argenris.SalaDeExamen salaDeExamen = new argenris.SalaDeExamen(listaDeCitas)
+            SalaDeExamen salaDeExamen = new SalaDeExamen(listaDeCitas)
         when:'se llama a puedoCrearCita con fechaDeCreacion1 '
             def puedoGuardar = salaDeExamen.puedoAgregarCita(fechaDeCreacionCita1)
         then:'puedo guardar es false'
@@ -69,7 +70,7 @@ class SalaDeExamenSpec extends Specification implements DomainUnitTest<argenris.
             listaDeCitas.add(cita1)
             listaDeCitas.add(cita2)
             listaDeCitas.add(cita3)
-            argenris.SalaDeExamen salaDeExamen = new argenris.SalaDeExamen(listaDeCitas)
+            SalaDeExamen salaDeExamen = new SalaDeExamen(listaDeCitas)
         when:'se llama a crearCita con fechaDeCreacion4 y prioridad Normal'
             def cita = salaDeExamen.crearCita(fechaDeCreacionCita4, 'NORMAL')
         then:'se crea la citaNormal en fecha indicada y se la guarda en las citas'
@@ -90,7 +91,7 @@ class SalaDeExamenSpec extends Specification implements DomainUnitTest<argenris.
             listaDeCitas.add(cita1)
             listaDeCitas.add(cita2)
             listaDeCitas.add(cita3)
-            argenris.SalaDeExamen salaDeExamen = new argenris.SalaDeExamen(listaDeCitas)
+            SalaDeExamen salaDeExamen = new SalaDeExamen(listaDeCitas)
         when:'se llama a crearCita con fechaDeCreacion1 y prioridad Normal'
             salaDeExamen.crearCita(fechaDeCreacionCita1, 'NORMAL')
         then:'devuelve Excepcion'
@@ -111,7 +112,7 @@ class SalaDeExamenSpec extends Specification implements DomainUnitTest<argenris.
             listaDeCitas.add(cita1)
             listaDeCitas.add(cita2)
             listaDeCitas.add(cita3)
-            argenris.SalaDeExamen salaDeExamen = new argenris.SalaDeExamen(listaDeCitas)
+            SalaDeExamen salaDeExamen = new SalaDeExamen(listaDeCitas)
         when:'se llama a obtenerCitasDelDia con fechaDeCreacion1'
             def citas = salaDeExamen.obtenerCitasDelDia(fechaDeCreacionCita1)
         then:'se obtiene una lista con la cita1'
@@ -132,7 +133,7 @@ class SalaDeExamenSpec extends Specification implements DomainUnitTest<argenris.
             listaDeCitas.add(cita1)
             listaDeCitas.add(cita2)
             listaDeCitas.add(cita3)
-            argenris.SalaDeExamen salaDeExamen = new argenris.SalaDeExamen(listaDeCitas)
+            SalaDeExamen salaDeExamen = new SalaDeExamen(listaDeCitas)
         when:'se llama a obtenerCitasDelDia con fechaDeCreacion4'
             def citas = salaDeExamen.obtenerCitasDelDia(fechaDeCreacionCita4)
         then:'se obtiene una lista vacia'
