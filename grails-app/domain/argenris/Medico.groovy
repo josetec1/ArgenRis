@@ -1,5 +1,6 @@
 package argenris
 
+import argenris.OrdenDeEstudio.OrdenDeEstudio
 
 import java.time.LocalDateTime
 

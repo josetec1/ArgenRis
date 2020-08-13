@@ -1,3 +1,5 @@
+package DomainTest
+
 import argenris.Cita.Cita
 import argenris.Cita.EstadoCita.CitaEstaCanceladaException
 import argenris.Cita.EstadoCita.CitaEstaConcretadaException

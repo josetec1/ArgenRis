@@ -1,3 +1,5 @@
+package DomainTest
+
 import argenris.Cita.Cita
 import argenris.CitaFactory
 import argenris.Prioridad

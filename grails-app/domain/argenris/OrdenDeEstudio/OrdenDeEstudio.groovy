@@ -1,5 +1,13 @@
-package argenris
+package argenris.OrdenDeEstudio
 
+import argenris.AreaDeExamen
+import argenris.Cita.Cita
+import argenris.OrdenDeEstudio.EstadoOrden.EstadoDeLaOrden
+import argenris.OrdenDeEstudio.EstadoOrden.EstadoOrdenRegistrada
+import argenris.Medico
+import argenris.Paciente
+import argenris.Prioridad
+import argenris.Procedimiento
 
 import java.time.LocalDateTime
 
@@ -13,14 +21,27 @@ class OrdenDeEstudio {
     LocalDateTime dateCreated  //fecha real en que se ingresa en el sistema la orden
     LocalDateTime fecha       // fecha de creacion que ingresa el medico
     String notaAdicional
-   // Cita cita
+    Set<Cita> citas =[]
     EstadoDeLaOrden estadoDeLaOrden
     Procedimiento procedimiento
     
     
     
+    static hasMany = [
+            citas: Cita
+    ]
+    
     static constraints = {
+        medico nullable: false
+        paciente nullable: false
+        prioridad nullable: false
+        fecha nullable: false
+        notaAdicional nullable: true, blank: true
+        procedimiento nullable: false
+        
     }
+    
+    
     
     OrdenDeEstudio (Medico medico,
                     Paciente paciente,
@@ -36,16 +57,19 @@ class OrdenDeEstudio {
         this.notaAdicional = nota
         this.procedimiento = procedimiento
         
-    //    this.cita = null  //todo deberia haber un NullPattern
+    
         this.estadoDeLaOrden =  new EstadoOrdenRegistrada()
         
         
     }
-    
+    //todo
     boolean puedoAgregarCita (){
-        //todo implementar
-        if (this.cita==null) return true
-     return false
+        this.citas.isEmpty()
     
+    }
+    
+    //todo
+    void agregarCita (AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita){
+                this.citas.add(new Cita(fechaDeCita,Prioridad.URGENTE))
     }
 }

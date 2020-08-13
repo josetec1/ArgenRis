@@ -1,9 +1,11 @@
 package argenris
 
+import argenris.OrdenDeEstudio.OrdenDeEstudio
+
 import java.time.LocalDateTime
 
 
-//A  Defino un command para la validacion de los imputs que deben cargarse por la vista
+//A1  Defino un command para la validacion de los imputs que deben cargarse por la vista
 class CreacionCommand{
     
     Long pacienteId
@@ -33,7 +35,7 @@ class OrdenController {
     
     def ordenService  //primer letra minuscula para que haga la injeccion
     
-    //B  Defino los metodos que voy a admitir
+    //B2  Defino los metodos que voy a admitir
     static allowedMethods = [
             crear: 'POST'
     ]
@@ -42,8 +44,13 @@ class OrdenController {
     
     // pantalla inicial de administracion de ordenes
     def index() {
+        //todo faltan validacion de: 1) esta logueado? 2)esta autorizado a ver esto?
         
+        //todo, en esta parte supongo que habria que ponerle un cuadro de busqueda, que ingrese parte del nombre
+        // de un paciente, hacemos una busqueda con filter y le devolvemos una lista de lo encontrado
+        // o no hay pacientes si esta vacia
         def pacientes = Paciente.list()    //provisorio no usar esto
+        
         
         [
           pacientes: pacientes.collect { paciente ->
@@ -55,9 +62,6 @@ class OrdenController {
               ]
           },
         ]
-    
-        
-      
         
     }
     

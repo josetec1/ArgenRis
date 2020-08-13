@@ -15,7 +15,8 @@ class Cita {
     Prioridad prioridad
 
     static constraints = {
-
+        fechaYHora nullable: false
+        prioridad nullable: false
     
     }
 

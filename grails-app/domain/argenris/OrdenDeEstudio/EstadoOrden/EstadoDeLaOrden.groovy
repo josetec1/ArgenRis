@@ -1,4 +1,4 @@
-package argenris
+package argenris.OrdenDeEstudio.EstadoOrden
 
 //todo esto hay que moverlo a src/main/groovy/....
 	abstract class EstadoDeLaOrden {

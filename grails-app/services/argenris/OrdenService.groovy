@@ -1,10 +1,7 @@
 package argenris
 
-import argenris.Medico
-import argenris.OrdenDeEstudio
-import argenris.Paciente
-import argenris.Prioridad
-import argenris.Procedimiento
+
+import argenris.OrdenDeEstudio.OrdenDeEstudio
 import grails.gorm.transactions.Transactional
 import java.time.LocalDateTime
 

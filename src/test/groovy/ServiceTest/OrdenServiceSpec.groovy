@@ -1,11 +1,10 @@
+package ServiceTest
 
-
-
-
+import argenris.OrdenService
 import grails.testing.services.ServiceUnitTest
 import spock.lang.Specification
 
-class OrdenServiceSpec extends Specification implements ServiceUnitTest<argenris.OrdenService>{
+class OrdenServiceSpec extends Specification implements ServiceUnitTest<OrdenService>{
 
     def setup() {
     }

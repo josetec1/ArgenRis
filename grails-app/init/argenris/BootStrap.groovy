@@ -1,6 +1,6 @@
 package argenris
 
-
+import argenris.OrdenDeEstudio.OrdenDeEstudio
 
 import java.time.LocalDateTime
 
@@ -13,7 +13,7 @@ class BootStrap {
        
         new Paciente(nombre: "Diego", apellido : "Maradona", email: "maradona@gmail.com" ).save(failOnError : true)
         new Paciente(nombre: "Bombita", apellido : "Rodriguez", email: "bombitarod@gmail.com" ).save(failOnError : true)
-        new Paciente(nombre: "James", apellido : "Boo", email: "AgenteJamesBoo@gmail.com" ).save(failOnError : true)
+        new Paciente(nombre: "Arnaldo", apellido : "Andree", email: "Arnaldo@gmail.com" ).save(failOnError : true)
     
         new Procedimiento().save(failOnError : true)
         new Procedimiento().save(failOnError : true)
@@ -21,7 +21,7 @@ class BootStrap {
         
         
 	   new OrdenDeEstudio(Riviera,
-			   new Paciente(nombre: "Camino", apellido : "Alcielo", email: "nofunciona@gmail.com" ),
+			   new Paciente(nombre: "Nino", apellido : "Bravo", email: "nino@gmail.com" ),
 			   Prioridad.NORMAL, LocalDateTime.now(),
 			   "orden de estudio powered by BootStrap",
 			   new Procedimiento()).save(failOnError : true)

@@ -1,4 +1,4 @@
-
+package DomainTest
 
 import argenris.Paciente
 import grails.testing.gorm.DomainUnitTest
