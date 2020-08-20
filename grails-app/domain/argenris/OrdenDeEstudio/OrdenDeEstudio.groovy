@@ -3,6 +3,7 @@ package argenris.OrdenDeEstudio
 import argenris.AreaDeExamen
 import argenris.Cita.Cita
 import argenris.OrdenDeEstudio.EstadoOrden.EstadoDeLaOrden
+import argenris.OrdenDeEstudio.EstadoOrden.EstadoOrdenAsignada
 import argenris.OrdenDeEstudio.EstadoOrden.EstadoOrdenRegistrada
 import argenris.Medico
 import argenris.Paciente
@@ -68,8 +69,16 @@ class OrdenDeEstudio {
     
     }
     
-    //todo
-    void agregarCita (AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita){
-                this.citas.add(new Cita(fechaDeCita,Prioridad.URGENTE))
+    //todo....
+    Cita agregarCita (AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita){
+               if (this.estadoDeLaOrden instanceof EstadoOrdenAsignada){
+                   throw new Exception("Error: la orden ya tiene una cita asignada")
+               }
+                Cita cita = salaDeExamen.crearCita(fechaDeCita,this.prioridad.toString())
+                this.citas.add(cita)
+                this.estadoDeLaOrden = new EstadoOrdenAsignada()
+                 cita
+        
+        
     }
 }
