@@ -76,7 +76,9 @@ class OrdenController {
     
     // creacion de ordenes
     // 1 Los datos deben llegar por un command
+    //@secure  ( rol del usuario --  y quien puede llamar a esto)
     def crear (CreacionCommand command){
+        //el usuario actual es un medio  -imp trucha
         
         //2 validar el command
         if (!command.hasErrors()){
@@ -148,6 +150,8 @@ class OrdenController {
             
             Cita cita = orden.agregarCita(sala,LocalDateTime.now())
             cita.save(failOnError : true)
+        
+        
             //4 mostrar una pantalla de ok
             render view: "creacionOK"
             
