@@ -2,8 +2,10 @@ package argenris.OrdenDeEstudio
 
 import argenris.AreaDeExamen
 import argenris.Cita.Cita
+import argenris.Cita.EstadoCita.EstadoCitaCancelada
 import argenris.OrdenDeEstudio.EstadoOrden.EstadoDeLaOrden
 import argenris.OrdenDeEstudio.EstadoOrden.EstadoOrdenAsignada
+import argenris.OrdenDeEstudio.EstadoOrden.EstadoOrdenCancelada
 import argenris.OrdenDeEstudio.EstadoOrden.EstadoOrdenRegistrada
 import argenris.Medico
 import argenris.Paciente
@@ -81,4 +83,13 @@ class OrdenDeEstudio {
         
         
     }
+	
+        //despues de 30 dias queda cancelada
+	 void notificarPasoDelTiempo(LocalDateTime fechayHoraActual) {
+       this.estadoDeLaOrden= this.estadoDeLaOrden.notificarPasoDelTiempo(this.fecha, fechayHoraActual)
+    }
+    
+     void cancelar (){this.estadoDeLaOrden =  this.estadoDeLaOrden.cancelar(this.citas) }
+    
+     void notificarCitaCancelada () {}
 }

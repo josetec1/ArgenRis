@@ -9,6 +9,7 @@ import argenris.Cita.EstadoCita.EstadoCitaRegistrada
 import argenris.Prioridad
 import argenris.Cita.EstadoCita.EstadoCitaCancelada
 import grails.testing.gorm.DomainUnitTest
+import spock.lang.Narrative
 import spock.lang.Specification
 
 import java.time.LocalDate
@@ -27,8 +28,8 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
 
     def cleanup() {
     }
-
     
+ 
     void "test01 al crear una cita, se encuentra en estado registrada" (){
         
         when:'una cita recien creada'
