@@ -1,5 +1,6 @@
 package argenris
 
+import argenris.Cita.Cita
 import argenris.OrdenDeEstudio.OrdenDeEstudio
 
 import java.time.LocalDateTime
@@ -14,6 +15,7 @@ class BootStrap {
         new Paciente(nombre: "Diego", apellido : "Maradona", email: "maradona@gmail.com" ).save(failOnError : true)
         new Paciente(nombre: "Bombita", apellido : "Rodriguez", email: "bombitarod@gmail.com" ).save(failOnError : true)
         new Paciente(nombre: "Arnaldo", apellido : "Andree", email: "Arnaldo@gmail.com" ).save(failOnError : true)
+	    
     
         new Procedimiento().save(failOnError : true)
         new Procedimiento().save(failOnError : true)
@@ -26,8 +28,10 @@ class BootStrap {
 			   "orden de estudio powered by BootStrap",
 			   new Procedimiento()).save(failOnError : true)
         
-        
-        
+        new SalaDeExamen(new ArrayList<Cita>()).save(failOnError : true)
+	    new SalaDeExamen(new ArrayList<Cita>()).save(failOnError : true)
+	    new Cita(LocalDateTime.now(),Prioridad.NORMAL).save(failOnError : true)
+	    
     }
     def destroy = {
     }

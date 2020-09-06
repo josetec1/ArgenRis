@@ -1,7 +1,7 @@
 package argenris
 
 import argenris.OrdenDeEstudio.OrdenDeEstudio
-
+import argenris.Cita.Cita
 import java.time.LocalDateTime
 
 
@@ -13,6 +13,13 @@ class CreacionCommand{
     String nota
     String prioridad  //todo pasar a prioridad
     String fecha //todo pasar a fecha
+    
+    /*
+    Date dateOfBirth
+    static constraints = {
+    dateOfBirth blank: false, date: true, validator: { val -> validateDate(val) }
+        }
+     */
     
     static constraints = {
    //todo revisar estas validaciones
@@ -33,7 +40,7 @@ class CreacionCommand{
 class OrdenController {
 
     
-    def ordenService  //primer letra minuscula para que haga la injeccion
+    def ordenService  //primer letra minuscula para que haga la inyeccion
     
     //B2  Defino los metodos que voy a admitir
     static allowedMethods = [
@@ -69,7 +76,9 @@ class OrdenController {
     
     // creacion de ordenes
     // 1 Los datos deben llegar por un command
+    //@secure  ( rol del usuario --  y quien puede llamar a esto)
     def crear (CreacionCommand command){
+        //el usuario actual es un medio  -imp trucha
         
         //2 validar el command
         if (!command.hasErrors()){
@@ -118,6 +127,55 @@ class OrdenController {
                     ]
                 },
         ]
+    }
+    
+    /************************ ULTIMA ENTREGA ***************************************************************************
+    ************************************ ***********************************************************************
+     *********************************************************************************************************/
+    //todo esto es provisorio
+    
+    def nuevaCita() {
+        [
+                ordenes:OrdenDeEstudio.list(), salas:SalaDeExamen.list()  //provisorio no usar esto
+        ]
+    }
+    
+    def crearCita (Long ordenId, Long salaId){
+        
+        //2 validar el command
+        
+            //3 llamar al servicio para crear la cita
+            def orden = OrdenDeEstudio.get(ordenId)
+            def sala = SalaDeExamen.get(salaId)
+            
+            Cita cita = orden.agregarCita(sala,LocalDateTime.now())
+            cita.save(failOnError : true)
+        
+        
+            //4 mostrar una pantalla de ok
+            render view: "creacionOK"
+            
+            //4.1 mostrar una pantalla de error
+        
+        
+    }
+    
+    def citas() {
+        
+        def citas = Cita.list()
+        
+        [
+                citas: citas.collect { cita ->
+                    [
+                            id: cita.id,
+                            fecha:cita.fechaYHora
+                    
+                    ]
+                },
+        ]
+        
+    
+        
     }
     
 }

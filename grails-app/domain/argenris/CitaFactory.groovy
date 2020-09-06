@@ -8,6 +8,8 @@ class CitaFactory {
 
     static constraints = {
     }
+    
+    
     private static CitaFactory INSTANCIA = new CitaFactory()
     private CitaFactory() {
 
