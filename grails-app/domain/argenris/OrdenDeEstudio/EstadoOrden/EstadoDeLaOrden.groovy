@@ -1,6 +1,8 @@
 package argenris.OrdenDeEstudio.EstadoOrden
 
+import argenris.AreaDeExamen
 import argenris.Cita.Cita
+import argenris.Prioridad
 
 import java.time.LocalDateTime
 
@@ -9,6 +11,10 @@ import java.time.LocalDateTime
 	
 		abstract EstadoDeLaOrden cancelar(Set<Cita> citas)
 		abstract EstadoDeLaOrden notificarPasoDelTiempo(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual)
+		
+		abstract  boolean puedoAgregarcita(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual)
+		
+		abstract EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad)
 	}
 
 
@@ -32,6 +38,16 @@ import java.time.LocalDateTime
 		EstadoDeLaOrden notificarPasoDelTiempo(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual) {
 			return this
 		}
+		
+		@Override
+		boolean puedoAgregarcita(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual) {
+			return false
+		}
+		
+		@Override
+		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad) {
+			throw new Exception("Error: No se puede agregar una cita en una orden asignada")
+		}
 	}
 
 	@groovy.transform.EqualsAndHashCode
@@ -39,10 +55,27 @@ import java.time.LocalDateTime
 		@Override
 		EstadoDeLaOrden cancelar(Set<Cita> citas) {new EstadoOrdenCancelada()}
 		
+		
 		@Override
 		EstadoDeLaOrden notificarPasoDelTiempo(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual) {
-			if ( !(fechaYHoraActual.toLocalDate()).isBefore((fechaOrden.toLocalDate()).plusDays(30))) { return new EstadoOrdenCancelada()}
-			 new EstadoOrdenRegistrada()
+			if (!puedoAgregarcita(fechaOrden,fechaYHoraActual) ) { return new EstadoOrdenCancelada()}
+			 return this
+		}
+		
+		@Override
+		boolean puedoAgregarcita(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual) {
+			(fechaYHoraActual.toLocalDate()).isBefore((fechaOrden.toLocalDate()).plusDays(30))
+		}
+		
+		@Override
+		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad) {
+			//este es el caso de una orden que no actualizo el cron job
+			if (!puedoAgregarcita(fechaOrden,fechayHoraActual) ) { throw new Exception("Error: No se puede agregar una cita: Orden registrada fuera de plazo")}
+			
+			Cita cita = salaDeExamen.crearCita(fechaDeCita, prioridad.toString())
+			citas.add(cita)
+			new EstadoOrdenAsignada()
+			
 		}
 	}
 
@@ -56,6 +89,16 @@ import java.time.LocalDateTime
 		@Override
 		EstadoDeLaOrden notificarPasoDelTiempo(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual) {
 			return this
+		}
+		
+		@Override
+		boolean puedoAgregarcita(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual) {
+			return false
+		}
+		
+		@Override
+		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad) {
+			throw new Exception("Error: No se puede agregar una cita en una orden cancelada")
 		}
 	}
 
@@ -71,10 +114,30 @@ import java.time.LocalDateTime
 		@Override
 		EstadoDeLaOrden cancelar(Set<Cita> citas) {new EstadoOrdenCancelada()}
 		
+		
+		boolean sePuedeReprogramar (LocalDateTime fechaYHoraActual){
+			(fechaYHoraActual.toLocalDate()).isBefore((this.fechaEntradaEnReprogramacion.toLocalDate()).plusDays(2))
+		}
+		
 		@Override
 		EstadoDeLaOrden notificarPasoDelTiempo(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual) {
-			if   (!fechaYHoraActual.isBefore(this.fechaEntradaEnReprogramacion.plusHours(48))) { return new EstadoOrdenCancelada()}
+			if   (!sePuedeReprogramar(fechaYHoraActual)) { return new EstadoOrdenCancelada()}
 			return this
+		}
+		
+		@Override
+		boolean puedoAgregarcita(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual) {
+			return sePuedeReprogramar(fechaYHoraActual)
+		}
+		
+		@Override
+		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad) {
+			//este es el caso de una orden que no actualizo el cron job
+			if (!puedoAgregarcita(fechaOrden,fechayHoraActual) ) { throw new Exception("Error: No se puede agregar una cita: Orden fuera de plazo para reprogramar")}
+			
+			Cita cita = salaDeExamen.crearCita(fechaDeCita, prioridad.toString())
+			citas.add(cita)
+			new EstadoOrdenAsignada()
 		}
 	}
 
@@ -89,6 +152,17 @@ import java.time.LocalDateTime
 		EstadoDeLaOrden notificarPasoDelTiempo(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual) {
 			return this
 		}
+		
+		@Override
+		boolean puedoAgregarcita(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual) {
+			return false
+		}
+		
+		@Override
+		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad){
+			throw new Exception("Error: No se puede agregar una cita en una orden finalizada")
+			
+		}
 	}
 
 	@groovy.transform.EqualsAndHashCode
@@ -102,6 +176,16 @@ import java.time.LocalDateTime
 		EstadoDeLaOrden notificarPasoDelTiempo(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual) {
 			return this
 		}
+		
+		@Override
+		boolean puedoAgregarcita(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual) {
+			return false
+		}
+		
+		@Override
+		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad) {
+			throw new Exception("Error: No se puede agregar una cita en una orden que esta esperando informe")
+		}
 	}
 
 	@groovy.transform.EqualsAndHashCode
@@ -114,5 +198,15 @@ import java.time.LocalDateTime
 		@Override
 		EstadoDeLaOrden notificarPasoDelTiempo(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual) {
 			return this
+		}
+		
+		@Override
+		boolean puedoAgregarcita(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual) {
+			return false
+		}
+		
+		@Override
+		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad) {
+			throw new Exception("Error: No se puede agregar una cita en una orden que esta esperando estudio")
 		}
 	}

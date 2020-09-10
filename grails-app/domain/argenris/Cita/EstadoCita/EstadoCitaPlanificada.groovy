@@ -3,7 +3,7 @@ package argenris.Cita.EstadoCita
 
 import java.time.LocalDateTime
 
-class EstadoCitaRegistrada extends EstadoCita  {
+class EstadoCitaPlanificada extends EstadoCita  {
 
 
     @Override

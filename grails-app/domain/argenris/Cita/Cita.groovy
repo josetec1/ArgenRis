@@ -1,7 +1,7 @@
 package argenris.Cita
 
 import argenris.Cita.EstadoCita.EstadoCita
-import argenris.Cita.EstadoCita.EstadoCitaRegistrada
+import argenris.Cita.EstadoCita.EstadoCitaPlanificada
 import argenris.Prioridad
 
 
@@ -22,7 +22,7 @@ class Cita {
 
     Cita(LocalDateTime fechaYHora, Prioridad prioridad) {
         this.prioridad = prioridad
-        this.estadoDeCita = new EstadoCitaRegistrada()
+        this.estadoDeCita = new EstadoCitaPlanificada()
         this.fechaYHora = fechaYHora
 
     }

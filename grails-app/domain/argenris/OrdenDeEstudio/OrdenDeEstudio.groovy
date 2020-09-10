@@ -2,10 +2,13 @@ package argenris.OrdenDeEstudio
 
 import argenris.AreaDeExamen
 import argenris.Cita.Cita
-import argenris.Cita.EstadoCita.EstadoCitaCancelada
 import argenris.OrdenDeEstudio.EstadoOrden.EstadoDeLaOrden
 import argenris.OrdenDeEstudio.EstadoOrden.EstadoOrdenAsignada
 import argenris.OrdenDeEstudio.EstadoOrden.EstadoOrdenCancelada
+import argenris.OrdenDeEstudio.EstadoOrden.EstadoOrdenEsperaEstudio
+import argenris.OrdenDeEstudio.EstadoOrden.EstadoOrdenEsperaInforme
+import argenris.OrdenDeEstudio.EstadoOrden.EstadoOrdenEsperaRepro
+import argenris.OrdenDeEstudio.EstadoOrden.EstadoOrdenFinalizado
 import argenris.OrdenDeEstudio.EstadoOrden.EstadoOrdenRegistrada
 import argenris.Medico
 import argenris.Paciente
@@ -22,7 +25,7 @@ class OrdenDeEstudio {
     Paciente paciente
     Prioridad prioridad
     LocalDateTime dateCreated  //fecha real en que se ingresa en el sistema la orden
-    LocalDateTime fecha       // fecha de creacion que ingresa el medico
+    LocalDateTime fechaCreacionDeOrden       // fecha de creacion que ingresa el medico
     String notaAdicional
     Set<Cita> citas =[]
     EstadoDeLaOrden estadoDeLaOrden
@@ -38,7 +41,7 @@ class OrdenDeEstudio {
         medico nullable: false
         paciente nullable: false
         prioridad nullable: false
-        fecha nullable: false
+        fechaCreacionDeOrden nullable: false
         notaAdicional nullable: true, blank: true
         procedimiento nullable: false
         
@@ -56,7 +59,7 @@ class OrdenDeEstudio {
         this.medico = medico
         this.paciente = paciente
         this.prioridad = prioridad
-        this.fecha = fechaDeCreacion
+        this.fechaCreacionDeOrden = fechaDeCreacion
         this.notaAdicional = nota
         this.procedimiento = procedimiento
         
@@ -65,31 +68,66 @@ class OrdenDeEstudio {
         
         
     }
-    //todo
-    boolean puedoAgregarCita (){
-        this.citas.isEmpty()
     
+    boolean puedoAgregarCita (LocalDateTime fechayHoraActual){
+        this.estadoDeLaOrden.puedoAgregarcita(this.fechaCreacionDeOrden, fechayHoraActual)
     }
     
-    //todo....
-    Cita agregarCita (AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita){
-               if (this.estadoDeLaOrden instanceof EstadoOrdenAsignada){
-                   throw new Exception("Error: la orden ya tiene una cita asignada")
-               }
-                Cita cita = salaDeExamen.crearCita(fechaDeCita,this.prioridad.toString())
-                this.citas.add(cita)
-                this.estadoDeLaOrden = new EstadoOrdenAsignada()
-                 cita
+  
+    Cita agregarCita (LocalDateTime fechayHoraActual ,AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita){
+        //todo 2 problemas
+        // 1 esto puede ser inconsistente si el cron job no corrio y la orden por ende en un estado desactualizado.
+        // no te dejo avanzar, pero sigue quedando sin actualizar el estado de la orden
+        // 2 estoy pasando 6 parametros para poder lanzar la exepcion especifica de por que falla
+        // si ponie el if aca ahorraba pasar parametros lanzando una exepcion generica
         
+        this.estadoDeLaOrden = this.estadoDeLaOrden.agregarCita (salaDeExamen, fechaDeCita,fechayHoraActual,this.fechaCreacionDeOrden, this.citas, this.prioridad)
+        return this.citas.last()
         
     }
 	
         //despues de 30 dias queda cancelada
 	 void notificarPasoDelTiempo(LocalDateTime fechayHoraActual) {
-       this.estadoDeLaOrden= this.estadoDeLaOrden.notificarPasoDelTiempo(this.fecha, fechayHoraActual)
+       this.estadoDeLaOrden= this.estadoDeLaOrden.notificarPasoDelTiempo(this.fechaCreacionDeOrden, fechayHoraActual)
     }
     
-     void cancelar (){this.estadoDeLaOrden =  this.estadoDeLaOrden.cancelar(this.citas) }
+     void cancelar (){
+         this.estadoDeLaOrden =  this.estadoDeLaOrden.cancelar(this.citas)
+     }
+    //todo refactor  mover a estados
+     void notificarCitaCancelada (LocalDateTime fechaNotificacion) {
+         
+         if (this.estadoDeLaOrden == new EstadoOrdenAsignada()){
+            if (  fechaNotificacion.toLocalDate()< this.fechaCreacionDeOrden.toLocalDate() ) {throw new Exception("Error: La fecha de notificacion no puede ser anterior a la de creacion de la orden")}
+            this.estadoDeLaOrden = new EstadoOrdenEsperaRepro(fechaNotificacion)
+             return
+         }
+         
+         if (this.estadoDeLaOrden == new EstadoOrdenRegistrada()){throw new Exception("Error: Orden Registrada no tiene citas")}
+         if (this.estadoDeLaOrden == new EstadoOrdenEsperaRepro(fechaNotificacion)){throw new Exception("Error: Orden esperando reprogramacion")}
+         if (this.estadoDeLaOrden == new EstadoOrdenEsperaEstudio()){throw new Exception("Error: Orden en espera de estudio")}
+         if (this.estadoDeLaOrden == new EstadoOrdenEsperaInforme()){throw new Exception("Error: Orden en espera de informe")}
+         if (this.estadoDeLaOrden == new EstadoOrdenCancelada()){throw new Exception("Error: Orden en estado cancelada")}
+         if (this.estadoDeLaOrden == new EstadoOrdenFinalizado()){throw new Exception("Error: Orden en estado Finalizada")}
+     
+     }
     
-     void notificarCitaCancelada () {}
+    
+    //todo
+    void notificarCitaConcretada () {
+       /*
+        if (this.estadoDeLaOrden == new EstadoOrdenAsignada()){
+            if (  fechaNotificacion.toLocalDate()< this.fechaCreacionDeOrden.toLocalDate() ) {throw new Exception("Error: La fecha de notificacion no puede ser anterior a la de creacion de la orden")}
+            this.estadoDeLaOrden = new EstadoOrdenEsperaRepro(fechaNotificacion)
+            return
+        }
+        
+        if (this.estadoDeLaOrden == new EstadoOrdenRegistrada()){throw new Exception("Error: Orden Registrada no tiene citas")}
+        if (this.estadoDeLaOrden == new EstadoOrdenEsperaRepro(fechaNotificacion)){throw new Exception("Error: Orden esperando reprogramacion")}
+        if (this.estadoDeLaOrden == new EstadoOrdenEsperaEstudio()){throw new Exception("Error: Orden en espera de estudio")}
+        if (this.estadoDeLaOrden == new EstadoOrdenEsperaInforme()){throw new Exception("Error: Orden en espera de informe")}
+        if (this.estadoDeLaOrden == new EstadoOrdenCancelada()){throw new Exception("Error: Orden en estado cancelada")}
+        if (this.estadoDeLaOrden == new EstadoOrdenFinalizado()){throw new Exception("Error: Orden en estado Finalizada")}
+       */
+    }
 }

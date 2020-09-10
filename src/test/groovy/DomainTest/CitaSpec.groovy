@@ -5,11 +5,10 @@ import argenris.Cita.EstadoCita.CitaEstaCanceladaException
 import argenris.Cita.EstadoCita.CitaEstaConcretadaException
 import argenris.Cita.EstadoCita.CitaNoSePuedeArribarException
 import argenris.Cita.EstadoCita.EstadoCitaConcretada
-import argenris.Cita.EstadoCita.EstadoCitaRegistrada
+import argenris.Cita.EstadoCita.EstadoCitaPlanificada
 import argenris.Prioridad
 import argenris.Cita.EstadoCita.EstadoCitaCancelada
 import grails.testing.gorm.DomainUnitTest
-import spock.lang.Narrative
 import spock.lang.Specification
 
 import java.time.LocalDate
@@ -30,15 +29,15 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
     }
     
  
-    void "test01 al crear una cita, se encuentra en estado registrada" (){
+    void "test01 al crear una cita, se encuentra en estado Planificada" (){
         
         when:'una cita recien creada'
         
         Cita unaCita= new Cita(fechaDeCita, prioridadNormal)
         
-        then: "la cita tiene el estado registrado"
+        then: "la cita tiene el estado Planificada"
         
-        unaCita.estadoDeCita instanceof EstadoCitaRegistrada
+        unaCita.estadoDeCita instanceof EstadoCitaPlanificada
         
         
     }
@@ -140,7 +139,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
     /****************************************************************************
      * *********************PRUEBO CAMBIOS DE ESTADO ***************************
      ****************************************************************************/
-    void "test03 al cancelar una cita en estado registrada, queda con estado cancelada" (){
+    void "test03 al cancelar una cita en estado Planificada, queda con estado cancelada" (){
         
         given: 'una cita recien creada'
         Cita unaCita= new Cita (fechaDeCita,prioridadNormal)
@@ -184,7 +183,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
     
     
     
-    void "test06 al concretar una cita en estado registrada, queda con estado concretada" (){
+    void "test06 al concretar una cita en estado Planificada, queda con estado concretada" (){
         
         given: 'una cita recien creada'
         Cita unaCita= new Cita (fechaDeCita, prioridadNormal)
@@ -332,9 +331,9 @@ Cuando no esta vigente una fecha
     }
     
     
-    void "test14 al intentar arribar a una cita en estado registrada para el dia 10-3-2020, el dia 9-3-2020 debe lanzar excepcion" (){
+    void "test14 al intentar arribar a una cita en estado Planificada para el dia 10-3-2020, el dia 9-3-2020 debe lanzar excepcion" (){
         
-        given: 'una cita registrada con fechaDeCita y fechaDeArriboAnterior'
+        given: 'una cita Planificada con fechaDeCita y fechaDeArriboAnterior'
         
         LocalDateTime fechaDeCita =  new LocalDateTime(new LocalDate(2020,3,10),new LocalTime(10,00,00,00))
         LocalDateTime fechaDeArriboAnterior =  new LocalDateTime(new LocalDate(2020,3,9),new LocalTime(10,00,00,00))
@@ -351,9 +350,9 @@ Cuando no esta vigente una fecha
     }
     
     
-    void "test15 al intentar arribar a  una cita en estado registrada para el dia 10-3-2020, el dia 11-3-2020 debe lanzar excepcion" (){
+    void "test15 al intentar arribar a  una cita en estado Planificada para el dia 10-3-2020, el dia 11-3-2020 debe lanzar excepcion" (){
         
-        given: 'una cita registrada con fechaDeCita y fechaDeArriboPosterior'
+        given: 'una cita Planificada con fechaDeCita y fechaDeArriboPosterior'
         
         LocalDateTime fechaDeCita =  new LocalDateTime(new LocalDate(2020,3,10),new LocalTime(10,00,00,00))
         LocalDateTime fechaDeArriboPosterior =  new LocalDateTime(new LocalDate(2020,3,11),new LocalTime(1,00,00,00))
@@ -368,9 +367,9 @@ Cuando no esta vigente una fecha
         
     }
     
-    void "test16 al intentar arribar a una cita en estado registrada para el dia 10-3-2020 10 hs, el 10-3-2020 a las 10:31 debe lanzar excepcion" (){
+    void "test16 al intentar arribar a una cita en estado Planificada para el dia 10-3-2020 10 hs, el 10-3-2020 a las 10:31 debe lanzar excepcion" (){
         
-        given: 'una cita registrada con fechaDeCita y fechaDeArriboPosterior'
+        given: 'una cita Planificada con fechaDeCita y fechaDeArriboPosterior'
         
         LocalDateTime fechaDeCita =  new LocalDateTime(new LocalDate(2020,3,10),new LocalTime(10,00,00,00))
         LocalDateTime fechaDeArriboPosterior=  new LocalDateTime(new LocalDate(2020,3,10),new LocalTime(10,31,00,00))
@@ -385,9 +384,9 @@ Cuando no esta vigente una fecha
         
     }
     
-    void "test17 al intentar arribar a una cita en estado registrada para el dia 10-3-2020 10:00, el 10-3-2020 a las 10:30 debe quedar en estado concretada" (){
+    void "test17 al intentar arribar a una cita en estado Planificada para el dia 10-3-2020 10:00, el 10-3-2020 a las 10:30 debe quedar en estado concretada" (){
         
-        given: 'una cita registrada con fechaDeCita y fechaDeArribo'
+        given: 'una cita Planificada con fechaDeCita y fechaDeArribo'
         
         LocalDateTime fechaDeCita =  new LocalDateTime(new LocalDate(2020,3,10),new LocalTime(10,00,00,00))
         LocalDateTime fechaDeArribo =  new LocalDateTime(new LocalDate(2020,3,10),new LocalTime(10,30,00,00))
