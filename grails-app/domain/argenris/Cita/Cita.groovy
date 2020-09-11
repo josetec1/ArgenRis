@@ -1,6 +1,7 @@
 package argenris.Cita
 
 import argenris.Cita.EstadoCita.EstadoCita
+import argenris.Cita.EstadoCita.EstadoCitaConcretada
 import argenris.Cita.EstadoCita.EstadoCitaPlanificada
 import argenris.OrdenDeEstudio.OrdenDeEstudio
 import argenris.Prioridad
@@ -12,43 +13,59 @@ import java.time.LocalDateTime
 class Cita {
 
     EstadoCita estadoDeCita
-    LocalDateTime fechaYHora
+    LocalDateTime fechaYHoraDeCita
+    
     Prioridad prioridad
-    OrdenDeEstudio ordenDeEstudio //todo habria que implementar nullPatern o pasarla por constructor
+    OrdenDeEstudio ordenDeEstudio
 
     static constraints = {
-        fechaYHora nullable: false
+        fechaYHoraDeCita nullable: false
         prioridad nullable: false
     
     }
-
-    Cita(LocalDateTime fechaYHora, Prioridad prioridad, OrdenDeEstudio unaOrden) {
+    //todo habria que validad que no se puedan crear citas con fechas anterior a la actual
+    // y luego validar que la fecha de cancelacion no sea anterior a la de creacion
+    Cita(LocalDateTime fechaYHoraDeCita, Prioridad prioridad, OrdenDeEstudio unaOrden) {
         this.prioridad = prioridad
         this.estadoDeCita = new EstadoCitaPlanificada()
-        this.fechaYHora = fechaYHora
+        this.fechaYHoraDeCita = fechaYHoraDeCita
         this.ordenDeEstudio = unaOrden
 
     }
-
-    void cancelar() {
-        this.estadoDeCita = this.estadoDeCita.cancelar()
+    //todo hay que revisar todas las firmas de un solo parametro por que te puede dar null pointer
+    void cancelar(LocalDateTime fechaYHoraActual) {
+        //todo no esta chequeando que envie fechaYHoraActual
+        
+        def fechaApasar  //todo mover a estados
+        if (this.estaVencida(fechaYHoraActual)) {
+            fechaApasar = this.fechaYHoraDeCita
+        }else{
+            fechaApasar = fechaYHoraActual
+        }
+        
+       
+        this.estadoDeCita = this.estadoDeCita.cancelar(fechaApasar, this.ordenDeEstudio)
     }
 
     boolean estaVencida(LocalDateTime fechaYHoraActual) {
-        this.estadoDeCita.estaVencida(fechaYHora, fechaYHoraActual)
+        this.estadoDeCita.estaVencida(fechaYHoraDeCita, fechaYHoraActual)
 
     }
 
     void pacienteArribando(LocalDateTime fechaYHoraActual) {
-        this.estadoDeCita= this.estadoDeCita.pacienteArribando (fechaYHora, fechaYHoraActual)
+        this.estadoDeCita= this.estadoDeCita.pacienteArribando (fechaYHoraDeCita, fechaYHoraActual, this.ordenDeEstudio)
+       
     }
 
     boolean seSuperponeCon(LocalDateTime fechaYHoraActual) {
-        if(fechaYHoraActual >= fechaYHora) {
-            return Duration.between(this.fechaYHora, fechaYHoraActual).toMinutes() <= prioridad.obtenerRango()
+        if(fechaYHoraActual >= fechaYHoraDeCita) {
+            return Duration.between(this.fechaYHoraDeCita, fechaYHoraActual).toMinutes() <= prioridad.obtenerRango()
         }
-        Duration.between(fechaYHoraActual, this.fechaYHora).toMinutes() <= prioridad.obtenerRango()
+        Duration.between(fechaYHoraActual, this.fechaYHoraDeCita).toMinutes() <= prioridad.obtenerRango()
     }
     
     
+     void notificarPasoDelTiempo(LocalDateTime fechaYHoraActual) {
+           this.estadoDeCita= this.estadoDeCita.notificarPasoDelTiempo(fechaYHoraDeCita, fechaYHoraActual, this.ordenDeEstudio)
+    }
 }

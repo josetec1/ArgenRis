@@ -168,7 +168,7 @@ class OrdenController {
                 citas: citas.collect { cita ->
                     [
                             id: cita.id,
-                            fecha:cita.fechaYHora
+                            fecha:cita.fechaYHoraDeCita
                     
                     ]
                 },

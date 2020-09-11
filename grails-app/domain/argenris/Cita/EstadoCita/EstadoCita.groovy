@@ -1,5 +1,7 @@
 package argenris.Cita.EstadoCita
 
+import argenris.OrdenDeEstudio.OrdenDeEstudio
+
 import java.time.LocalDateTime
 
 
@@ -10,6 +12,8 @@ abstract class EstadoCita {
             fechaYHoraActual.isAfter(fechaYHoraDeCita.plusMinutes(30))
      }
 
-   abstract EstadoCita pacienteArribando(LocalDateTime fechaYHoraDeCita, LocalDateTime fechaYHoraActual)
-   abstract EstadoCita cancelar()
+   abstract EstadoCita pacienteArribando(LocalDateTime fechaYHoraDeCita, LocalDateTime fechaYHoraActual, OrdenDeEstudio unaOrden)
+   abstract EstadoCita cancelar(LocalDateTime fechaYHoraActual, OrdenDeEstudio unaOrden)
+    
+    abstract  EstadoCita notificarPasoDelTiempo(LocalDateTime fechaYHoraDeCita, LocalDateTime fechaYHoraActual, OrdenDeEstudio unaOrden)
 }

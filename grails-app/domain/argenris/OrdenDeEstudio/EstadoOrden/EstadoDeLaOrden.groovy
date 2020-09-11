@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 //todo esto hay que moverlo a src/main/groovy/....
 	abstract class EstadoDeLaOrden {
 	
-		abstract EstadoDeLaOrden cancelar(Set<Cita> citas)
+		abstract EstadoDeLaOrden cancelar(Set<Cita> citas, LocalDateTime fechaActualDeCancelacion)
 		abstract EstadoDeLaOrden notificarPasoDelTiempo(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual)
 		
 		abstract  boolean puedoAgregarcita(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual)
@@ -24,10 +24,10 @@ import java.time.LocalDateTime
 	class EstadoOrdenAsignada extends EstadoDeLaOrden {
 		
 		@Override
-		EstadoDeLaOrden cancelar(Set<Cita> citas) {
+		EstadoDeLaOrden cancelar(Set<Cita> citas, LocalDateTime fechaActualDeCancelacion) {
 			//todo alternativa al try es preguntar si se le puede cancelar
 			try {
-				citas.each {it.cancelar()}
+				citas.each {it.cancelar(fechaActualDeCancelacion)}
 			} catch (Exception ex) {
 			
 			}
@@ -55,7 +55,7 @@ import java.time.LocalDateTime
 	@groovy.transform.EqualsAndHashCode
 	class EstadoOrdenRegistrada extends EstadoDeLaOrden{
 		@Override
-		EstadoDeLaOrden cancelar(Set<Cita> citas) {new EstadoOrdenCancelada()}
+		EstadoDeLaOrden cancelar(Set<Cita> citas, LocalDateTime fechaActualDeCancelacion) {new EstadoOrdenCancelada()}
 		
 		
 		@Override
@@ -84,7 +84,7 @@ import java.time.LocalDateTime
 	@groovy.transform.EqualsAndHashCode
 	class EstadoOrdenCancelada extends EstadoDeLaOrden{
 		@Override
-		EstadoDeLaOrden cancelar(Set<Cita> citas) {
+		EstadoDeLaOrden cancelar(Set<Cita> citas, LocalDateTime fechaActualDeCancelacion) {
 			throw new Exception("Error: No se puede cancelar una Orden en estado Cancelada")
 		}
 		
@@ -114,7 +114,7 @@ import java.time.LocalDateTime
 		}
 		
 		@Override
-		EstadoDeLaOrden cancelar(Set<Cita> citas) {new EstadoOrdenCancelada()}
+		EstadoDeLaOrden cancelar(Set<Cita> citas, LocalDateTime fechaActualDeCancelacion) {new EstadoOrdenCancelada()}
 		
 		
 		boolean sePuedeReprogramar (LocalDateTime fechaYHoraActual){
@@ -149,7 +149,7 @@ import java.time.LocalDateTime
 	@groovy.transform.EqualsAndHashCode
 	class EstadoOrdenFinalizado extends EstadoDeLaOrden{
 		@Override
-		EstadoDeLaOrden cancelar(Set<Cita> citas) {
+		EstadoDeLaOrden cancelar(Set<Cita> citas, LocalDateTime fechaActualDeCancelacion) {
 			throw new Exception("Error: No se puede cancelar una Orden en estado Finalizado")
 		}
 		
@@ -173,7 +173,7 @@ import java.time.LocalDateTime
 	@groovy.transform.EqualsAndHashCode
 	class EstadoOrdenEsperaInforme extends EstadoDeLaOrden{
 		@Override
-		EstadoDeLaOrden cancelar(Set<Cita> citas) {
+		EstadoDeLaOrden cancelar(Set<Cita> citas, LocalDateTime fechaActualDeCancelacion) {
 			throw new Exception("Error: No se puede cancelar una Orden en estado Espera Informe")
 		}
 		
@@ -196,7 +196,7 @@ import java.time.LocalDateTime
 	@groovy.transform.EqualsAndHashCode
 	class EstadoOrdenEsperaEstudio extends EstadoDeLaOrden{
 		@Override
-		EstadoDeLaOrden cancelar(Set<Cita> citas) {
+		EstadoDeLaOrden cancelar(Set<Cita> citas, LocalDateTime fechaActualDeCancelacion) {
 			throw new Exception("Error: No se puede cancelar una Orden en estado Espera Estudio")
 		}
 		

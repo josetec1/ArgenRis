@@ -37,7 +37,7 @@ class CitaFactorySpec extends Specification implements DomainUnitTest<CitaFactor
         when:'se llama a citaFactory crear cita con la fecha creada'
         Cita nuevaCita = factory.crearCita(fechaCita, 'NORMAL',unaOrden)
         then:'debuelve la cita normal esperada'
-            nuevaCita.fechaYHora == fechaCita
+            nuevaCita.fechaYHoraDeCita == fechaCita
             nuevaCita.prioridad == Prioridad.NORMAL
     }
 
@@ -48,7 +48,7 @@ class CitaFactorySpec extends Specification implements DomainUnitTest<CitaFactor
         when:'se llama a citaFactory crear cita con la fecha creada y prioridad URGENTE'
             Cita nuevaCita = factory.crearCita(fechaCita, 'URGENTE',unaOrden)
         then:'debuelve la cita normal esperada'
-            nuevaCita.fechaYHora == fechaCita
+            nuevaCita.fechaYHoraDeCita == fechaCita
             nuevaCita.prioridad == Prioridad.URGENTE
     }
 

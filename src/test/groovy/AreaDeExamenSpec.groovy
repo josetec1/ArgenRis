@@ -23,7 +23,7 @@ class AreaDeExamenSpec extends Specification {
         when:'se llama AreaDeExamen.crearCita en la fecha indicada y prioridad NORMAL'
             def cita = dummyArea.crearCita(fechaDeCreacionCita, 'NORMAL',unaOrden)
         then:'se devuelve la cita con la fecha indicada y la prioridad NORMAL'
-            cita.getFechaYHora() == fechaDeCreacionCita
+            cita.getFechaYHoraDeCita() == fechaDeCreacionCita
             cita.getPrioridad() == Prioridad.NORMAL
     }
 
@@ -34,7 +34,7 @@ class AreaDeExamenSpec extends Specification {
         when:'se llama AreaDeExamen.crearCita en la fecha indicada y prioridad URGENTE'
             def cita = dummyArea.crearCita(fechaDeCreacionCita, 'URGENTE',unaOrden)
         then:'se devuelve la cita con la fecha indicada y la prioridad URGENTE'
-            cita.getFechaYHora() == fechaDeCreacionCita
+            cita.getFechaYHoraDeCita() == fechaDeCreacionCita
             cita.getPrioridad() == Prioridad.URGENTE
     }
     void "AreaDeExamen crear cita INEXISTENTE lanza Excepcion"() {

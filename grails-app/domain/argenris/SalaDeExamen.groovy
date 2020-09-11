@@ -14,7 +14,7 @@ class SalaDeExamen  extends AreaDeExamen {
     
     @Override
     List<Cita> obtenerCitasDelDia(LocalDateTime dia) {
-        this.citas.findAll() { cita -> cita.getFechaYHora().getDayOfWeek() == dia.getDayOfWeek() }
+        this.citas.findAll() { cita -> cita.getFechaYHoraDeCita().getDayOfWeek() == dia.getDayOfWeek() }
     }
     
     //TODO: VER CASOS BORDE

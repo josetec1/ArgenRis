@@ -19,7 +19,7 @@ import java.time.LocalDateTime
 
 class OrdenDeEstudio {
     
-    //TODO implementar
+   
     
     Medico medico
     Paciente paciente
@@ -95,8 +95,8 @@ class OrdenDeEstudio {
        this.estadoDeLaOrden= this.estadoDeLaOrden.notificarPasoDelTiempo(this.fechaCreacionDeOrden, fechayHoraActual)
     }
     
-     void cancelar (){
-         this.estadoDeLaOrden =  this.estadoDeLaOrden.cancelar(this.citas)
+     void cancelar (LocalDateTime fechaActualDeCancelacion){
+         this.estadoDeLaOrden =  this.estadoDeLaOrden.cancelar(this.citas, fechaActualDeCancelacion)
      }
     //todo refactor  mover a estados
      void notificarCitaCancelada (LocalDateTime fechaNotificacion) {
@@ -117,13 +117,13 @@ class OrdenDeEstudio {
      }
     
     
-    //todo
-    void notificarCitaConcretada () {
-       /*
+    //todo refactor  mover a estados
+    void notificarCitaConcretada (LocalDateTime fechaNotificacion) {
+       
         if (this.estadoDeLaOrden == new EstadoOrdenAsignada()){
             if (  fechaNotificacion.toLocalDate()< this.fechaCreacionDeOrden.toLocalDate() ) {throw new Exception("Error: La fecha de notificacion no puede ser anterior a la de creacion de la orden")}
-            this.estadoDeLaOrden = new EstadoOrdenEsperaRepro(fechaNotificacion)
-            return
+          this.estadoDeLaOrden = new EstadoOrdenEsperaEstudio()
+          return
         }
         
         if (this.estadoDeLaOrden == new EstadoOrdenRegistrada()){throw new Exception("Error: Orden Registrada no tiene citas")}
@@ -132,6 +132,6 @@ class OrdenDeEstudio {
         if (this.estadoDeLaOrden == new EstadoOrdenEsperaInforme()){throw new Exception("Error: Orden en espera de informe")}
         if (this.estadoDeLaOrden == new EstadoOrdenCancelada()){throw new Exception("Error: Orden en estado cancelada")}
         if (this.estadoDeLaOrden == new EstadoOrdenFinalizado()){throw new Exception("Error: Orden en estado Finalizada")}
-       */
+      
     }
 }

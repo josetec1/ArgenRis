@@ -56,11 +56,11 @@ class MockPruebasSpec extends Specification implements DomainUnitTest<OrdenDeEst
 	}
 	
 	void "Lanzar una excepcion desde un Stub objet" (){
-		
+			LocalDateTime fecha = LocalDateTime.of(2020,8,1,4,4)
 			def mockCita = Stub Cita
-			mockCita.cancelar() >> {throw new CitaEstaCanceladaException()}
+			mockCita.cancelar(fecha) >> {throw new CitaEstaCanceladaException()}
 		when:
-			mockCita.cancelar()
+			mockCita.cancelar(fecha)
 		then:
 			thrown CitaEstaCanceladaException
 	}

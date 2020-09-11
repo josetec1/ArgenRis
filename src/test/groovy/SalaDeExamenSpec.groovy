@@ -79,7 +79,7 @@ class SalaDeExamenSpec extends Specification implements DomainUnitTest<SalaDeExa
         when:'se llama a crearCita con fechaDeCreacion4 y prioridad Normal'
             def cita = salaDeExamen.crearCita(fechaDeCreacionCita4, 'NORMAL',unaOrden)
         then:'se crea la citaNormal en fecha indicada y se la guarda en las citas'
-            cita.getFechaYHora() == fechaDeCreacionCita4
+            cita.getFechaYHoraDeCita() == fechaDeCreacionCita4
             cita.getPrioridad() == Prioridad.NORMAL
             salaDeExamen.puedoAgregarCita(fechaDeCreacionCita4) == false
     }
