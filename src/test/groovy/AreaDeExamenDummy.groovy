@@ -2,6 +2,7 @@
 
 import argenris.AreaDeExamen
 import argenris.Cita.Cita
+import argenris.OrdenDeEstudio.OrdenDeEstudio
 
 import java.time.LocalDateTime
 
@@ -12,8 +13,8 @@ class AreaDeExamenDummy extends AreaDeExamen{
         null
     }
 
-    Cita crearCita(LocalDateTime fechaYHoraCita, String prioridad) {
-        super.crearCita(fechaYHoraCita ,prioridad)
+    Cita crearCita(LocalDateTime fechaYHoraCita, String prioridad, OrdenDeEstudio unaOrden) {
+        super.crearCita(fechaYHoraCita ,prioridad, unaOrden)
     }
 
     @Override

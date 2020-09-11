@@ -6,6 +6,7 @@ import argenris.Cita.EstadoCita.CitaEstaConcretadaException
 import argenris.Cita.EstadoCita.CitaNoSePuedeArribarException
 import argenris.Cita.EstadoCita.EstadoCitaConcretada
 import argenris.Cita.EstadoCita.EstadoCitaPlanificada
+import argenris.OrdenDeEstudio.OrdenDeEstudio
 import argenris.Prioridad
 import argenris.Cita.EstadoCita.EstadoCitaCancelada
 import grails.testing.gorm.DomainUnitTest
@@ -19,10 +20,10 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
     
     LocalDateTime fechaDeCita
 	Prioridad prioridadNormal = Prioridad.NORMAL
-
+    OrdenDeEstudio unaOrden
     def setup() {
         fechaDeCita = new LocalDateTime(new LocalDate(1998,1,23),new LocalTime(23,00,00,00))
-        
+        unaOrden = Mock OrdenDeEstudio
     }
 
     def cleanup() {
@@ -33,7 +34,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
         
         when:'una cita recien creada'
         
-        Cita unaCita= new Cita(fechaDeCita, prioridadNormal)
+        Cita unaCita= new Cita(fechaDeCita, prioridadNormal,unaOrden)
         
         then: "la cita tiene el estado Planificada"
         
@@ -47,7 +48,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
         given:'se crea una cita con fecha 1-1-2020'
             LocalDateTime fechaDeCreacionCita
             fechaDeCreacionCita =  new LocalDateTime(new LocalDate(2020,1,1),new LocalTime(20,00,00,00))
-            Cita unaCita= new Cita (fechaDeCreacionCita, Prioridad.NORMAL)
+            Cita unaCita= new Cita (fechaDeCreacionCita, Prioridad.NORMAL,unaOrden)
 
         when:'cita estaVencida 1-1-2020'
             def vencida = unaCita.estaVencida(fechaDeCreacionCita)
@@ -62,7 +63,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
        given:
             LocalDateTime fechaDeCreacionCita
             fechaDeCreacionCita =  new LocalDateTime(new LocalDate(2020,1,1),new LocalTime(20,00,00,00))
-            Cita unaCita = new Cita (fechaDeCreacionCita, Prioridad.NORMAL)
+            Cita unaCita = new Cita (fechaDeCreacionCita, Prioridad.NORMAL,unaOrden)
        when:'cita seSuperpone con fecha 1-1-2020'
             def seSuperpone = unaCita.seSuperponeCon(fechaDeCreacionCita)
        then: "la cita se superpone el 1-1-2020"
@@ -73,7 +74,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
        given:
             LocalDateTime fechaDeCreacionCita
             fechaDeCreacionCita =  new LocalDateTime(new LocalDate(2020,1,1),new LocalTime(20,00,00,00))
-            Cita unaCita = new Cita (fechaDeCreacionCita, Prioridad.NORMAL)
+            Cita unaCita = new Cita (fechaDeCreacionCita, Prioridad.NORMAL,unaOrden)
             def fechaDeSuperposicion =  new LocalDateTime(new LocalDate(2020,2,1),new LocalTime(20,00,00,00))
        when:'cita sesuperpone con fecha 1-2-2020'
             def seSuperpone = unaCita.seSuperponeCon(fechaDeSuperposicion)
@@ -85,7 +86,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
        given:
             LocalDateTime fechaDeCreacionCita
             fechaDeCreacionCita =  new LocalDateTime(new LocalDate(2020,1,1),new LocalTime(20,00,00,00))
-            Cita unaCita = new Cita (fechaDeCreacionCita, Prioridad.NORMAL)
+            Cita unaCita = new Cita (fechaDeCreacionCita, Prioridad.NORMAL,unaOrden)
             def fechaDeSuperposicion =  new LocalDateTime(new LocalDate(2019,12,1),new LocalTime(20,00,00,00))
        when:'cita no se se superpone con fecha 1-12-2019'
            def seSuperpone = unaCita.seSuperponeCon(fechaDeSuperposicion)
@@ -97,7 +98,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
        given:
             LocalDateTime fechaDeCreacionCita
             fechaDeCreacionCita =  new LocalDateTime(new LocalDate(2020,1,15),new LocalTime(20,00,00,00))
-            Cita unaCita = new Cita (fechaDeCreacionCita, Prioridad.URGENTE)
+            Cita unaCita = new Cita (fechaDeCreacionCita, Prioridad.URGENTE,unaOrden)
        when:'cita se superpone con fecha 1-15-2020'
             def seSuperpone = unaCita.seSuperponeCon(fechaDeCreacionCita)
        then: "la cita se superpone el 1-15-2020"
@@ -108,7 +109,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
        given:
             LocalDateTime fechaDeCreacionCita
             fechaDeCreacionCita =  new LocalDateTime(new LocalDate(2020,1,1),new LocalTime(20,00,00,00))
-            Cita unaCita = new Cita (fechaDeCreacionCita, Prioridad.URGENTE)
+            Cita unaCita = new Cita (fechaDeCreacionCita, Prioridad.URGENTE,unaOrden)
             def fechaDeSuperposicion =  new LocalDateTime(new LocalDate(2020,1,16),new LocalTime(20,00,00,00))
        when:'cita seSuperpone con fecha 16-1-2020'
             def seSuperpone = unaCita.seSuperponeCon(fechaDeSuperposicion)
@@ -120,7 +121,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
        given:
             LocalDateTime fechaDeCreacionCita
             fechaDeCreacionCita =  new LocalDateTime(new LocalDate(2020,1,1),new LocalTime(20,00,00,00))
-            Cita unaCita = new Cita (fechaDeCreacionCita, Prioridad.URGENTE)
+            Cita unaCita = new Cita (fechaDeCreacionCita, Prioridad.URGENTE,unaOrden)
             def fechaDeSuperposicion =  new LocalDateTime(new LocalDate(2019,12,16),new LocalTime(20,00,00,00))
        when:'cita no se se superpone con fecha 16-12-2019'
            def seSuperpone = unaCita.seSuperponeCon(fechaDeSuperposicion)
@@ -142,7 +143,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
     void "test03 al cancelar una cita en estado Planificada, queda con estado cancelada" (){
         
         given: 'una cita recien creada'
-        Cita unaCita= new Cita (fechaDeCita,prioridadNormal)
+        Cita unaCita= new Cita (fechaDeCita,prioridadNormal,unaOrden)
         
         when:
         unaCita.cancelar()
@@ -155,7 +156,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
     void "test04 al querer cancelar una cita en estado Cancelada, debe lanzar excepcion" (){
         
         given: 'una cita cancelada'
-        Cita unaCita= new Cita (fechaDeCita, prioridadNormal)
+        Cita unaCita= new Cita (fechaDeCita, prioridadNormal,unaOrden)
         unaCita.cancelar()
         
         when:
@@ -170,7 +171,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
     void "test05 al querer cancelar una cita en estado Concretada, debe lanzar excepcion" (){
         
         given: 'una cita concretada'
-        Cita unaCita= new Cita (fechaDeCita, prioridadNormal)
+        Cita unaCita= new Cita (fechaDeCita, prioridadNormal,unaOrden)
         unaCita.pacienteArribando(fechaDeCita)
         
         when:
@@ -186,7 +187,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
     void "test06 al concretar una cita en estado Planificada, queda con estado concretada" (){
         
         given: 'una cita recien creada'
-        Cita unaCita= new Cita (fechaDeCita, prioridadNormal)
+        Cita unaCita= new Cita (fechaDeCita, prioridadNormal,unaOrden)
         
         when:
         unaCita.pacienteArribando(fechaDeCita)
@@ -200,7 +201,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
     void "test07 al querer concretar una cita en estado Cancelada, debe lanzar excepcion" (){
         
         given: 'una cita cancelada'
-        Cita unaCita= new Cita (fechaDeCita, prioridadNormal)
+        Cita unaCita= new Cita (fechaDeCita, prioridadNormal,unaOrden)
         unaCita.cancelar()
         
         when:
@@ -215,7 +216,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
     void "test08 al querer concretar una cita en estado Concretada, debe lanzar excepcion" (){
         
         given: 'una cita concretada'
-        Cita unaCita= new Cita (fechaDeCita, prioridadNormal)
+        Cita unaCita= new Cita (fechaDeCita, prioridadNormal,unaOrden)
         unaCita.pacienteArribando(fechaDeCita)
         
         when:
@@ -234,7 +235,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
         LocalDateTime fechaDeCreacionCita
         fechaDeCreacionCita =  new LocalDateTime(new LocalDate(2020,1,1),new LocalTime(20,00,00,00))
         
-        Cita unaCita= new Cita (fechaDeCreacionCita, prioridadNormal)
+        Cita unaCita= new Cita (fechaDeCreacionCita, prioridadNormal,unaOrden)
         
         when:
         unaCita.cancelar()
@@ -253,7 +254,7 @@ class CitaSpec extends Specification implements DomainUnitTest<Cita> {
         LocalDateTime fechaDeCreacionCita
         fechaDeCreacionCita =  new LocalDateTime(new LocalDate(2020,1,1),new LocalTime(20,00,00,00))
         
-        Cita unaCita= new Cita (fechaDeCreacionCita, prioridadNormal)
+        Cita unaCita= new Cita (fechaDeCreacionCita, prioridadNormal,unaOrden)
         
         when:
         unaCita.pacienteArribando(fechaDeCreacionCita)
@@ -284,7 +285,7 @@ Cuando no esta vigente una fecha
         
         fechaDeCreacionCita =  new LocalDateTime(new LocalDate(2020,2,28),new LocalTime(10,00,00,00))
         
-        Cita unaCita= new Cita (fechaDeCreacionCita, prioridadNormal)
+        Cita unaCita= new Cita (fechaDeCreacionCita, prioridadNormal,unaOrden)
         
         when:
         LocalDateTime fechaDeConsultaDeVigenciaDeCita= new LocalDateTime(new LocalDate(2020,2,27),new LocalTime(11,00,00,00))
@@ -301,7 +302,7 @@ Cuando no esta vigente una fecha
         LocalDateTime fechaDeCreacionCita
         fechaDeCreacionCita =  new LocalDateTime(new LocalDate(2020,2,28),new LocalTime(10,00,00,00))
         
-        Cita unaCita= new Cita (fechaDeCreacionCita, prioridadNormal)
+        Cita unaCita= new Cita (fechaDeCreacionCita, prioridadNormal,unaOrden)
         
         when:
         LocalDateTime fechaDeConsultaDeVigenciaDeCita= new LocalDateTime(new LocalDate(2020,2,28),new LocalTime(10,30,00,00))
@@ -320,7 +321,7 @@ Cuando no esta vigente una fecha
         LocalDateTime fechaDeCreacionCita
         fechaDeCreacionCita =  new LocalDateTime(new LocalDate(2020,2,28),new LocalTime(10,00,00,00))
         
-        Cita unaCita= new Cita (fechaDeCreacionCita, prioridadNormal)
+        Cita unaCita= new Cita (fechaDeCreacionCita, prioridadNormal,unaOrden)
         
         when:
         LocalDateTime fechaDeConsultaDeVigenciaDeCita= new LocalDateTime(new LocalDate(2020,2,28),new LocalTime(10,31,00,00))
@@ -338,7 +339,7 @@ Cuando no esta vigente una fecha
         LocalDateTime fechaDeCita =  new LocalDateTime(new LocalDate(2020,3,10),new LocalTime(10,00,00,00))
         LocalDateTime fechaDeArriboAnterior =  new LocalDateTime(new LocalDate(2020,3,9),new LocalTime(10,00,00,00))
         
-        Cita unaCita= new Cita (fechaDeCita, prioridadNormal)
+        Cita unaCita= new Cita (fechaDeCita, prioridadNormal,unaOrden)
         
         when:
         unaCita.pacienteArribando(fechaDeArriboAnterior)
@@ -357,7 +358,7 @@ Cuando no esta vigente una fecha
         LocalDateTime fechaDeCita =  new LocalDateTime(new LocalDate(2020,3,10),new LocalTime(10,00,00,00))
         LocalDateTime fechaDeArriboPosterior =  new LocalDateTime(new LocalDate(2020,3,11),new LocalTime(1,00,00,00))
         
-        Cita unaCita= new Cita (fechaDeCita, prioridadNormal)
+        Cita unaCita= new Cita (fechaDeCita, prioridadNormal,unaOrden)
         
         when:
         unaCita.pacienteArribando(fechaDeArriboPosterior)
@@ -374,7 +375,7 @@ Cuando no esta vigente una fecha
         LocalDateTime fechaDeCita =  new LocalDateTime(new LocalDate(2020,3,10),new LocalTime(10,00,00,00))
         LocalDateTime fechaDeArriboPosterior=  new LocalDateTime(new LocalDate(2020,3,10),new LocalTime(10,31,00,00))
         
-        Cita unaCita= new Cita (fechaDeCita, prioridadNormal)
+        Cita unaCita= new Cita (fechaDeCita, prioridadNormal,unaOrden)
         
         when:
         unaCita.pacienteArribando(fechaDeArriboPosterior)
@@ -391,7 +392,7 @@ Cuando no esta vigente una fecha
         LocalDateTime fechaDeCita =  new LocalDateTime(new LocalDate(2020,3,10),new LocalTime(10,00,00,00))
         LocalDateTime fechaDeArribo =  new LocalDateTime(new LocalDate(2020,3,10),new LocalTime(10,30,00,00))
         
-        Cita unaCita= new Cita (fechaDeCita, prioridadNormal)
+        Cita unaCita= new Cita (fechaDeCita, prioridadNormal,unaOrden)
         
         when:
         unaCita.pacienteArribando(fechaDeArribo)
@@ -400,10 +401,5 @@ Cuando no esta vigente una fecha
         unaCita.estadoDeCita instanceof EstadoCitaConcretada
         
     }
-    /*
-    void "test18 agregarOrden en una cita en estado cancelada debe lanzar excepcion" (){}
-    void "test18 agregarOrden en una cita en estado cancelada debe lanzar excepcion" (){}
-    void "test19 agregarOrden en una cita en estado concretada debe lanzar excepcion" (){}
-    void "test20 agregarOrden en una cita en estado planificada que ya contiene una orden debe lanzar excepcion" (){}
-   */
+   
 }

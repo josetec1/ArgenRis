@@ -1,5 +1,4 @@
-
-
+import argenris.OrdenDeEstudio.OrdenDeEstudio
 import argenris.Prioridad
 import spock.lang.Specification
 
@@ -9,7 +8,9 @@ import java.time.LocalTime
 
 class AreaDeExamenSpec extends Specification {
 
+    OrdenDeEstudio unaOrden
     def setup() {
+        unaOrden = Mock OrdenDeEstudio
     }
 
     def cleanup() {
@@ -20,7 +21,7 @@ class AreaDeExamenSpec extends Specification {
             LocalDateTime fechaDeCreacionCita =  new LocalDateTime(new LocalDate(2020,1,1),new LocalTime(20,00,00,00))
             AreaDeExamenDummy dummyArea = new AreaDeExamenDummy()
         when:'se llama AreaDeExamen.crearCita en la fecha indicada y prioridad NORMAL'
-            def cita = dummyArea.crearCita(fechaDeCreacionCita, 'NORMAL')
+            def cita = dummyArea.crearCita(fechaDeCreacionCita, 'NORMAL',unaOrden)
         then:'se devuelve la cita con la fecha indicada y la prioridad NORMAL'
             cita.getFechaYHora() == fechaDeCreacionCita
             cita.getPrioridad() == Prioridad.NORMAL
@@ -31,7 +32,7 @@ class AreaDeExamenSpec extends Specification {
             LocalDateTime fechaDeCreacionCita =  new LocalDateTime(new LocalDate(2020,1,1),new LocalTime(20,00,00,00))
             AreaDeExamenDummy dummyArea = new AreaDeExamenDummy()
         when:'se llama AreaDeExamen.crearCita en la fecha indicada y prioridad URGENTE'
-            def cita = dummyArea.crearCita(fechaDeCreacionCita, 'URGENTE')
+            def cita = dummyArea.crearCita(fechaDeCreacionCita, 'URGENTE',unaOrden)
         then:'se devuelve la cita con la fecha indicada y la prioridad URGENTE'
             cita.getFechaYHora() == fechaDeCreacionCita
             cita.getPrioridad() == Prioridad.URGENTE
@@ -41,7 +42,7 @@ class AreaDeExamenSpec extends Specification {
             LocalDateTime fechaDeCreacionCita =  new LocalDateTime(new LocalDate(2020,1,1),new LocalTime(20,00,00,00))
             AreaDeExamenDummy dummyArea = new AreaDeExamenDummy()
         when:'se llama AreaDeExamen.crearCita en la fecha indicada y prioridad INEXISTENTE'
-            dummyArea.crearCita(fechaDeCreacionCita, 'INEXISTENTE')
+            dummyArea.crearCita(fechaDeCreacionCita, 'INEXISTENTE',unaOrden)
         then:
             Exception exception = thrown()
             exception.message == 'La prioridad recibida no existe'

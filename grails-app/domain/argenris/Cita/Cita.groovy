@@ -22,10 +22,11 @@ class Cita {
     
     }
 
-    Cita(LocalDateTime fechaYHora, Prioridad prioridad) {
+    Cita(LocalDateTime fechaYHora, Prioridad prioridad, OrdenDeEstudio unaOrden) {
         this.prioridad = prioridad
         this.estadoDeCita = new EstadoCitaPlanificada()
         this.fechaYHora = fechaYHora
+        this.ordenDeEstudio = unaOrden
 
     }
 
@@ -49,8 +50,5 @@ class Cita {
         Duration.between(fechaYHoraActual, this.fechaYHora).toMinutes() <= prioridad.obtenerRango()
     }
     
-    void agregarOrden (OrdenDeEstudio orden){
-        
-        this.ordenDeEstudio = orden
-    }
+    
 }

@@ -1,6 +1,7 @@
 package argenris
 
 import argenris.Cita.Cita
+import argenris.OrdenDeEstudio.OrdenDeEstudio
 
 import java.time.LocalDateTime
 
@@ -23,10 +24,10 @@ class SalaDeExamen  extends AreaDeExamen {
     }
     
     @Override
-    Cita crearCita(LocalDateTime fechaYHoraCita, String prioridad) {
+    Cita crearCita(LocalDateTime fechaYHoraCita, String prioridad, OrdenDeEstudio unaOrden) {
         
         if(puedoAgregarCita(fechaYHoraCita)){
-            Cita nuevaCita = super.crearCita(fechaYHoraCita, prioridad)
+            Cita nuevaCita = super.crearCita(fechaYHoraCita, prioridad, unaOrden)
             this.citas.add(nuevaCita)
             return nuevaCita
         }else{

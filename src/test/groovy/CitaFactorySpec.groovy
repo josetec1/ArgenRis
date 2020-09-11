@@ -2,6 +2,7 @@
 
 import argenris.Cita.Cita
 import argenris.CitaFactory
+import argenris.OrdenDeEstudio.OrdenDeEstudio
 import argenris.Prioridad
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
@@ -12,7 +13,9 @@ import java.time.LocalTime
 
 class CitaFactorySpec extends Specification implements DomainUnitTest<CitaFactory> {
 
+    OrdenDeEstudio unaOrden
     def setup() {
+        unaOrden = Mock OrdenDeEstudio
     }
 
     def cleanup() {
@@ -32,7 +35,7 @@ class CitaFactorySpec extends Specification implements DomainUnitTest<CitaFactor
             CitaFactory factory = CitaFactory.obtenerInstancia()
             LocalDateTime fechaCita = new LocalDateTime(new LocalDate(1998, 1, 23), new LocalTime(23, 00, 00, 00))
         when:'se llama a citaFactory crear cita con la fecha creada'
-        Cita nuevaCita = factory.crearCita(fechaCita, 'NORMAL')
+        Cita nuevaCita = factory.crearCita(fechaCita, 'NORMAL',unaOrden)
         then:'debuelve la cita normal esperada'
             nuevaCita.fechaYHora == fechaCita
             nuevaCita.prioridad == Prioridad.NORMAL
@@ -43,7 +46,7 @@ class CitaFactorySpec extends Specification implements DomainUnitTest<CitaFactor
             CitaFactory factory = CitaFactory.obtenerInstancia()
             LocalDateTime fechaCita = new LocalDateTime(new LocalDate(1998, 1, 23), new LocalTime(23, 00, 00, 00))
         when:'se llama a citaFactory crear cita con la fecha creada y prioridad URGENTE'
-            Cita nuevaCita = factory.crearCita(fechaCita, 'URGENTE')
+            Cita nuevaCita = factory.crearCita(fechaCita, 'URGENTE',unaOrden)
         then:'debuelve la cita normal esperada'
             nuevaCita.fechaYHora == fechaCita
             nuevaCita.prioridad == Prioridad.URGENTE
@@ -54,7 +57,7 @@ class CitaFactorySpec extends Specification implements DomainUnitTest<CitaFactor
             CitaFactory factory = CitaFactory.obtenerInstancia()
             LocalDateTime fechaCita = new LocalDateTime(new LocalDate(1998, 1, 23), new LocalTime(23, 00, 00, 00))
         when:'se llama a citaFactory crear cita con la fecha creada y prioridad INEXISTENTE'
-            factory.crearCita(fechaCita, 'INEXISTENTE')
+            factory.crearCita(fechaCita, 'INEXISTENTE',unaOrden)
         then:'debuelve la cita normal esperada'
             Exception exception = thrown()
             exception.message == 'La prioridad recibida no existe'

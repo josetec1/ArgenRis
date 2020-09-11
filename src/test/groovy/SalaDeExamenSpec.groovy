@@ -2,6 +2,7 @@
 
 import argenris.Cita.Cita
 import argenris.CitaFactory
+import argenris.OrdenDeEstudio.OrdenDeEstudio
 import argenris.Prioridad
 import argenris.SalaDeExamen
 import grails.testing.gorm.DomainUnitTest
@@ -14,7 +15,9 @@ import java.time.LocalTime
 
 class SalaDeExamenSpec extends Specification implements DomainUnitTest<SalaDeExamen>{
 
+    OrdenDeEstudio unaOrden
     def setup() {
+        unaOrden = Mock OrdenDeEstudio
     }
 
     def cleanup() {
@@ -26,9 +29,9 @@ class SalaDeExamenSpec extends Specification implements DomainUnitTest<SalaDeExa
             LocalDateTime fechaDeCreacionCita2 =  new LocalDateTime(new LocalDate(2020,3,1),new LocalTime(20,00,00,00))
             LocalDateTime fechaDeCreacionCita3 =  new LocalDateTime(new LocalDate(2020,5,1),new LocalTime(20,00,00,00))
             LocalDateTime fechaDeCreacionCita4 =  new LocalDateTime(new LocalDate(2020,7,1),new LocalTime(20,00,00,00))
-        Cita cita1 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita1,'NORMAL')
-            Cita cita2 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita2,'NORMAL')
-            Cita cita3 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita3,'NORMAL')
+        Cita cita1 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita1,'NORMAL',unaOrden)
+            Cita cita2 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita2,'NORMAL',unaOrden)
+            Cita cita3 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita3,'NORMAL',unaOrden)
             List<Cita> listaDeCitas = new ArrayList<Cita>()
             listaDeCitas.add(cita1)
             listaDeCitas.add(cita2)
@@ -45,9 +48,9 @@ class SalaDeExamenSpec extends Specification implements DomainUnitTest<SalaDeExa
             LocalDateTime fechaDeCreacionCita1 =  new LocalDateTime(new LocalDate(2020,1,1),new LocalTime(20,00,00,00))
             LocalDateTime fechaDeCreacionCita2 =  new LocalDateTime(new LocalDate(2020,3,1),new LocalTime(20,00,00,00))
             LocalDateTime fechaDeCreacionCita3 =  new LocalDateTime(new LocalDate(2020,5,1),new LocalTime(20,00,00,00))
-            Cita cita1 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita1,'NORMAL')
-            Cita cita2 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita2,'NORMAL')
-            Cita cita3 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita3,'NORMAL')
+            Cita cita1 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita1,'NORMAL',unaOrden)
+            Cita cita2 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita2,'NORMAL',unaOrden)
+            Cita cita3 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita3,'NORMAL',unaOrden)
             List<Cita> listaDeCitas = new ArrayList<Cita>()
             listaDeCitas.add(cita1)
             listaDeCitas.add(cita2)
@@ -65,16 +68,16 @@ class SalaDeExamenSpec extends Specification implements DomainUnitTest<SalaDeExa
             LocalDateTime fechaDeCreacionCita2 =  new LocalDateTime(new LocalDate(2020,3,1),new LocalTime(20,00,00,00))
             LocalDateTime fechaDeCreacionCita3 =  new LocalDateTime(new LocalDate(2020,5,1),new LocalTime(20,00,00,00))
             LocalDateTime fechaDeCreacionCita4 =  new LocalDateTime(new LocalDate(2020,7,1),new LocalTime(20,00,00,00))
-            Cita cita1 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita1,'NORMAL')
-            Cita cita2 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita2,'NORMAL')
-            Cita cita3 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita3,'NORMAL')
+            Cita cita1 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita1,'NORMAL',unaOrden)
+            Cita cita2 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita2,'NORMAL',unaOrden)
+            Cita cita3 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita3,'NORMAL',unaOrden)
             List<Cita> listaDeCitas = new ArrayList<Cita>()
             listaDeCitas.add(cita1)
             listaDeCitas.add(cita2)
             listaDeCitas.add(cita3)
             SalaDeExamen salaDeExamen = new SalaDeExamen(listaDeCitas)
         when:'se llama a crearCita con fechaDeCreacion4 y prioridad Normal'
-            def cita = salaDeExamen.crearCita(fechaDeCreacionCita4, 'NORMAL')
+            def cita = salaDeExamen.crearCita(fechaDeCreacionCita4, 'NORMAL',unaOrden)
         then:'se crea la citaNormal en fecha indicada y se la guarda en las citas'
             cita.getFechaYHora() == fechaDeCreacionCita4
             cita.getPrioridad() == Prioridad.NORMAL
@@ -86,16 +89,16 @@ class SalaDeExamenSpec extends Specification implements DomainUnitTest<SalaDeExa
             LocalDateTime fechaDeCreacionCita1 =  new LocalDateTime(new LocalDate(2020,1,1),new LocalTime(20,00,00,00))
             LocalDateTime fechaDeCreacionCita2 =  new LocalDateTime(new LocalDate(2020,3,1),new LocalTime(20,00,00,00))
             LocalDateTime fechaDeCreacionCita3 =  new LocalDateTime(new LocalDate(2020,5,1),new LocalTime(20,00,00,00))
-            Cita cita1 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita1,'NORMAL')
-            Cita cita2 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita2,'NORMAL')
-            Cita cita3 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita3,'NORMAL')
+            Cita cita1 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita1,'NORMAL',unaOrden)
+            Cita cita2 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita2,'NORMAL',unaOrden)
+            Cita cita3 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita3,'NORMAL',unaOrden)
             List<Cita> listaDeCitas = new ArrayList<Cita>()
             listaDeCitas.add(cita1)
             listaDeCitas.add(cita2)
             listaDeCitas.add(cita3)
             SalaDeExamen salaDeExamen = new SalaDeExamen(listaDeCitas)
         when:'se llama a crearCita con fechaDeCreacion1 y prioridad Normal'
-            salaDeExamen.crearCita(fechaDeCreacionCita1, 'NORMAL')
+            salaDeExamen.crearCita(fechaDeCreacionCita1, 'NORMAL',unaOrden)
         then:'devuelve Excepcion'
             Exception exception = thrown()
             exception.message == 'Error: No se puede agregar la cita en el dia y horario pactado'
@@ -107,9 +110,9 @@ class SalaDeExamenSpec extends Specification implements DomainUnitTest<SalaDeExa
             LocalDateTime fechaDeCreacionCita1 =  new LocalDateTime(new LocalDate(2020,1,1),new LocalTime(20,00,00,00))
             LocalDateTime fechaDeCreacionCita2 =  new LocalDateTime(new LocalDate(2020,3,1),new LocalTime(20,00,00,00))
             LocalDateTime fechaDeCreacionCita3 =  new LocalDateTime(new LocalDate(2020,5,1),new LocalTime(20,00,00,00))
-            Cita cita1 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita1,'NORMAL')
-            Cita cita2 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita2,'NORMAL')
-            Cita cita3 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita3,'NORMAL')
+            Cita cita1 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita1,'NORMAL',unaOrden)
+            Cita cita2 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita2,'NORMAL',unaOrden)
+            Cita cita3 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita3,'NORMAL',unaOrden)
             List<Cita> listaDeCitas = new ArrayList<Cita>()
             listaDeCitas.add(cita1)
             listaDeCitas.add(cita2)
@@ -128,9 +131,9 @@ class SalaDeExamenSpec extends Specification implements DomainUnitTest<SalaDeExa
             LocalDateTime fechaDeCreacionCita2 =  new LocalDateTime(new LocalDate(2020,3,1),new LocalTime(20,00,00,00))
             LocalDateTime fechaDeCreacionCita3 =  new LocalDateTime(new LocalDate(2020,5,1),new LocalTime(20,00,00,00))
             LocalDateTime fechaDeCreacionCita4 =  new LocalDateTime(new LocalDate(2020,12,1),new LocalTime(20,00,00,00))
-            Cita cita1 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita1,'NORMAL')
-            Cita cita2 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita2,'NORMAL')
-            Cita cita3 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita3,'NORMAL')
+            Cita cita1 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita1,'NORMAL',unaOrden)
+            Cita cita2 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita2,'NORMAL',unaOrden)
+            Cita cita3 = CitaFactory.obtenerInstancia().crearCita(fechaDeCreacionCita3,'NORMAL',unaOrden)
             List<Cita> listaDeCitas = new ArrayList<Cita>()
             listaDeCitas.add(cita1)
             listaDeCitas.add(cita2)

@@ -2,6 +2,7 @@ package argenris.OrdenDeEstudio.EstadoOrden
 
 import argenris.AreaDeExamen
 import argenris.Cita.Cita
+import argenris.OrdenDeEstudio.OrdenDeEstudio
 import argenris.Prioridad
 
 import java.time.LocalDateTime
@@ -14,7 +15,8 @@ import java.time.LocalDateTime
 		
 		abstract  boolean puedoAgregarcita(LocalDateTime fechaOrden, LocalDateTime fechaYHoraActual)
 		
-		abstract EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad)
+		
+		abstract EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad,OrdenDeEstudio unaOrden)
 	}
 
 
@@ -45,7 +47,7 @@ import java.time.LocalDateTime
 		}
 		
 		@Override
-		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad) {
+		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad, OrdenDeEstudio unaOrden) {
 			throw new Exception("Error: No se puede agregar una cita en una orden asignada")
 		}
 	}
@@ -68,11 +70,11 @@ import java.time.LocalDateTime
 		}
 		
 		@Override
-		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad) {
+		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad, OrdenDeEstudio unaOrden) {
 			//este es el caso de una orden que no actualizo el cron job
 			if (!puedoAgregarcita(fechaOrden,fechayHoraActual) ) { throw new Exception("Error: No se puede agregar una cita: Orden registrada fuera de plazo")}
 			
-			Cita cita = salaDeExamen.crearCita(fechaDeCita, prioridad.toString())
+			Cita cita = salaDeExamen.crearCita(fechaDeCita, prioridad.toString(),unaOrden)
 			citas.add(cita)
 			new EstadoOrdenAsignada()
 			
@@ -97,7 +99,7 @@ import java.time.LocalDateTime
 		}
 		
 		@Override
-		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad) {
+		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad, OrdenDeEstudio unaOrden) {
 			throw new Exception("Error: No se puede agregar una cita en una orden cancelada")
 		}
 	}
@@ -134,11 +136,11 @@ import java.time.LocalDateTime
 		//y usar un case para saber que estado tenia y poder informar la exepcion correspondiente
 		
 		@Override
-		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad) {
+		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad, OrdenDeEstudio unaOrden) {
 			//este es el caso de una orden que no actualizo el cron job
 			if (!puedoAgregarcita(fechaOrden,fechayHoraActual) ) { throw new Exception("Error: No se puede agregar una cita: Orden fuera de plazo para reprogramar")}
 			
-			Cita cita = salaDeExamen.crearCita(fechaDeCita, prioridad.toString())
+			Cita cita = salaDeExamen.crearCita(fechaDeCita, prioridad.toString(),unaOrden)
 			citas.add(cita)
 			new EstadoOrdenAsignada()
 		}
@@ -162,7 +164,7 @@ import java.time.LocalDateTime
 		}
 		
 		@Override
-		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad){
+		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad, OrdenDeEstudio unaOrden) {
 			throw new Exception("Error: No se puede agregar una cita en una orden finalizada")
 			
 		}
@@ -186,7 +188,7 @@ import java.time.LocalDateTime
 		}
 		
 		@Override
-		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad) {
+		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad, OrdenDeEstudio unaOrden) {
 			throw new Exception("Error: No se puede agregar una cita en una orden que esta esperando informe")
 		}
 	}
@@ -209,7 +211,7 @@ import java.time.LocalDateTime
 		}
 		
 		@Override
-		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad) {
+		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad, OrdenDeEstudio unaOrden) {
 			throw new Exception("Error: No se puede agregar una cita en una orden que esta esperando estudio")
 		}
 	}

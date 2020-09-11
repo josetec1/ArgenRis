@@ -726,6 +726,28 @@ class OrdenDeEstudioSpec extends Specification implements DomainUnitTest<OrdenDe
             exception.message == 'Error: No se puede agregar una cita: Orden registrada fuera de plazo'
     }
     
+    void "test37 una orden en estado registrada el dia 1-8-2020  al intentar agregar cita con fecha de cita 31-7-2020, debe lanzar excepcion" (){
+        
+        given:'una orden de estudio en estado registrada el 1-8-2020'
+        LocalDateTime fechaDeCreacion = LocalDateTime.of(2020,8,1,2,54)
+        LocalDateTime fechaActual = LocalDateTime.of(2020,8,1,2,54)
+        LocalDateTime fechaCitaAnteriorALaOrden= LocalDateTime.of(2020,7,31,0,0)
+        List<Cita> listaDeCitas = new ArrayList<Cita>()
+        SalaDeExamen salaDeExamen = new SalaDeExamen(listaDeCitas )
+        OrdenDeEstudio unaOrden= new OrdenDeEstudio(
+                medico,
+                paciente,
+                prioridad,
+                fechaDeCreacion,
+                nota,
+                procedimiento)
+        when: 'intento agregar una cita con fecha de cita 31-7-2020 anterior a la de creacion de orden'
+        unaOrden.agregarCita (fechaActual, salaDeExamen,fechaCitaAnteriorALaOrden)
+        then: "la orden lanza excepcion"
+        Exception exception = thrown()
+        exception.message == 'Error: No se puede planificar una Cita con fecha de cita anterior a la orden'
+    }
+    
     /*
     Escenario B: Creación de cita médica en una orden Asignada.
 
