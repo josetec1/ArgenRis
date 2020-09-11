@@ -3,6 +3,8 @@ import argenris.Cita.EstadoCita.CitaEstaCanceladaException
 import argenris.Cita.EstadoCita.CitaEstaConcretadaException
 import argenris.Medico
 import argenris.OrdenDeEstudio.OrdenDeEstudio
+import argenris.Prioridad
+import argenris.SalaDeExamen
 import grails.testing.gorm.DomainUnitTest
 import org.grails.plugins.testing.MockPart
 import spock.lang.Specification
@@ -62,6 +64,8 @@ class MockPruebasSpec extends Specification implements DomainUnitTest<OrdenDeEst
 		then:
 			thrown CitaEstaCanceladaException
 	}
+	
+	
 	
 	// esta es de spock
 	@Unroll

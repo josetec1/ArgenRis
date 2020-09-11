@@ -1,4 +1,4 @@
-package DomainTest
+
 
 import argenris.AreaDeExamen
 import argenris.Cita.Cita

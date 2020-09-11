@@ -2,6 +2,7 @@ package argenris.Cita
 
 import argenris.Cita.EstadoCita.EstadoCita
 import argenris.Cita.EstadoCita.EstadoCitaPlanificada
+import argenris.OrdenDeEstudio.OrdenDeEstudio
 import argenris.Prioridad
 
 
@@ -13,6 +14,7 @@ class Cita {
     EstadoCita estadoDeCita
     LocalDateTime fechaYHora
     Prioridad prioridad
+    OrdenDeEstudio ordenDeEstudio //todo habria que implementar nullPatern o pasarla por constructor
 
     static constraints = {
         fechaYHora nullable: false
@@ -45,5 +47,10 @@ class Cita {
             return Duration.between(this.fechaYHora, fechaYHoraActual).toMinutes() <= prioridad.obtenerRango()
         }
         Duration.between(fechaYHoraActual, this.fechaYHora).toMinutes() <= prioridad.obtenerRango()
+    }
+    
+    void agregarOrden (OrdenDeEstudio orden){
+        
+        this.ordenDeEstudio = orden
     }
 }

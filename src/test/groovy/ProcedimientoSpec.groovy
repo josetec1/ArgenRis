@@ -1,4 +1,4 @@
-package DomainTest
+
 
 import argenris.Procedimiento
 import grails.testing.gorm.DomainUnitTest

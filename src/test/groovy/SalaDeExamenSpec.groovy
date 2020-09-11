@@ -1,4 +1,4 @@
-package DomainTest
+
 
 import argenris.Cita.Cita
 import argenris.CitaFactory

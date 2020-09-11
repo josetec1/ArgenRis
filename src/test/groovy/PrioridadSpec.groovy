@@ -1,4 +1,4 @@
-package DomainTest
+
 
 import argenris.Prioridad
 import spock.lang.Specification

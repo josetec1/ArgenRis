@@ -680,6 +680,12 @@ class OrdenDeEstudioSpec extends Specification implements DomainUnitTest<OrdenDe
         unaCita == unaOrden.citas.first()
     }
     
+    
+    
+    
+    
+    
+    
     void "test35 una orden en estado registrada el dia 1-8-2020  al intentar agregar cita el dia 31-8-2020, debe lanzar excepcion" (){
         given:'una orden de estudio en estado registrada el 1-8-2020'
             LocalDateTime fechaDeCreacion = LocalDateTime.of(2020,8,1,2,54)
@@ -884,6 +890,9 @@ class OrdenDeEstudioSpec extends Specification implements DomainUnitTest<OrdenDe
         miCita ==  unaOrden.citas.last()
         unaOrden.estadoDeLaOrden == new EstadoOrdenAsignada()
     }
+    
+    
+    
     
     void "test44 una orden en estado esperando reprogramacion al intentar agregar cita, mantiene almacenadas las antiguas citas" (){
         given:'una orden de estudio en estado esperando reprogramacion'

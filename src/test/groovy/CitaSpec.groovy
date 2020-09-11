@@ -1,4 +1,4 @@
-package DomainTest
+
 
 import argenris.Cita.Cita
 import argenris.Cita.EstadoCita.CitaEstaCanceladaException
@@ -400,6 +400,10 @@ Cuando no esta vigente una fecha
         unaCita.estadoDeCita instanceof EstadoCitaConcretada
         
     }
-    
-
+    /*
+    void "test18 agregarOrden en una cita en estado cancelada debe lanzar excepcion" (){}
+    void "test18 agregarOrden en una cita en estado cancelada debe lanzar excepcion" (){}
+    void "test19 agregarOrden en una cita en estado concretada debe lanzar excepcion" (){}
+    void "test20 agregarOrden en una cita en estado planificada que ya contiene una orden debe lanzar excepcion" (){}
+   */
 }

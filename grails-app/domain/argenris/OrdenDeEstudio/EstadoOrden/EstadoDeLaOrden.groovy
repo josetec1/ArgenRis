@@ -130,6 +130,9 @@ import java.time.LocalDateTime
 			return sePuedeReprogramar(fechaYHoraActual)
 		}
 		
+		//todo refactorizar por que queda codigo repetido... habria que moverlo a la orden
+		//y usar un case para saber que estado tenia y poder informar la exepcion correspondiente
+		
 		@Override
 		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad) {
 			//este es el caso de una orden que no actualizo el cron job

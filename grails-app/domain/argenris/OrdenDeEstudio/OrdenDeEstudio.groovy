@@ -82,6 +82,8 @@ class OrdenDeEstudio {
         // si ponie el if aca ahorraba pasar parametros lanzando una exepcion generica
         
         this.estadoDeLaOrden = this.estadoDeLaOrden.agregarCita (salaDeExamen, fechaDeCita,fechayHoraActual,this.fechaCreacionDeOrden, this.citas, this.prioridad)
+        this.citas.last().agregarOrden(this)
+        
         return this.citas.last()
         
     }
