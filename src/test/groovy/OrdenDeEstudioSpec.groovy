@@ -1,6 +1,7 @@
 import argenris.AreaDeExamen
 import argenris.Cita.Cita
 import argenris.Cita.EstadoCita.CitaEstaCanceladaException
+import argenris.Cita.EstadoCita.EstadoCitaCancelada
 import argenris.OrdenDeEstudio.EstadoOrden.*
 
 import argenris.Medico
@@ -194,22 +195,37 @@ class OrdenDeEstudioSpec extends Specification implements DomainUnitTest<OrdenDe
         
     }
     
-    void "test10 una orden en estado asignada y con una cita registrada y otra cancelada cuando el medico la cancela debe enviar mensaje de cancelar a todas sus citas ignorando excepciones de las citas"() {
+    void "test10 una orden en estado asignada  con una varias cita registradas y varias canceladas cuando el medico la cancela debe enviar mensaje de cancelar a todas sus citas ignorando excepciones de las citas"() {
     
         given: 'una orden en estado asignada con una cita cancelada y una registrada'
         def mockCitaRegistrada = Mock Cita
+        def mockCitaRegistrada2 = Mock Cita
+        def mockCitaRegistrada3 = Mock Cita
         def stubCitaCancelada = Stub Cita
-        stubCitaCancelada.cancelar() >> { throw new CitaEstaCanceladaException() }
+        def stubCitaCancelada2 = Stub Cita
+        def stubCitaCancelada3 = Stub Cita
+        stubCitaCancelada.cancelar(_) >> { throw new CitaEstaCanceladaException() }
+        stubCitaCancelada2.cancelar(_) >> { throw new CitaEstaCanceladaException() }
+        stubCitaCancelada3.cancelar(_) >> { throw new CitaEstaCanceladaException() }
+        
         unaOrden.estadoDeLaOrden = new EstadoOrdenAsignada()
-        unaOrden.citas.add(mockCitaRegistrada)
         unaOrden.citas.add(stubCitaCancelada)
+        unaOrden.citas.add(mockCitaRegistrada)
+        unaOrden.citas.add(stubCitaCancelada2)
+        unaOrden.citas.add(mockCitaRegistrada2)
+        unaOrden.citas.add(stubCitaCancelada3)
+        unaOrden.citas.add(mockCitaRegistrada3)
         when: 'el medico decide cancelarla'
         unaOrden.cancelar(fechaDeCreacion)
         then: "las citas reciben el mensaje de cancelar y se ignora la excepcion lanzada por la cita cancelada"
         1 * mockCitaRegistrada.cancelar(fechaDeCreacion)
-
+        1 * mockCitaRegistrada2.cancelar(fechaDeCreacion)
+        1 * mockCitaRegistrada3.cancelar(fechaDeCreacion)
+        
         unaOrden.estadoDeLaOrden == new EstadoOrdenCancelada()
     }
+    
+    
     
     
     /********************************************************************************************************************

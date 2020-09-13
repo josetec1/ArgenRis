@@ -23,17 +23,15 @@ import java.time.LocalDateTime
 	@groovy.transform.EqualsAndHashCode
 	class EstadoOrdenAsignada extends EstadoDeLaOrden {
 		
+		//Todo probar que la ejecucion continue si corta.
 		@Override
 		EstadoDeLaOrden cancelar(Set<Cita> citas, LocalDateTime fechaActualDeCancelacion) {
 			//todo alternativa al try es preguntar si se le puede cancelar
-			try {
-				citas.each {it.cancelar(fechaActualDeCancelacion)}
-			} catch (Exception ex) {
-			
-			}
-	
+			citas.each {
+				try {it.cancelar(fechaActualDeCancelacion)}
+				catch (ex){}
+				}
 			return new EstadoOrdenCancelada()
-			
 		}
 		
 		@Override
