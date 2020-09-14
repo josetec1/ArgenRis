@@ -1,0 +1,7 @@
+import argenris.OrdenDeEstudio.OrdenDeEstudio
+
+model {
+	OrdenDeEstudio ordenDeEstudio
+}
+
+json g.render(ordenDeEstudio, [resolveTemplate: false])

@@ -33,6 +33,17 @@ class BootStrap {
         new SalaDeExamen(new ArrayList<Cita>()).save(failOnError : true)
         new Cita(LocalDateTime.now(),Prioridad.NORMAL,miOrden).save(failOnError : true)
     
+        OrdenDeEstudio miOrden2 = new OrdenDeEstudio(Riviera,
+                new Paciente(nombre: "Franco", apellido : "Devita", email: "Franco@gmail.com" ),
+                Prioridad.NORMAL, LocalDateTime.now(),
+                "orden de estudio powered by BootStrap 2",
+                new Procedimiento()).save(failOnError : true)
+    
+        OrdenDeEstudio miOrden3 = new OrdenDeEstudio(Riviera,
+                new Paciente(nombre: "Daniel", apellido : "Laruzzo", email: "Laruzo@gmail.com" ),
+                Prioridad.NORMAL, LocalDateTime.now(),
+                "orden de estudio powered by BootStrap 3",
+                new Procedimiento()).save(failOnError : true)
     
     }
     def destroy = {

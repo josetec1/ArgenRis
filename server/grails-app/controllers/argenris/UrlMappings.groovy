@@ -9,7 +9,14 @@ class UrlMappings {
         post "/$controller(.$format)?"(action:"save")
         put "/$controller/$id(.$format)?"(action:"update")
         patch "/$controller/$id(.$format)?"(action:"patch")
-
+    
+       /*
+        "/orden"(resources:"orden") {
+           // "/publisher"(controller:"publisher", method:"GET")
+        }
+    
+    */
+    
         "/"(controller: 'application', action:'index')
         "500"(view: '/error')
         "404"(view: '/notFound')
