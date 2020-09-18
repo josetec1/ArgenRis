@@ -1,12 +1,15 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Dashboard from '../views/Dashboard'
-
+import HomePage from '../views/login-page';
+import AppLayout from '../views/main-page';
+import ProtectedRoute from '../Routes/protected-route';
 const Routes = () => {
     return (
         <BrowserRouter>
             <Switch>
-                <Route path='/' component={Dashboard} />
+                <Route exact path='/' component={HomePage} />
+                <ProtectedRoute exact path='/app' component={AppLayout} />
+                <Route path='*' component={() => '404 NOT FOUND'} />
             </Switch>
         </BrowserRouter>
     );
