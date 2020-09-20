@@ -26,13 +26,13 @@ class CreacionCommand{
     }
 }
 
-@Transactional(readOnly = true)  //1-Rest esto es para implementar el controlador rest por mi cuenta
+@Transactional(readOnly = true)  //todo 1-Rest esto esta en la guia de REST pero no me queda claro
 class OrdenController {
     
     def ordenService  //primer letra minuscula para que haga la inyeccion
     
-    //static allowedMethods = [ crear: 'POST'] //B2  Defino los metodos que voy a admitir
-    static responseFormats = ['json', 'xml']  // defino los formatos con los cuales voy a responder
+    static allowedMethods = [ save: 'POST'] //B2  Defino los metodos que voy a admitir  (puede que mucho sentido no tenga, por que ya desde el mapping le estoy diciendo segun el metodo que uso a que action mandarlo)
+    static responseFormats = ['json', 'xml', 'text']  // defino los formatos con los cuales voy a responder
     
     
     def index(Integer max) {
@@ -41,20 +41,20 @@ class OrdenController {
         respond OrdenDeEstudio.list(params), model:[OrdenDeEstudioCount: OrdenDeEstudio.count()]   //todo implementar service
     }
     
+    
     def show(Long id ) {
-        if(id == null) {
-            
-            render status: BAD_REQUEST
-        }
+        if(id == null) {render status: BAD_REQUEST}
         else {
             //si no lo encuentra devuelve NOT_FOUND automaticamente.... no se si esta bueno dejarlo asi
            respond OrdenDeEstudio.findById(id)      //todo revisar, si esta autorizado a verlo, que datos le pasas a la vista....
         }
     }
     
+    
+    
 	 
 	  //@secure  ( rol del usuario --  y quien puede llamar a esto)
-    @Transactional   //le avisas que es transaccional por que vas a guardar algo
+   @Transactional   //le avisas que es transaccional por que vas a guardar algo // hay que ver bien esto.. por que el service ya tiene uno, capaz si haces varias cosas aca puede ser que vaya
     def save (CreacionCommand command){
 		  //el usuario actual es un medio  -imp trucha
 		  
@@ -70,6 +70,7 @@ class OrdenController {
               //4.1 mostrar una pantalla de error
 		 }else {
               respond command.errors, view:'create'
+              
           }
 	  }
 	  
