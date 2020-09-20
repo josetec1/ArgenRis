@@ -12,19 +12,15 @@ import java.time.LocalDateTime
 
 /*
 HTTP Method	        URI     	    Controller Action
-GET             /Orden                    index
 
+GET             /Orden                    index
 GET            /Orden/${id}                show
+POST         /Orden                          save
+PUT         /Orden/${id}                  update
+DELETE      /Orden/${id}                   delete
 
 GET           /Orden/create               create
-
 GET          /Orden/${id}/edit             edit
-
-POST         /Orden                          save
-
-PUT         /Orden/${id}                  update
-
-DELETE      /Orden/${id}                   delete
 
  */
 

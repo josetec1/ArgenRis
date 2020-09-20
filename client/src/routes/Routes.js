@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import HomePage from '../views/login-page';
 import AppLayout from '../views/main-page';
-import ProtectedRoute from '../Routes/protected-route';
+import ProtectedRoute from '../routes/protected-route';
 const Routes = () => {
     return (
         <BrowserRouter>
