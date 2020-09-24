@@ -1,3 +1,4 @@
+
 import argenris.AreaDeExamen
 import argenris.Cita.Cita
 import argenris.Cita.EstadoCita.CitaEstaCanceladaException
@@ -30,7 +31,8 @@ class OrdenDeEstudioSpec extends Specification implements DomainUnitTest<OrdenDe
     
     def setup() {
         medico = mockDomain Medico
-        paciente = mockDomain Paciente
+       // paciente = mockDomain Paciente   //todo ver por que el mock esta tirando null pointer
+        paciente = new Paciente ()
         procedimiento = mockDomain Procedimiento
         salaDeExamen = mockDomain SalaDeExamen
     
@@ -85,6 +87,7 @@ class OrdenDeEstudioSpec extends Specification implements DomainUnitTest<OrdenDe
         unaOrden.estadoDeLaOrden != new EstadoOrdenAsignada()  //ojo por que podes implementar mal el equals y da siempre true
     }
     
+  
     
     /*
     Escenario B: Cancelación de orden por decisión el Médico solicitante en estado

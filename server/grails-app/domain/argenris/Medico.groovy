@@ -32,7 +32,7 @@ class Medico {
                                         Procedimiento procedimiento){
         
         OrdenDeEstudio orden = new OrdenDeEstudio(this,paciente,prioridad,fechaDeCreacion,nota,procedimiento)
-        this.ordenesDeEstudio << orden
+       // this.ordenesDeEstudio << orden  //IMPORTANTE esto no va por que cuando tenga muchas ordenes, levanta to do y el sistema se vuelve lento
         orden
     }
 }

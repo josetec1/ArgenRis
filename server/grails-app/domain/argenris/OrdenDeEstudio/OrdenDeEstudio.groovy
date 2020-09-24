@@ -65,6 +65,7 @@ class OrdenDeEstudio {
         
     
         this.estadoDeLaOrden =  new EstadoOrdenRegistrada()
+        this.paciente.agregarOrden(this)
         
         
     }
