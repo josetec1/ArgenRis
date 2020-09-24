@@ -1,0 +1,8 @@
+import argenris.OrdenDeEstudio.OrdenDeEstudio
+
+model {
+	Iterable<OrdenDeEstudio> ordenDeEstudioList
+}
+
+json tmpl.ordenDeEstudio(ordenDeEstudioList ?: [])
+

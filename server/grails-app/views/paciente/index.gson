@@ -1,0 +1,8 @@
+import argenris.Paciente
+
+model {
+	Iterable<Paciente> pacienteList
+}
+
+json tmpl.paciente(pacienteList ?: [])
+

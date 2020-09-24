@@ -1,0 +1,19 @@
+import argenris.OrdenDeEstudio.OrdenDeEstudio
+import argenris.Paciente
+
+model {
+	Paciente paciente
+}
+
+json {
+	id paciente.id
+	nombre paciente.nombre
+	apellido paciente.apellido
+	direccion paciente.direccion
+	dni paciente.dni
+	fechaDeNacimiento paciente.fechaDeNacimiento
+	email paciente.email
+	telefono paciente.telefono
+	ordenes tmpl.'/ordenDeEstudio/ordenDeEstudio'(paciente.ordenesDeEstudio)
+}
+
