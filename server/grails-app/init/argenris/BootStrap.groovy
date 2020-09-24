@@ -19,9 +19,10 @@ class BootStrap {
        def paciente1 = new Paciente("Diego","Maradona","Segurola y Habana", 48426598, LocalDate.of(1960,10,30), "maradona@gmail.com", "42504587" ).save(failOnError : true)
         def paciente2 = new Paciente("Bombita","Rodriguez","Segurola y Habana", 38423598, LocalDate.of(1960,10,30), "bombitarod@gmail.com", "42504587" ).save(failOnError : true)
         def paciente3 =new Paciente("Arnaldo","Andree","Segurola y Habana", 18112311, LocalDate.of(1960,10,30), "Arnaldo@gmail.com", "42504587" ).save(failOnError : true)
-        
-       
     
+        def paciente4 = new Paciente("Darsena","Mortin","Segurola y Habana", 18426598, LocalDate.of(1960,10,30), "cha@gmail.com", "42504587" ).save(failOnError : true)
+        def paciente5 = new Paciente("dIango","Martel","Segurola y Habana", 48426198, LocalDate.of(1960,10,30), "che@gmail.com", "42504587" ).save(failOnError : true)
+        def paciente6 = new Paciente("Dionisio","Teatroiski","Segurola y Habana", 48421198, LocalDate.of(1960,10,30), "che1@gmail.com", "42504587" ).save(failOnError : true)
     
         new Procedimiento().save(failOnError : true)
         new Procedimiento().save(failOnError : true)

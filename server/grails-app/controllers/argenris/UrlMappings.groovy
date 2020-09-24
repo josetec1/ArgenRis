@@ -38,10 +38,15 @@ class UrlMappings {
         //Variante
          "/pacientes"(resources:'paciente', excludes:['delete', 'update', 'edit','create'])
         
+        get "/pacientes/buscarPorNombre"(controller:"paciente", action:"buscarPorNombre")
+      //  get "/pacientes"(controller:"paciente", action:"index")
+       // get "/pacientes/$id"(controller:"paciente", action:"show")
+       // post "/pacientes"(controller:"paciente", action:"save")
+        
         // ojo, no tiene que existir el save cita, por que eso se crea por la orden.
          "/citas"(resources:'cita', excludes:['save','delete', 'update', 'edit','create'])
-        
     
+       
         "/"(controller: 'application', action:'index')
         "500"(view: '/error')
         "404"(view: '/notFound')
