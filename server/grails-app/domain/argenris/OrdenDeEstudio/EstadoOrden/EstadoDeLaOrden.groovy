@@ -4,10 +4,12 @@ import argenris.AreaDeExamen
 import argenris.Cita.Cita
 import argenris.OrdenDeEstudio.OrdenDeEstudio
 import argenris.Prioridad
+import groovy.transform.ToString
 
 import java.time.LocalDateTime
 
 //todo esto hay que moverlo a src/main/groovy/....
+	
 	abstract class EstadoDeLaOrden {
 	
 		abstract EstadoDeLaOrden cancelar(Set<Cita> citas, LocalDateTime fechaActualDeCancelacion)
@@ -19,7 +21,7 @@ import java.time.LocalDateTime
 		abstract EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad,OrdenDeEstudio unaOrden)
 	}
 
-
+	
 	@groovy.transform.EqualsAndHashCode
 	class EstadoOrdenAsignada extends EstadoDeLaOrden {
 		
@@ -49,7 +51,7 @@ import java.time.LocalDateTime
 			throw new Exception("Error: No se puede agregar una cita en una orden asignada")
 		}
 	}
-
+	
 	@groovy.transform.EqualsAndHashCode
 	class EstadoOrdenRegistrada extends EstadoDeLaOrden{
 		@Override

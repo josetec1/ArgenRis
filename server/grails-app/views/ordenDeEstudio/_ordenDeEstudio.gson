@@ -4,4 +4,14 @@ model {
 	OrdenDeEstudio ordenDeEstudio
 }
 
-json g.render(ordenDeEstudio, [resolveTemplate: false])
+json {
+	id ordenDeEstudio.id
+	fechaCreacionDeOrden ordenDeEstudio.fechaCreacionDeOrden
+	pacienteID ordenDeEstudio.paciente.id
+	medicoID ordenDeEstudio.medico.id
+	prioridad ordenDeEstudio.prioridad
+	estadoDeLaOrdenID ordenDeEstudio.estadoDeLaOrden.id
+	notaAdicional ordenDeEstudio.notaAdicional
+	procedimientoID ordenDeEstudio.procedimiento.id
+	citas tmpl.'/cita/cita'(ordenDeEstudio.citas)
+}
