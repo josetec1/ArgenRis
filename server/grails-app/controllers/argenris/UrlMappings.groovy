@@ -33,9 +33,10 @@ class UrlMappings {
         
         //Variante 2
       //  "/ordenes"(resources:'orden', excludes:['delete', 'update', 'edit','create'])
-        
-        
-        
+    
+    
+        //Variante
+         "/paciente"(resources:'paciente', excludes:['delete', 'update', 'edit','create'])
         
         
     

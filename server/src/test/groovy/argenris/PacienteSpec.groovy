@@ -1,11 +1,15 @@
-
+import argenris.Medico
 import argenris.OrdenDeEstudio.OrdenDeEstudio
 import argenris.Paciente
+import argenris.Prioridad
+import argenris.Procedimiento
+import argenris.SalaDeExamen
 import grails.testing.gorm.DomainUnitTest
+import org.mockito.Mock
 import spock.lang.Specification
 
 import java.time.LocalDate
-
+import java.time.LocalDateTime
 
 
 class PacienteSpec extends Specification implements DomainUnitTest<Paciente> {
@@ -58,13 +62,12 @@ class PacienteSpec extends Specification implements DomainUnitTest<Paciente> {
     
     void "test 02 agregarOrden agrega la orden que le paso"() {
         given: 'una paciente recien creado'
-            unPaciente
+        unPaciente
         def unaOrden = Mock OrdenDeEstudio
         when: 'agrego una orden al paciente'
-        unPaciente.agregarOrden(unaOrden)
-        
+            unPaciente.agregarOrden(unaOrden)
         then: "el paciente guarda la orden"
-        unPaciente.ordenesDeEstudio.first() == unaOrden
+            unPaciente.ordenesDeEstudio.first() == unaOrden
     }
     
     
