@@ -40,11 +40,10 @@ class PacienteController {
     * */
     def buscarPorNombre(String nombre, Integer max,Integer offset) {
       
-        max = Math.min(max ?: 1, 10000)
-        offset = Math.min(offset ?: 1, 1000)
+        max = Math.min(max ?: 10, 10000)
+        offset = Math.min(offset ?: 0, 1000)
         
         if (!nombre) {
-          
             respond Paciente.list(max: 1000,sort: "nombre" , order: "asc")
             return
         }
