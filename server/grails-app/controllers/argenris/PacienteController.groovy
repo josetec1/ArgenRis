@@ -82,7 +82,11 @@ class PacienteController {
         respond paciente, [status: CREATED, view:"show"]
     }
 
-
+    def obtenerOrdenesDeEstudio (Long id){
+       
+        respond Paciente.get(id).ordenesDeEstudio
+        
+    }
 
 
 }

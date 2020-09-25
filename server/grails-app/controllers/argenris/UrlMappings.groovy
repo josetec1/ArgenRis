@@ -38,7 +38,10 @@ class UrlMappings {
         //Variante
          "/pacientes"(resources:'paciente', excludes:['delete', 'update', 'edit','create'])
         
+        
         get "/pacientes/buscarpornombre/"(controller:"paciente", action:"buscarPorNombre")
+        get "/pacientes/$id/obtenerordenesdeestudio"(controller:"paciente", action:"obtenerOrdenesDeEstudio")
+        
       //  get "/pacientes"(controller:"paciente", action:"index")
        // get "/pacientes/$id"(controller:"paciente", action:"show")
        // post "/pacientes"(controller:"paciente", action:"save")
