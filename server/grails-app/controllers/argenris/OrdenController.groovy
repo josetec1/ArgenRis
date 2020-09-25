@@ -34,7 +34,9 @@ class OrdenController {
     static allowedMethods = [ save: 'POST'] //B2  Defino los metodos que voy a admitir  (puede que mucho sentido no tenga, por que ya desde el mapping le estoy diciendo segun el metodo que uso a que action mandarlo)
     static responseFormats = ['json', 'xml', 'text']  // defino los formatos con los cuales voy a responder
     
-    
+    // ojo con la variable params por que tenes que validad que llega.
+    // como esta armado pueden hacer un http://localhost:8080/ordenes/?max=10&offset=a
+    // y te explota.
     def index(Integer max) {
         //todo faltan validacion de: 1) esta logueado? 2)esta autorizado a ver esto?
         params.max = Math.min(max ?: 10, 100)   //lo uso para paginar
@@ -115,7 +117,7 @@ class OrdenController {
 	  
 	  
 	  */
-    
+   
   /*
     // pantalla inicial de administracion de ordenes
     def index() {

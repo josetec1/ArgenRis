@@ -14,6 +14,10 @@ json {
 	fechaDeNacimiento paciente.fechaDeNacimiento
 	email paciente.email
 	telefono paciente.telefono
-	ordenes tmpl.'/ordenDeEstudio/ordenDeEstudio'(paciente.ordenesDeEstudio)
+	//todo este tratamiento tendria que hacerce en el controler
+	ordenesID paciente.ordenesDeEstudio.collect { ordenesDeEstudio ->
+		[ordenId: ordenesDeEstudio.id
+		]
+	}
 }
 
