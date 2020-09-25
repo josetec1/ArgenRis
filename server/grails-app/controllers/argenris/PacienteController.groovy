@@ -27,20 +27,28 @@ class PacienteController {
     }
     
     //todo refactor ....
-    //si no encuentra nada devuelve lista vacia, sino lista de lo que encontro
-    def buscarPorNombre(String nombre) {
-        //  respond pacienteService.list(params), model:[pacienteCount: pacienteService.count()]
-       // render "hola"
+    /*
+        Busca por nombre y NO ES case case sensitive
+        los resultados entan odenados de la a a la z
+        Maximos y offsets van de 1 a 1000
+        Quiero buscar los que empiezan con d, maximo 1000 resulados, dame los primeros 1000
+        http://localhost:8080/pacientes/buscarpornombre/?nombre=d&max=1000&offset=1
+
+        dame to do (tiene un maximo de 1000)
+        http://localhost:8080/pacientes/buscarpornombre/
+    * */
+    def buscarPorNombre(String nombre, Integer max,Integer offset) {
+      
+        max = Math.min(max ?: 1, 10000)
+        offset = Math.min(offset ?: 1, 1000)
+        
         if (!nombre) {
-            render status: BAD_REQUEST
+          
+            respond Paciente.list(max: 1000,sort: "nombre" , order: "asc")
             return
         }
-       
-        def paciente=  Paciente.findAllByNombreLike(nombre + "%")
         
-       // Book.findAllByTitleLike("Harry Pot%",
-     //           [max: 3, offset: 2, sort: "title", order: "desc"])
-        
+        def paciente=  Paciente.findAllByNombreIlike(nombre+ "%",[max: max, offset: offset, sort: "nombre", order: "asc"])
             respond paciente
     }
     

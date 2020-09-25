@@ -1,0 +1,7 @@
+import argenris.Cita.Cita
+
+model {
+	Cita cita
+}
+
+json tmpl.cita(cita)
