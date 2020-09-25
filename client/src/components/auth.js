@@ -20,7 +20,7 @@ class Auth {
   }
 
   isRol(rol) {
-    return rol && this.rol === rol || true;
+    return rol ? this.rol === rol : true;
   }
 
   getUserId() {
