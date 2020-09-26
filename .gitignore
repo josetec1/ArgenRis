@@ -1,3 +1,8 @@
 /.idea/
 /build/
 /.gradle/
+.gradle/5.1.1/executionHistory/executionHistory.lock
+.gradle/5.1.1/fileContent/fileContent.lock
+.gradle/5.1.1/fileHashes/fileHashes.bin
+.gradle/5.1.1/fileHashes/fileHashes.lock
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
