@@ -28,8 +28,12 @@ class UrlMappings {
       //  get "/orden/$id/edit"(controller:"v", action:"edit")
       //  put "/orden/$id"(controller:"orden", action:"update")
       //  delete "/orden/$id"(controller:"orden", action:"delete")
+      
+      //  post "/ordenes/$id/cita"(controller:"orden", action:"crearCita")
     
-    
+       
+       
+       
        // post "/ordenes/test"(controller:"orden", action:"test")
         
         //Variante 2

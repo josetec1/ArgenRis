@@ -1,5 +1,6 @@
 package argenris
 
+import argenris.Cita.Cita
 import argenris.OrdenDeEstudio.OrdenDeEstudio
 import grails.gorm.transactions.*
 
@@ -15,7 +16,7 @@ class CreacionCommand{
     Long pacienteId
     Long procedimientoId
     String nota
-    Prioridad prioridad  //todo pasar a prioridad
+    Prioridad prioridad  // todo podria ser id y buscarla en el repositorio (?)
     Date fecha
    // Date dateOfBirth
     
@@ -30,7 +31,20 @@ class CreacionCommand{
     }
 }
 
-
+class CitaCommand{
+    
+    Long salaId
+    Date fechaYHoraActual
+    Date fechaYHoraDeCita
+    
+    
+    
+    static constraints = {
+        salaId nullable: false   //en numero blank no tiene sentido
+        fechaYHoraActual nullable: false, blank: false, date: true
+        fechaYHoraDeCita nullable: false, blank: false, date: true
+    }
+}
 
 
 
@@ -68,12 +82,12 @@ class OrdenController {
 	  //@secure  ( rol del usuario --  y quien puede llamar a esto)
    @Transactional   //le avisas que es transaccional por que vas a guardar algo // hay que ver bien esto.. por que el service ya tiene uno, capaz si haces varias cosas aca puede ser que vaya
     def save (CreacionCommand command){
-		  //el usuario actual es un medio  -imp trucha
+		  //el usuario actual es un medico  -imp trucha
 		  
 		  //2 validar el command
 		  if (!command.hasErrors()){
             
-              LocalDateTime fechaConvertida = LocalDateTime.ofInstant(command.fecha.toInstant(),ZoneId.systemDefault());
+              LocalDateTime fechaConvertida = LocalDateTime.ofInstant(command.fecha.toInstant(),ZoneId.systemDefault())
               
               
 			  //3 llamar al servicio para crear la orden
@@ -88,24 +102,49 @@ class OrdenController {
              
           }
 	  }
+    
+    /*
+    @Transactional   //todo hacer bien
+    def crearCita (CitaCommand cmd) {
+    
+        // (el id de orden esta en url, por lo tanto no puede no existir  params.id)
+        // solo valido que sea numero
+        
+        def ordenID
+        if ( params.id.isNumber()  && params.id.toLong() >0){
+            ordenID = params.id.toLong()
+        }else {
+            render status: BAD_REQUEST
+            return
+        }
+    
+    
+        //2 validar el command
+        if (!cmd.hasErrors()) {
+            
+            //todo refactor metodo
+            LocalDateTime fechaYHoraActualConvertida = LocalDateTime.ofInstant(cmd.fechaYHoraActual.toInstant(),ZoneId.systemDefault());
+            LocalDateTime fechaYHoraDeCitaConvertida = LocalDateTime.ofInstant(cmd.fechaYHoraDeCita.toInstant(),ZoneId.systemDefault());
+            
+            //3 llamar al servicio para crear la cita
+            def orden = OrdenDeEstudio.get(ordenID)
+            def sala = SalaDeExamen.get(cmd.salaId)
+    
+            Cita cita = orden.agregarCita(fechaYHoraActualConvertida,sala,fechaYHoraDeCitaConvertida)
+           
+            // cita.save(failOnError : true)
+    
+    
+            //4 mostrar una pantalla de ok
+            respond  cita, [status: CREATED, view:"show"]
+
+        }else {     //4.1 mostrar una pantalla de error
+            respond cmd.errors, view: 'create'
+        }
    
-   
-   
-   
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
+    }
+    
+    */
 	  
 	  
 	  
@@ -160,22 +199,7 @@ class OrdenController {
         ]
     }
  */
-    /*
-    def medicos() {
-        
-        def medicos = Medico.list()
-    
-        [
-                medicos: medicos.collect { medico ->
-                    [
-                            id: medico.id,
-                            nombre: medico.nombre
-                    ]
-                },
-        ]
-    }
-    
-    */
+   
     
     
     
