@@ -29,7 +29,8 @@ class UrlMappings {
       //  put "/orden/$id"(controller:"orden", action:"update")
       //  delete "/orden/$id"(controller:"orden", action:"delete")
       
-      //  post "/ordenes/$id/cita"(controller:"orden", action:"crearCita")
+        post "/ordenes/$id/cita"(controller:"orden", action:"crearCita")
+          put "/ordenes/$id/cancelar"(controller:"orden", action:"cancelar")
     
        
        
@@ -55,6 +56,11 @@ class UrlMappings {
          "/citas"(resources:'cita', excludes:['save','delete', 'update', 'edit','create'])
     
        
+        // SALAS **********************************************
+       // "/salasdeexamen"(resources:'salaDeExamen', excludes:['delete', 'update', 'edit','create'])
+      //  get "/salasdeexamen/$id/obtenercitasdeldia"(controller:"salaDeExamen", action:"obtenerCitasDelDia")
+        
+        
         "/"(controller: 'application', action:'index')
         "500"(view: '/error')
         "404"(view: '/notFound')

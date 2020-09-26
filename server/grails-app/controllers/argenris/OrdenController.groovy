@@ -102,6 +102,24 @@ class OrdenController {
              
           }
 	  }
+   
+ /*
+    //todo refactor
+    //validar quien puede entrar
+    //validar que la orden exista
+    //atrapar excepciones
+    @Transactional
+    def cancelar(Long id ) {
+        if(id == null) {render status: BAD_REQUEST}
+        else {
+    
+            OrdenDeEstudio.findById(id).cancelar(LocalDateTime.now())
+            //si no lo encuentra devuelve NOT_FOUND automaticamente.... no se si esta bueno dejarlo asi
+            respond OrdenDeEstudio.findById(id)
+        }
+    }
+    
+    */
     
     /*
     @Transactional   //todo hacer bien
@@ -144,8 +162,8 @@ class OrdenController {
    
     }
     
-    */
-	  
+    
+	  */
 	  
 	  
 	  /*

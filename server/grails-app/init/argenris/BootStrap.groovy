@@ -11,12 +11,7 @@ class BootStrap {
     def init = { servletContext ->
     
         
-        // ************************************************
-        // estas cosas asi no se usan, ir retirando
-      //  new Cita(LocalDateTime.now(),Prioridad.NORMAL,miOrden).save(failOnError : true)
-        
-        // Fin de las cosas que no deberian usarse asi
-        //**********************************************
+      
         
         
         // medicos
@@ -38,8 +33,8 @@ class BootStrap {
     
         
         //Salas
-        new SalaDeExamen(new ArrayList<Cita>()).save(failOnError : true)
-        new SalaDeExamen(new ArrayList<Cita>()).save(failOnError : true)
+        AreaDeExamen sala1 = new SalaDeExamen(new ArrayList<Cita>()).save(failOnError : true)
+        AreaDeExamen sala2 = new SalaDeExamen(new ArrayList<Cita>()).save(failOnError : true)
     
         
         
@@ -67,7 +62,15 @@ class BootStrap {
                 "orden de estudio powered by BootStrap 4",
                 new Procedimiento()).save(failOnError : true)
     
+        // ************************************************
+        // estas cosas asi no se usan, ir retirando
+          Cita cita1=   sala1.crearCita(LocalDateTime.now(),Prioridad.NORMAL.toString(),miOrden).save(failOnError : true)
         
+        
+        
+    
+        // Fin de las cosas que no deberian usarse asi
+        //**********************************************
         
     }
     def destroy = {

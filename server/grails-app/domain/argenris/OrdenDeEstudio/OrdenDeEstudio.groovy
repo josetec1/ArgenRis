@@ -96,10 +96,12 @@ class OrdenDeEstudio {
         //despues de 30 dias queda cancelada
 	 void notificarPasoDelTiempo(LocalDateTime fechayHoraActual) {
        this.estadoDeLaOrden= this.estadoDeLaOrden.notificarPasoDelTiempo(this.fechaCreacionDeOrden, fechayHoraActual)
+       
     }
     
      void cancelar (LocalDateTime fechaActualDeCancelacion){
-         this.estadoDeLaOrden =  this.estadoDeLaOrden.cancelar(this.citas, fechaActualDeCancelacion)
+       
+       this.estadoDeLaOrden =  this.estadoDeLaOrden.cancelar(this.citas, fechaActualDeCancelacion)
      }
     //todo refactor  mover a estados
      void notificarCitaCancelada (LocalDateTime fechaNotificacion) {
