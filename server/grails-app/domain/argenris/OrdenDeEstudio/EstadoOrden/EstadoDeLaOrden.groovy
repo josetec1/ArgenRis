@@ -55,7 +55,10 @@ import java.time.LocalDateTime
 	@groovy.transform.EqualsAndHashCode
 	class EstadoOrdenRegistrada extends EstadoDeLaOrden{
 		@Override
-		EstadoDeLaOrden cancelar(Set<Cita> citas, LocalDateTime fechaActualDeCancelacion) {new EstadoOrdenCancelada()}
+		EstadoDeLaOrden cancelar(Set<Cita> citas, LocalDateTime fechaActualDeCancelacion) {
+			new EstadoOrdenCancelada()
+			
+		}
 		
 		
 		@Override

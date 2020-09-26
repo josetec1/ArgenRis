@@ -1,0 +1,8 @@
+import argenris.SalaDeExamen
+
+model {
+	Iterable<SalaDeExamen> salaDeExamenList
+}
+
+json tmpl.salaDeExamen(salaDeExamenList ?: [])
+
