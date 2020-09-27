@@ -22,7 +22,7 @@ class PacienteController {
 
     //todo revisa que pasa si max es A  y ojo con params por que pueden pasar cualquier cosa  ?offset=B
     def index(Integer max) {
-        params.max = Math.min(max ?: 2, 100)
+        params.max = Math.min(max ?: 10, 100)
       //  respond pacienteService.list(params), model:[pacienteCount: pacienteService.count()]
         respond Paciente.list(params), model:[pacienteCount: Paciente.count()]
     }
@@ -48,7 +48,7 @@ class PacienteController {
             return
         }
         
-        def paciente=  Paciente.findAllByNombreIlike(nombre+ "%",[max: max, offset: offset, sort: "nombre", order: "asc"])
+        def paciente =  Paciente.findAllByNombreIlike(nombre+ "%",[max: max, offset: offset, sort: "nombre", order: "asc"])
             respond paciente
     }
     

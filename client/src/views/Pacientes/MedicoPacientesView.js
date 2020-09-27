@@ -5,11 +5,11 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import Results from './Results';
-import Toolbar from './Toolbar';
+import Results from './PacientesListView/Results';
+import Toolbar from './PacientesListView/Toolbar';
 // import data from './data';
 
-import usePacientesSearch from '../usePacientesSearch';
+import usePacientesSearch from './usePacientesSearch';
 
 const useStyles = makeStyles(theme => ({
   root: {

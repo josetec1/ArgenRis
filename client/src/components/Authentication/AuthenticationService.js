@@ -1,8 +1,8 @@
-class Auth {
+class AuthenticationService {
   constructor() {
     this.authenticated = false;
     this.rol = 'paciente';
-    this.authUserId = 'userId';
+    this.authUserId = 1;
   }
 
   login(cb) {
@@ -28,4 +28,4 @@ class Auth {
   }
 }
 
-export default new Auth();
+export default new AuthenticationService();

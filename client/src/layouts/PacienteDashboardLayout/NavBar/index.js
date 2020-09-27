@@ -13,7 +13,6 @@ import {
   makeStyles
 } from '@material-ui/core';
 import {
-  AlertCircle as AlertCircleIcon,
   BarChart as BarChartIcon,
   // Lock as LockIcon,
   // Settings as SettingsIcon,
@@ -32,14 +31,9 @@ const user = {
 
 const items = [
   {
-    href: '/paciente/ordenes',
+    href: '/paciente/historialClinico',
     icon: BarChartIcon,
-    title: 'Ordenes De Estudio'
-  },
-  {
-    href: '/paciente/pacientes',
-    icon: UsersIcon,
-    title: 'Pacientes'
+    title: 'Historial Clinico'
   },
   // {
   //   href: '/app/products',
@@ -55,22 +49,7 @@ const items = [
   //   href: '/app/settings',
   //   icon: SettingsIcon,
   //   title: 'Settings'
-  // },
-  // {
-  //   href: '/login',
-  //   icon: LockIcon,
-  //   title: 'Login'
-  // },
-  // {
-  //   href: '/register',
-  //   icon: UserPlusIcon,
-  //   title: 'Register'
-  // },
-  {
-    href: '/404',
-    icon: AlertCircleIcon,
-    title: 'Error'
-  }
+  // }
 ];
 
 const useStyles = makeStyles(() => ({

@@ -5,11 +5,9 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import Results from './Results';
-import Toolbar from './Toolbar';
-// import data from './data';
-
-import useOrdenesSearch from '../useOrdenesSearch';
+import Results from './OrdenesListView/Results';
+import AuthenticationService from '../../components/Authentication/AuthenticationService';
+import useOrdenesSearch from './useOrdenesSearch';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,18 +23,17 @@ const CustomerListView = () => {
   const {
     ordenes,
     isLoaded,
-    searchOrdenesByPacienteName
   } = useOrdenesSearch();
 
+  const pacienteOrdenes = ordenes.filter(orden => orden.pacienteID === AuthenticationService.getUserId());
   return (
     <Page
       className={classes.root}
       title='Ordenes'
     >
       <Container maxWidth={false}>
-        <Toolbar onSearchChange={searchOrdenesByPacienteName} />
         <Box mt={3}>
-          <Results ordenes={ordenes} isLoaded={isLoaded} />
+          <Results ordenes={pacienteOrdenes} isLoaded={isLoaded} />
         </Box>
       </Container>
     </Page>

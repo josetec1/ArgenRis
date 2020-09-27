@@ -23,20 +23,22 @@ const useOrdenesSearch = () => {
     }
   }, []);
 
-  const searchOrdenesByPacienteName = useCallback(async name => {
+  const searchOrdenesByPacienteId = useCallback(async id => {
     try {
-      await fetch(`http://localhost:8080/ordenes/buscarpornombre/?nombre=${name.toString()}`)
+      await fetch('http://localhost:8080/ordenes')
         .then(res => res.json())
         .then(
           result => {
+            const pacienteOrdenes = result.filter(orden => orden.pacienteID === id);
             setIsLoaded(true);
-            setOrdenes(result);
+            setOrdenes(pacienteOrdenes);
           }
         );
     } catch (e) {
       console.log(e);
     }
   }, []);
+
 
   useEffect(() => {
     searchOrdenes();
@@ -46,7 +48,7 @@ const useOrdenesSearch = () => {
     ordenes,
     isLoaded,
     searchOrdenes,
-    searchOrdenesByPacienteName
+    searchOrdenesByPacienteId
   };
 };
 

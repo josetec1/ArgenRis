@@ -15,7 +15,7 @@ import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Auth from '../../components/auth';
+import AuthenticationService from '../../components/Authentication/AuthenticationService';
 
 function Copyright() {
   return (
@@ -97,7 +97,7 @@ const LoginView = () => {
               password: Yup.string().max(255).required('Password is required')
             })}
             onSubmit={() => {
-              Auth.login(rol => {
+              AuthenticationService.login(rol => {
                 navigate(`/${rol}/`, { replace: true });
               });
             }}

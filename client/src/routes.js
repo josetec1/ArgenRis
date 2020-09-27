@@ -4,8 +4,9 @@ import MedicoDashboardLayout from 'src/layouts/MedicoDashboardLayout';
 import PacienteDashboardLayout from 'src/layouts/PacienteDashboardLayout';
 import MainLayout from 'src/layouts/MainLayout';
 import AccountView from 'src/views/account/AccountView';
-import PacientesListView from 'src/views/Pacientes/PacientesListView';
-import OrdenesView from 'src/views/Ordenes/OrdenesListView';
+import MedicoPacientesView from 'src/views/Pacientes/MedicoPacientesView';
+import PacienteOrdenesView from 'src/views/Ordenes/PacienteOrdenesView';
+import MedicoOrdenesView from 'src/views/Ordenes/MedicoOrdenesView';
 import LoginView from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
 import ProductListView from 'src/views/product/ProductListView';
@@ -18,10 +19,10 @@ const routes = [
     path: 'medico',
     element: <ProtectedRoute rol='medico' component={MedicoDashboardLayout} />,
     children: [
-      { path: '/', element: <ProtectedRoute rol='medico' component={OrdenesView} /> },
+      { path: '/', element: <ProtectedRoute rol='medico' component={MedicoOrdenesView} /> },
       { path: 'account', element: <ProtectedRoute rol='medico' component={AccountView} /> },
-      { path: 'pacientes', element: <ProtectedRoute rol='medico' component={PacientesListView} /> },
-      { path: 'ordenes', element: <ProtectedRoute rol='medico' component={OrdenesView} /> },
+      { path: 'pacientes', element: <ProtectedRoute rol='medico' component={MedicoPacientesView} /> },
+      { path: 'ordenes', element: <ProtectedRoute rol='medico' component={MedicoOrdenesView} /> },
       { path: 'products', element: <ProtectedRoute rol='medico' component={ProductListView} /> },
       { path: 'settings', element: <ProtectedRoute rol='medico' component={SettingsView} /> },
       { path: '*', element: <Navigate to='/404' /> }
@@ -31,12 +32,8 @@ const routes = [
     path: 'paciente',
     element: <ProtectedRoute rol='paciente' component={PacienteDashboardLayout} />,
     children: [
-      { path: '/', element: <ProtectedRoute rol='paciente' component={OrdenesView} /> },
-      { path: 'account', element: <ProtectedRoute rol='paciente' component={AccountView} /> },
-      { path: 'pacientes', element: <ProtectedRoute rol='paciente' component={PacientesListView} /> },
-      { path: 'ordenes', element: <ProtectedRoute rol='paciente' component={OrdenesView} /> },
-      { path: 'products', element: <ProtectedRoute rol='paciente' component={ProductListView} /> },
-      { path: 'settings', element: <ProtectedRoute rol='paciente' component={SettingsView} /> },
+      { path: '/', element: <ProtectedRoute rol='paciente' component={PacienteOrdenesView} /> },
+      { path: 'historialClinico', element: <ProtectedRoute rol='paciente' component={PacienteOrdenesView} /> },
       { path: '*', element: <Navigate to='/404' /> }
     ]
   },
