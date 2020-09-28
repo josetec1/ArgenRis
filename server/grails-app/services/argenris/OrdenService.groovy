@@ -1,6 +1,6 @@
 package argenris
 
-
+import argenris.OrdenDeEstudio.EstadoOrden.EstadoOrdenCancelada
 import argenris.OrdenDeEstudio.OrdenDeEstudio
 import grails.gorm.transactions.Transactional
 import java.time.LocalDateTime
@@ -50,7 +50,7 @@ class OrdenService {
         orden.cancelar(LocalDateTime.now())
         
         //4 persistirla
-        orden.save(failOnError : true)
+        orden.save(failOnError : true , flush : true)
         orden
     }
 }

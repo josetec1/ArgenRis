@@ -14,8 +14,10 @@ import argenris.Medico
 import argenris.Paciente
 import argenris.Prioridad
 import argenris.Procedimiento
+import grails.compiler.GrailsCompileStatic
 
 import java.time.LocalDateTime
+
 
 class OrdenDeEstudio {
     
@@ -64,7 +66,7 @@ class OrdenDeEstudio {
         this.procedimiento = procedimiento
         
     
-        this.estadoDeLaOrden =  new EstadoOrdenRegistrada()
+        this.estadoDeLaOrden=new EstadoOrdenRegistrada()
         this.paciente.agregarOrden(this)
         
         
@@ -99,10 +101,12 @@ class OrdenDeEstudio {
        
     }
     
+    @GrailsCompileStatic
      void cancelar (LocalDateTime fechaActualDeCancelacion){
-       
-       this.estadoDeLaOrden =  this.estadoDeLaOrden.cancelar(this.citas, fechaActualDeCancelacion)
+    
+        setEstadoDeLaOrden (this.estadoDeLaOrden.cancelar(this.citas, fechaActualDeCancelacion))
      }
+    
     //todo refactor  mover a estados
      void notificarCitaCancelada (LocalDateTime fechaNotificacion) {
          
