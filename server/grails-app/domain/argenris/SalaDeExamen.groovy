@@ -2,8 +2,10 @@ package argenris
 
 import argenris.Cita.Cita
 import argenris.OrdenDeEstudio.OrdenDeEstudio
+import grails.compiler.GrailsCompileStatic
 
 import java.time.LocalDateTime
+
 
 class SalaDeExamen  extends AreaDeExamen {
     
@@ -18,6 +20,7 @@ class SalaDeExamen  extends AreaDeExamen {
     }
     
     //TODO: VER CASOS BORDE
+    //TODO: la sala tiene que quedar disponible cuando hay citas canceladas
     @Override
     boolean puedoAgregarCita(LocalDateTime fechaCita) {
         this.citas.every { cita -> !cita.seSuperponeCon(fechaCita) }

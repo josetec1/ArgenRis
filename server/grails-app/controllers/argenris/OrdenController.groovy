@@ -121,7 +121,7 @@ class OrdenController {
     
  
     
-    /*
+    
     @Transactional   //todo hacer bien
     def crearCita (CitaCommand cmd) {
     
@@ -143,18 +143,20 @@ class OrdenController {
             //todo refactor metodo
             LocalDateTime fechaYHoraActualConvertida = LocalDateTime.ofInstant(cmd.fechaYHoraActual.toInstant(),ZoneId.systemDefault());
             LocalDateTime fechaYHoraDeCitaConvertida = LocalDateTime.ofInstant(cmd.fechaYHoraDeCita.toInstant(),ZoneId.systemDefault());
-            
+            //atrapar exepciones del dominio
             //3 llamar al servicio para crear la cita
-            def orden = OrdenDeEstudio.get(ordenID)
-            def sala = SalaDeExamen.get(cmd.salaId)
-    
-            Cita cita = orden.agregarCita(fechaYHoraActualConvertida,sala,fechaYHoraDeCitaConvertida)
-           
-            // cita.save(failOnError : true)
-    
-    
-            //4 mostrar una pantalla de ok
-            respond  cita, [status: CREATED, view:"show"]
+            try {
+                def orden = OrdenDeEstudio.get(ordenID)  //validar que existan las cosas
+                if (!orden) throw new Exception("Error: no existe la orden")
+                def sala = SalaDeExamen.get(cmd.salaId)
+                if (!sala) throw new Exception("Error: no existe la sala")
+                Cita cita = orden.agregarCita(fechaYHoraActualConvertida,sala,fechaYHoraDeCitaConvertida)
+                cita.save(failOnError : true)
+                //4 mostrar una pantalla de ok
+                respond  cita, [status: CREATED, view:"show"]
+            } catch (e) {
+               respond (text: e.message, status: BAD_REQUEST)
+            }
 
         }else {     //4.1 mostrar una pantalla de error
             respond cmd.errors, view: 'create'
@@ -163,7 +165,7 @@ class OrdenController {
     }
     
     
-	  */
+	  
 	  
 	  
 	  /*
@@ -209,21 +211,7 @@ class OrdenController {
         
     }
   */
-  /*
-    
-    def nuevaOrden() {
-        [
-         procedimientos:Procedimiento.list(), pacientes:Paciente.list()  //provisorio no usar esto
-        ]
-    }
- */
-   
-    
-    
-    
-    
-    
-    
+ 
     
     
     
@@ -233,11 +221,6 @@ class OrdenController {
      *********************************************************************************************************/
     //todo esto es provisorio
  /*
-    def nuevaCita() {
-        [
-                ordenes:OrdenDeEstudio.list(), salas:SalaDeExamen.list()  //provisorio no usar esto
-        ]
-    }
     
     def crearCita (Long ordenId, Long salaId){
         

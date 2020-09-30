@@ -54,7 +54,7 @@ class UrlMappings {
         
         // ojo, no tiene que existir el save cita, por que eso se crea por la orden.
          "/citas"(resources:'cita', excludes:['save','delete', 'update', 'edit','create'])
-    
+        put "/citas/$id/cancelar"(controller:"cita", action:"cancelar")
        
         // SALAS **********************************************
        // "/salasdeexamen"(resources:'salaDeExamen', excludes:['delete', 'update', 'edit','create'])

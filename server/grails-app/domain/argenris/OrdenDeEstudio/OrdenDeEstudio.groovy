@@ -18,7 +18,7 @@ import grails.compiler.GrailsCompileStatic
 
 import java.time.LocalDateTime
 
-
+@GrailsCompileStatic
 class OrdenDeEstudio {
     
    
@@ -101,7 +101,7 @@ class OrdenDeEstudio {
        
     }
     
-    @GrailsCompileStatic
+    
      void cancelar (LocalDateTime fechaActualDeCancelacion){
     
         setEstadoDeLaOrden (this.estadoDeLaOrden.cancelar(this.citas, fechaActualDeCancelacion))
@@ -109,20 +109,7 @@ class OrdenDeEstudio {
     
     //todo refactor  mover a estados
      void notificarCitaCancelada (LocalDateTime fechaNotificacion) {
-         
-         if (this.estadoDeLaOrden == new EstadoOrdenAsignada()){
-            if (  fechaNotificacion.toLocalDate()< this.fechaCreacionDeOrden.toLocalDate() ) {throw new Exception("Error: La fecha de notificacion no puede ser anterior a la de creacion de la orden")}
-            this.estadoDeLaOrden = new EstadoOrdenEsperaRepro(fechaNotificacion)
-             return
-         }
-         
-         if (this.estadoDeLaOrden == new EstadoOrdenRegistrada()){throw new Exception("Error: Orden Registrada no tiene citas")}
-         if (this.estadoDeLaOrden == new EstadoOrdenEsperaRepro(fechaNotificacion)){throw new Exception("Error: Orden esperando reprogramacion")}
-         if (this.estadoDeLaOrden == new EstadoOrdenEsperaEstudio()){throw new Exception("Error: Orden en espera de estudio")}
-         if (this.estadoDeLaOrden == new EstadoOrdenEsperaInforme()){throw new Exception("Error: Orden en espera de informe")}
-         if (this.estadoDeLaOrden == new EstadoOrdenCancelada()){throw new Exception("Error: Orden en estado cancelada")}
-         if (this.estadoDeLaOrden == new EstadoOrdenFinalizado()){throw new Exception("Error: Orden en estado Finalizada")}
-     
+         this.estadoDeLaOrden= this.estadoDeLaOrden.notificarCitaCancelada (fechaCreacionDeOrden, fechaNotificacion )
      }
     
     

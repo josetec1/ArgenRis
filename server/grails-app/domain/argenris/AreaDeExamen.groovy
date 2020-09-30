@@ -2,6 +2,7 @@ package argenris
 
 import argenris.Cita.Cita
 import argenris.OrdenDeEstudio.OrdenDeEstudio
+import grails.compiler.GrailsCompileStatic
 
 import java.time.LocalDateTime
 
