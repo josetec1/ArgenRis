@@ -1,0 +1,8 @@
+import argenris.Cita.Cita
+
+model {
+	Iterable<Cita> citaList
+}
+
+json tmpl.cita(citaList ?: [])
+

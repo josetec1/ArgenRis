@@ -1,0 +1,12 @@
+import argenris.Cita.Cita
+
+model {
+	Cita cita
+}
+
+json {
+	id cita.id
+	prioridad cita.prioridad
+	fechaYHoraDeCita cita.fechaYHoraDeCita
+	estadoDeCitaID cita.estadoDeCita.id
+}

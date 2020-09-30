@@ -1,7 +1,12 @@
 package argenris
 
+import argenris.Cita.Cita
 import argenris.OrdenDeEstudio.OrdenDeEstudio
 import grails.gorm.transactions.*
+
+import java.time.Instant
+import java.time.ZoneId
+
 import static org.springframework.http.HttpStatus.*
 import java.time.LocalDateTime
 
@@ -11,8 +16,8 @@ class CreacionCommand{
     Long pacienteId
     Long procedimientoId
     String nota
-    String prioridad  //todo pasar a prioridad
-    String fecha //todo pasar a fecha
+    Prioridad prioridad  // todo podria ser id y buscarla en el repositorio (?)
+    Date fecha
    // Date dateOfBirth
     
      static constraints = {
@@ -21,10 +26,29 @@ class CreacionCommand{
          procedimientoId nullable: false
          nota nullable: false, blank: false
          prioridad nullable: false, blank: false
-         fecha nullable: true, blank: true
+         fecha nullable: false, blank: false, date: true
       //  dateOfBirth blank: false, date: true, validator: { val -> validateDate(val) } //todo mirar este metodo
     }
 }
+
+class CitaCommand{
+    
+    Long salaId
+    Date fechaYHoraActual
+    Date fechaYHoraDeCita
+    
+    
+    
+    static constraints = {
+        salaId nullable: false   //en numero blank no tiene sentido
+        fechaYHoraActual nullable: false, blank: false, date: true
+        fechaYHoraDeCita nullable: false, blank: false, date: true
+    }
+}
+
+
+
+
 
 @Transactional(readOnly = true)  //todo 1-Rest esto esta en la guia de REST pero no me queda claro
 class OrdenController {
@@ -34,7 +58,9 @@ class OrdenController {
     static allowedMethods = [ save: 'POST'] //B2  Defino los metodos que voy a admitir  (puede que mucho sentido no tenga, por que ya desde el mapping le estoy diciendo segun el metodo que uso a que action mandarlo)
     static responseFormats = ['json', 'xml', 'text']  // defino los formatos con los cuales voy a responder
     
-    
+    // ojo con la variable params por que tenes que validad que llega.
+    // como esta armado pueden hacer un http://localhost:8080/ordenes/?max=10&offset=a
+    // y te explota.
     def index(Integer max) {
         //todo faltan validacion de: 1) esta logueado? 2)esta autorizado a ver esto?
         params.max = Math.min(max ?: 10, 100)   //lo uso para paginar
@@ -56,44 +82,89 @@ class OrdenController {
 	  //@secure  ( rol del usuario --  y quien puede llamar a esto)
    @Transactional   //le avisas que es transaccional por que vas a guardar algo // hay que ver bien esto.. por que el service ya tiene uno, capaz si haces varias cosas aca puede ser que vaya
     def save (CreacionCommand command){
-		  //el usuario actual es un medio  -imp trucha
+		  //el usuario actual es un medico  -imp trucha
 		  
 		  //2 validar el command
-		  if (!command.hasErrors()){                               //todo fix prioridad y fecha
-			  
+		  if (!command.hasErrors()){
+            
+              LocalDateTime fechaConvertida = LocalDateTime.ofInstant(command.fecha.toInstant(),ZoneId.systemDefault())
+              
+              
 			  //3 llamar al servicio para crear la orden
               //todo aca tiene que ir un try por que puede fallar por reglas de negocio
-			    def  orden = ordenService.crear(command.pacienteId,Prioridad.NORMAL, LocalDateTime.now(),command.nota,command.procedimientoId)
+			    def  orden = ordenService.crear(command.pacienteId,command.prioridad, fechaConvertida,command.nota,command.procedimientoId)
 			  //4 mostrar una pantalla de ok
               respond  orden, [status: CREATED, view:"show"]   //todo tenes que ver lo que le pasas a la vista.
               
               //4.1 mostrar una pantalla de error
 		 }else {
               respond command.errors, view:'create'
-              
+             
           }
 	  }
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
+   
+ 
+    //todo refactor
+    //validar quien puede entrar
+    //validar que la orden exista
+    //atrapar excepciones
+    
+    def cancelar(Long id ) {
+        if(id == null) {render status: BAD_REQUEST}
+        else {
+            def orden = ordenService.cancelar(id)
+            
+            //si no lo encuentra devuelve NOT_FOUND automaticamente.... no se si esta bueno dejarlo asi
+            respond orden
+        }
+    }
+    
+ 
+    
+    
+    @Transactional   //todo hacer bien
+    def crearCita (CitaCommand cmd) {
+    
+        // (el id de orden esta en url, por lo tanto no puede no existir  params.id)
+        // solo valido que sea numero
+        
+        def ordenID
+        if ( params.id.isNumber()  && params.id.toLong() >0){
+            ordenID = params.id.toLong()
+        }else {
+            render status: BAD_REQUEST
+            return
+        }
+    
+    
+        //2 validar el command
+        if (!cmd.hasErrors()) {
+            
+            //todo refactor metodo
+            LocalDateTime fechaYHoraActualConvertida = LocalDateTime.ofInstant(cmd.fechaYHoraActual.toInstant(),ZoneId.systemDefault());
+            LocalDateTime fechaYHoraDeCitaConvertida = LocalDateTime.ofInstant(cmd.fechaYHoraDeCita.toInstant(),ZoneId.systemDefault());
+            //atrapar exepciones del dominio
+            //3 llamar al servicio para crear la cita
+            try {
+                def orden = OrdenDeEstudio.get(ordenID)  //validar que existan las cosas
+                if (!orden) throw new Exception("Error: no existe la orden")
+                def sala = SalaDeExamen.get(cmd.salaId)
+                if (!sala) throw new Exception("Error: no existe la sala")
+                Cita cita = orden.agregarCita(fechaYHoraActualConvertida,sala,fechaYHoraDeCitaConvertida)
+                cita.save(failOnError : true)
+                //4 mostrar una pantalla de ok
+                respond  cita, [status: CREATED, view:"show"]
+            } catch (e) {
+               respond (text: e.message, status: BAD_REQUEST)
+            }
+
+        }else {     //4.1 mostrar una pantalla de error
+            respond cmd.errors, view: 'create'
+        }
+   
+    }
+    
+    
 	  
 	  
 	  
@@ -115,7 +186,7 @@ class OrdenController {
 	  
 	  
 	  */
-    
+   
   /*
     // pantalla inicial de administracion de ordenes
     def index() {
@@ -140,36 +211,7 @@ class OrdenController {
         
     }
   */
-  /*
-    
-    def nuevaOrden() {
-        [
-         procedimientos:Procedimiento.list(), pacientes:Paciente.list()  //provisorio no usar esto
-        ]
-    }
- */
-    /*
-    def medicos() {
-        
-        def medicos = Medico.list()
-    
-        [
-                medicos: medicos.collect { medico ->
-                    [
-                            id: medico.id,
-                            nombre: medico.nombre
-                    ]
-                },
-        ]
-    }
-    
-    */
-    
-    
-    
-    
-    
-    
+ 
     
     
     
@@ -179,11 +221,6 @@ class OrdenController {
      *********************************************************************************************************/
     //todo esto es provisorio
  /*
-    def nuevaCita() {
-        [
-                ordenes:OrdenDeEstudio.list(), salas:SalaDeExamen.list()  //provisorio no usar esto
-        ]
-    }
     
     def crearCita (Long ordenId, Long salaId){
         

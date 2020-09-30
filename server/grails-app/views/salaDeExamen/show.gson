@@ -1,0 +1,7 @@
+import argenris.SalaDeExamen
+
+model {
+	SalaDeExamen salaDeExamen
+}
+
+json tmpl.salaDeExamen(salaDeExamen)

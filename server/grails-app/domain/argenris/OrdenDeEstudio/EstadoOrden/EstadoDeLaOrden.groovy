@@ -4,10 +4,13 @@ import argenris.AreaDeExamen
 import argenris.Cita.Cita
 import argenris.OrdenDeEstudio.OrdenDeEstudio
 import argenris.Prioridad
+import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
 
 import java.time.LocalDateTime
 
 //todo esto hay que moverlo a src/main/groovy/....
+	
 	abstract class EstadoDeLaOrden {
 	
 		abstract EstadoDeLaOrden cancelar(Set<Cita> citas, LocalDateTime fechaActualDeCancelacion)
@@ -17,10 +20,12 @@ import java.time.LocalDateTime
 		
 		
 		abstract EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad,OrdenDeEstudio unaOrden)
+		
+		abstract  EstadoDeLaOrden notificarCitaCancelada(LocalDateTime fechaOrden, LocalDateTime fechaNotificacion)
 	}
 
-
-	@groovy.transform.EqualsAndHashCode
+	
+	@EqualsAndHashCode
 	class EstadoOrdenAsignada extends EstadoDeLaOrden {
 		
 		//Todo probar que la ejecucion continue si corta.
@@ -48,12 +53,23 @@ import java.time.LocalDateTime
 		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad, OrdenDeEstudio unaOrden) {
 			throw new Exception("Error: No se puede agregar una cita en una orden asignada")
 		}
-	}
-
+		
+		@Override
+		EstadoDeLaOrden notificarCitaCancelada(LocalDateTime fechaOrden, LocalDateTime fechaNotificacion) {
+				if (  fechaNotificacion.toLocalDate()< fechaOrden.toLocalDate() ) {throw new Exception("Error: La fecha de notificacion no puede ser anterior a la de creacion de la orden")}
+				return new EstadoOrdenEsperaRepro(fechaNotificacion)
+				
+			}
+		}
+	
+	
 	@groovy.transform.EqualsAndHashCode
 	class EstadoOrdenRegistrada extends EstadoDeLaOrden{
 		@Override
-		EstadoDeLaOrden cancelar(Set<Cita> citas, LocalDateTime fechaActualDeCancelacion) {new EstadoOrdenCancelada()}
+		EstadoDeLaOrden cancelar(Set<Cita> citas, LocalDateTime fechaActualDeCancelacion) {
+			new EstadoOrdenCancelada()
+			
+		}
 		
 		
 		@Override
@@ -77,6 +93,11 @@ import java.time.LocalDateTime
 			new EstadoOrdenAsignada()
 			
 		}
+		
+		@Override
+		EstadoDeLaOrden notificarCitaCancelada(LocalDateTime fechaOrden, LocalDateTime fechaNotificacion) {
+			throw new Exception("Error: Orden Registrada no tiene citas")
+		}
 	}
 
 	@groovy.transform.EqualsAndHashCode
@@ -99,6 +120,11 @@ import java.time.LocalDateTime
 		@Override
 		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad, OrdenDeEstudio unaOrden) {
 			throw new Exception("Error: No se puede agregar una cita en una orden cancelada")
+		}
+		
+		@Override
+		EstadoDeLaOrden notificarCitaCancelada(LocalDateTime fechaOrden, LocalDateTime fechaNotificacion) {
+			throw new Exception("Error: Orden en estado cancelada")
 		}
 	}
 
@@ -142,6 +168,11 @@ import java.time.LocalDateTime
 			citas.add(cita)
 			new EstadoOrdenAsignada()
 		}
+		
+		@Override
+		EstadoDeLaOrden notificarCitaCancelada(LocalDateTime fechaOrden, LocalDateTime fechaNotificacion) {
+			throw new Exception("Error: Orden esperando reprogramacion")
+		}
 	}
 
 	@groovy.transform.EqualsAndHashCode
@@ -166,6 +197,11 @@ import java.time.LocalDateTime
 			throw new Exception("Error: No se puede agregar una cita en una orden finalizada")
 			
 		}
+		
+		@Override
+		EstadoDeLaOrden notificarCitaCancelada(LocalDateTime fechaOrden, LocalDateTime fechaNotificacion) {
+			throw new Exception("Error: Orden en estado Finalizada")
+		}
 	}
 
 	@groovy.transform.EqualsAndHashCode
@@ -189,6 +225,11 @@ import java.time.LocalDateTime
 		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad, OrdenDeEstudio unaOrden) {
 			throw new Exception("Error: No se puede agregar una cita en una orden que esta esperando informe")
 		}
+		
+		@Override
+		EstadoDeLaOrden notificarCitaCancelada(LocalDateTime fechaOrden, LocalDateTime fechaNotificacion) {
+			throw new Exception("Error: Orden en espera de informe")
+		}
 	}
 
 	@groovy.transform.EqualsAndHashCode
@@ -211,5 +252,10 @@ import java.time.LocalDateTime
 		@Override
 		EstadoDeLaOrden agregarCita(AreaDeExamen salaDeExamen, LocalDateTime fechaDeCita,LocalDateTime fechayHoraActual,LocalDateTime fechaOrden, Set<Cita> citas, Prioridad prioridad, OrdenDeEstudio unaOrden) {
 			throw new Exception("Error: No se puede agregar una cita en una orden que esta esperando estudio")
+		}
+		
+		@Override
+		EstadoDeLaOrden notificarCitaCancelada(LocalDateTime fechaOrden, LocalDateTime fechaNotificacion) {
+			throw new Exception("Error: Orden en espera de estudio")
 		}
 	}
