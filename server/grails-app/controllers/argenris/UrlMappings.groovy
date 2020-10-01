@@ -31,7 +31,8 @@ class UrlMappings {
       
         post "/ordenes/$id/cita"(controller:"orden", action:"crearCita")
           put "/ordenes/$id/cancelar"(controller:"orden", action:"cancelar")
-    
+       get "/ordenes/buscarporpacienteid"(controller:"orden", action:"buscarPorPacienteId")
+       
        
        
        

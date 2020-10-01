@@ -3,6 +3,7 @@ package argenris
 import argenris.Cita.Cita
 import argenris.OrdenDeEstudio.OrdenDeEstudio
 import grails.gorm.transactions.*
+import org.apache.tools.ant.taskdefs.condition.Or
 
 import java.time.Instant
 import java.time.ZoneId
@@ -164,9 +165,34 @@ class OrdenController {
    
     }
     
+    /*
+            Que reciba id de paciente
+            Y me traiga todas las órdenes con ese paciente asociado
+                Calculo que sería solo una linda con diferencia al show.
+     */
+    def buscarPorPacienteId (String pacienteId) {
+        def paciente
+        
+        if (!pacienteId){render status: BAD_REQUEST
+            return
+        }
+        
+        if ( pacienteId.isNumber()  && pacienteId.toLong() >0){
+            paciente = Paciente.get(pacienteId)
+        }else {
+            render status: BAD_REQUEST
+            return
+        }
+        
+        if (!paciente) {
+            render status: NOT_FOUND
+            return
+        }
+        
+       def  ordenes = OrdenDeEstudio.findAllByPaciente(paciente)
+        respond ordenes
     
-	  
-	  
+    }
 	  
 	  /*
 	  def ordenes() {
