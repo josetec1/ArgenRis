@@ -22,6 +22,7 @@ abstract class AreaDeExamen {
     }
 
     abstract List<Cita> obtenerCitasDelDia(LocalDateTime dia)
+    
 
     abstract boolean puedoAgregarCita(LocalDateTime fechaCita)
 

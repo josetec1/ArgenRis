@@ -4,4 +4,7 @@ model {
 	SalaDeExamen salaDeExamen
 }
 
-json g.render(salaDeExamen, [resolveTemplate: false])
+json {
+	id salaDeExamen.id
+	citas tmpl.'/cita/cita'(salaDeExamen.citas)
+}

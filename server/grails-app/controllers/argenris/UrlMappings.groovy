@@ -57,8 +57,8 @@ class UrlMappings {
         put "/citas/$id/cancelar"(controller:"cita", action:"cancelar")
        
         // SALAS **********************************************
-       // "/salasdeexamen"(resources:'salaDeExamen', excludes:['delete', 'update', 'edit','create'])
-      //  get "/salasdeexamen/$id/obtenercitasdeldia"(controller:"salaDeExamen", action:"obtenerCitasDelDia")
+        "/salas"(resources:'salaDeExamen', excludes:['delete', 'update', 'edit','create'])
+        get "/salas/$id/obtenercitasdeldia"(controller:"salaDeExamen", action:"obtenerCitasDelDia")
         
         
         "/"(controller: 'application', action:'index')

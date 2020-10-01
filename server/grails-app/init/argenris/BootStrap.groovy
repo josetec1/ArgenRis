@@ -2,6 +2,7 @@ package argenris
 
 import argenris.Cita.Cita
 import argenris.OrdenDeEstudio.OrdenDeEstudio
+import grails.gorm.transactions.Transactional
 
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -30,12 +31,7 @@ class BootStrap {
         new Procedimiento().save(failOnError : true)
         new Procedimiento().save(failOnError : true)
         new Procedimiento().save(failOnError : true)
-    
         
-        //Salas
-        AreaDeExamen sala1 = new SalaDeExamen(new ArrayList<Cita>()).save(failOnError : true)
-        AreaDeExamen sala2 = new SalaDeExamen(new ArrayList<Cita>()).save(failOnError : true)
-    
         
         
         //OrdenDeEstudio
@@ -61,10 +57,16 @@ class BootStrap {
                 Prioridad.NORMAL, LocalDateTime.now(),
                 "orden de estudio powered by BootStrap 4",
                 new Procedimiento()).save(failOnError : true)
+        
+        
+        //
+         this.cargarCitasYsalas (miOrden3,miOrden4)
+       
+        
     
         // ************************************************
         // estas cosas asi no se usan, ir retirando
-          Cita cita1=   sala1.crearCita(LocalDateTime.now(),Prioridad.NORMAL.toString(),miOrden).save(failOnError : true)
+         // Cita cita1=   sala1.crearCita(LocalDateTime.now(),Prioridad.NORMAL.toString(),miOrden).save(failOnError : true)
         
         
         
@@ -73,6 +75,20 @@ class BootStrap {
         //**********************************************
         
     }
+    @Transactional
+    def cargarCitasYsalas(OrdenDeEstudio orden3,OrdenDeEstudio orden4){
+    
+        //Salas
+        AreaDeExamen sala1 = new SalaDeExamen(new ArrayList<Cita>()).save(failOnError : true)
+        AreaDeExamen sala2 = new SalaDeExamen(new ArrayList<Cita>()).save(failOnError : true)
+    
+        orden4.agregarCita(LocalDateTime.now(),sala1,LocalDateTime.now().plusDays(1))
+        orden3.agregarCita(LocalDateTime.now(),sala2,LocalDateTime.now().plusDays(1))
+        orden4.save(failOnError : true)
+        orden3.save(failOnError : true)
+        
+    }
+    
     def destroy = {
     }
 }
