@@ -11,6 +11,7 @@ import java.time.ZoneId
 import static org.springframework.http.HttpStatus.*
 import java.time.LocalDateTime
 
+//todo todo esto es para refactorizar
 //A1  Defino un command para la validacion de los imputs que deben cargarse por la vista
 class CreacionCommand{
     
@@ -193,6 +194,35 @@ class OrdenController {
         respond ordenes
     
     }
+   
+    /*
+     obtener citaPorIdOrden
+        Le pasó el id de la orden y me trae todas las citas de esa orden
+        */
+    def buscarcitaPorIdOrden(String ordenId) {
+        def orden
+        
+        if (!ordenId){render status: BAD_REQUEST
+            return
+        }
+        
+        if ( ordenId.isNumber()  && ordenId.toLong() >0){
+            orden = OrdenDeEstudio.get(ordenId)
+        }else {
+            render status: BAD_REQUEST
+            return
+        }
+        
+        if (!orden) {
+            render status: NOT_FOUND
+            return
+        }
+        respond orden.citas
+        
+        
+    }
+    
+    
 	  
 	  /*
 	  def ordenes() {

@@ -10,6 +10,7 @@ import java.time.ZoneId
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST
 
+//todo todo esto es para refactorizar
 class SalaCommand{
 	
 	Date fechaYHoraActual
