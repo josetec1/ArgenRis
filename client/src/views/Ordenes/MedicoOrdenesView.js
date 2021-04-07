@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CustomerListView = () => {
+const MedicoOrdenesView = () => {
   const classes = useStyles();
   const {
     ordenes,
@@ -39,4 +39,4 @@ const CustomerListView = () => {
   );
 };
 
-export default CustomerListView;
+export default MedicoOrdenesView;

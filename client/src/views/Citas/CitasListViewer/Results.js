@@ -3,8 +3,6 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { useNavigate, Outlet } from 'react-router-dom';
-
 import {
   // Avatar,
   CircularProgress,
@@ -19,48 +17,21 @@ import {
   TableRow,
   Typography,
   makeStyles,
-  Button
 } from '@material-ui/core';
-import AuthenticationService from '../../../components/Authentication/AuthenticationService';
 // import getInitials from 'src/utils/getInitials';
 
 const useStyles = makeStyles(theme => ({
   root: {},
   avatar: {
     marginRight: theme.spacing(2)
-  },
-  button: {
-    color: theme.palette.text.secondary,
-    fontWeight: theme.typography.fontWeightMedium,
-    justifyContent: 'flex-start',
-    letterSpacing: 0,
-    padding: '10px 8px',
-    textTransform: 'none',
-    width: '100%'
-  },
-  icon: {
-    marginRight: theme.spacing(1)
-  },
-  title: {
-    marginRight: 'auto'
-  },
-  active: {
-    color: theme.palette.primary.main,
-    '& $title': {
-      fontWeight: theme.typography.fontWeightMedium
-    },
-    '& $icon': {
-      color: theme.palette.primary.main
-    }
   }
 }));
 
 const Results = ({
-  className, isLoaded, ordenes, ...rest
+  className, citas, ...rest
 }) => {
-  const navigate = useNavigate();
   const classes = useStyles();
-  const [selectedOrdenId, setSelectedOrdenId] = useState([]);
+  const [selectedCitaId, setSelectedCitaId] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
@@ -68,32 +39,32 @@ const Results = ({
     let newSelectedOrdenId;
 
     if (event.target.checked) {
-      newSelectedOrdenId = ordenes.map(orden => orden.id);
+      newSelectedOrdenId = citas.map(cita => cita.id);
     } else {
       newSelectedOrdenId = [];
     }
 
-    setSelectedOrdenId(newSelectedOrdenId);
+    setSelectedCitaId(newSelectedOrdenId);
   };
 
   const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedOrdenId.indexOf(id);
+    const selectedIndex = selectedCitaId.indexOf(id);
     let newSelectedOrdenId = [];
 
     if (selectedIndex === -1) {
-      newSelectedOrdenId = newSelectedOrdenId.concat(selectedOrdenId, id);
+      newSelectedOrdenId = newSelectedOrdenId.concat(selectedCitaId, id);
     } else if (selectedIndex === 0) {
-      newSelectedOrdenId = newSelectedOrdenId.concat(selectedOrdenId.slice(1));
-    } else if (selectedIndex === selectedOrdenId.length - 1) {
-      newSelectedOrdenId = newSelectedOrdenId.concat(selectedOrdenId.slice(0, -1));
+      newSelectedOrdenId = newSelectedOrdenId.concat(selectedCitaId.slice(1));
+    } else if (selectedIndex === selectedCitaId.length - 1) {
+      newSelectedOrdenId = newSelectedOrdenId.concat(selectedCitaId.slice(0, -1));
     } else if (selectedIndex > 0) {
       newSelectedOrdenId = newSelectedOrdenId.concat(
-        selectedOrdenId.slice(0, selectedIndex),
-        selectedOrdenId.slice(selectedIndex + 1)
+        selectedCitaId.slice(0, selectedIndex),
+        selectedCitaId.slice(selectedIndex + 1)
       );
     }
 
-    setSelectedOrdenId(newSelectedOrdenId);
+    setSelectedCitaId(newSelectedOrdenId);
   };
 
   const handleLimitChange = event => {
@@ -104,7 +75,7 @@ const Results = ({
     setPage(newPage);
   };
 
-  return isLoaded ? (
+  return citas ? (
     <Card
       className={clsx(classes.root, className)}
       {...rest}
@@ -116,35 +87,29 @@ const Results = ({
               <TableRow>
                 <TableCell padding='checkbox'>
                   <Checkbox
-                    checked={selectedOrdenId.length === ordenes.length}
+                    checked={selectedCitaId.length === citas.length}
                     color='primary'
                     indeterminate={
-                      selectedOrdenId.length > 0
-                      && selectedOrdenId.length < ordenes.length
+                      selectedCitaId.length > 0
+                      && selectedCitaId.length < citas.length
                     }
                     onChange={handleSelectAll}
                   />
                 </TableCell>
                 <TableCell>
-                  Paciente ID
-                </TableCell>
-                <TableCell>
-                  Medico ID
+                  Cita ID
                 </TableCell>
                 <TableCell>
                   Prioridad
                 </TableCell>
                 <TableCell>
-                  Estado de la Orden
+                  Fecha de cita
                 </TableCell>
                 <TableCell>
-                  Nota Adicional
+                  Horario de cita
                 </TableCell>
                 <TableCell>
-                  Fecha de Creacion
-                </TableCell>
-                <TableCell>
-                  Hora de Creacion
+                  Estado de Cita
                 </TableCell>
                 <TableCell>
                   
@@ -152,16 +117,16 @@ const Results = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {ordenes.sort((a, b) => a.pacienteID - b.pacienteID).slice(0, limit).map(orden => (
+              {citas.sort((a, b) => a.pacienteID - b.pacienteID).slice(0, limit).map(cita => (
                 <TableRow
                   hover
-                  key={orden.id}
-                  selected={selectedOrdenId.indexOf(orden.id) !== -1}
+                  key={cita.id}
+                  selected={selectedCitaId.indexOf(cita.id) !== -1}
                 >
                   <TableCell padding='checkbox'>
                     <Checkbox
-                      checked={selectedOrdenId.indexOf(orden.id) !== -1}
-                      onChange={event => handleSelectOne(event, orden.id)}
+                      checked={selectedCitaId.indexOf(cita.id) !== -1}
+                      onChange={event => handleSelectOne(event, cita.id)}
                       value='true'
                     />
                   </TableCell>
@@ -174,40 +139,24 @@ const Results = ({
                         color='textPrimary'
                         variant='body1'
                       >
-                        {orden.pacienteID}
+                        {cita.pacienteID}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {orden.medicoID}
+                    {cita.id}
                   </TableCell>
                   <TableCell>
-                    {orden.prioridad}
+                    {cita.prioridad}
                   </TableCell>
                   <TableCell>
-                    {orden.estadoDeLaOrdenID}
+                    {`${moment(cita.fechaYHoraDeCita).format('DD-MM-YYYY')}`}
                   </TableCell>
                   <TableCell>
-                    {orden.notaAdicional}
+                    {`${moment(cita.fechaYHoraDeCita).format('hh:mm')}`}
                   </TableCell>
                   <TableCell>
-                    {`${moment.utc(orden.fechaCreacionDeOrden).format('DD-MM-YYYY')}`}
-                  </TableCell>
-                  <TableCell>
-                    {`${moment.utc(orden.fechaCreacionDeOrden).format('hh:mm')}`}
-                  </TableCell>
-                  <TableCell>
-                  <Button
-                    className={classes.button}
-                    onClick={() => {
-                      debugger
-                      return navigate(`/${AuthenticationService.getUserRol()}/historialDeCitas/${orden.id}`, { replace: true })}}
-                  >
-                    <span className={classes.title}>
-                      Historial De Citas
-                    </span>
-                    <Outlet />
-                  </Button>
+                    {cita.estadoDeCitaID}
                   </TableCell>
                 </TableRow>
               ))}
@@ -217,7 +166,7 @@ const Results = ({
       </PerfectScrollbar>
       <TablePagination
         component='div'
-        count={ordenes.length}
+        count={citas.length}
         onChangePage={handlePageChange}
         onChangeRowsPerPage={handleLimitChange}
         page={page}
@@ -230,7 +179,7 @@ const Results = ({
 
 Results.propTypes = {
   className: PropTypes.string,
-  ordenes: PropTypes.array.isRequired,
+  citas: PropTypes.array.isRequired,
   isLoaded: PropTypes.bool.isRequired
 };
 

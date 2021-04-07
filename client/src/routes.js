@@ -7,6 +7,7 @@ import AccountView from 'src/views/account/AccountView';
 import MedicoPacientesView from 'src/views/Pacientes/MedicoPacientesView';
 import PacienteOrdenesView from 'src/views/Ordenes/PacienteOrdenesView';
 import MedicoOrdenesView from 'src/views/Ordenes/MedicoOrdenesView';
+import CitasView from 'src/views/Citas/CitasView';
 import LoginView from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
 import ProductListView from 'src/views/product/ProductListView';
@@ -34,6 +35,8 @@ const routes = [
     children: [
       { path: '/', element: <ProtectedRoute rol='paciente' component={PacienteOrdenesView} /> },
       { path: 'historialClinico', element: <ProtectedRoute rol='paciente' component={PacienteOrdenesView} /> },
+      { path: 'historialDeCitas', element: <ProtectedRoute rol='paciente' component={CitasView} /> },
+      { path: 'historialDeCitas/:citas', element: <ProtectedRoute rol='paciente' component={CitasView} /> },
       { path: '*', element: <Navigate to='/404' /> }
     ]
   },

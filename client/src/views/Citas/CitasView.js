@@ -4,10 +4,11 @@ import {
   Container,
   makeStyles
 } from '@material-ui/core';
+import {
+  useParams
+} from 'react-router-dom';
 import Page from 'src/components/Page';
-import Results from './OrdenesListView/Results';
-import AuthenticationService from '../../components/Authentication/AuthenticationService';
-import useOrdenesSearch from './useOrdenesSearch';
+import Results from './CitasListViewer/Results';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,26 +19,22 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PacienteOrdenesView = () => {
+const CitasView = () => {
   const classes = useStyles();
-  const {
-    ordenes,
-    isLoaded,
-  } = useOrdenesSearch();
+  const { citas } = useParams();
 
-  const pacienteOrdenes = ordenes.filter(orden => orden.pacienteID === AuthenticationService.getUserId());
   return (
     <Page
       className={classes.root}
-      title='Ordenes'
+      title='Citas'
     >
       <Container maxWidth={false}>
         <Box mt={3}>
-          <Results ordenes={pacienteOrdenes} isLoaded={isLoaded} />
+          <Results ordenes={citas} />
         </Box>
       </Container>
     </Page>
   );
 };
 
-export default PacienteOrdenesView;
+export default CitasView;

@@ -2,7 +2,7 @@ class AuthenticationService {
   constructor() {
     this.authenticated = false;
     this.rol = 'paciente';
-    this.authUserId = 1;
+    this.authUserId = 4;
   }
 
   login(cb) {
@@ -25,6 +25,10 @@ class AuthenticationService {
 
   getUserId() {
     return this.authUserId;
+  }
+  
+  getUserRol() {
+    return this.rol;
   }
 }
 
