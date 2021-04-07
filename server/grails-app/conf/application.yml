@@ -48,20 +48,20 @@ grails:
         types:
             json:
               - application/json
-              - text/json   
+              - text/json
             hal:
               - application/hal+json
-              - application/hal+xml  
+              - application/hal+xml
             xml:
               - text/xml
-              - application/xml                                 
+              - application/xml
             atom: application/atom+xml
             css: text/css
             csv: text/csv
             js: text/javascript
             rss: application/rss+xml
             text: text/plain
-            all: '*/*'            
+            all: '*/*'
     urlmapping:
         cache:
             maxsize: 1000
@@ -76,6 +76,7 @@ grails:
         enabled: true
 ---
 hibernate:
+    hibernateDirtyChecking: true #desactivo el de grails que hace que no se detecten cambios en this.nombre=nombre
     cache:
         queries: false
         use_second_level_cache: false

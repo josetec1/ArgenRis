@@ -5,11 +5,12 @@ import argenris.Cita.EstadoCita.EstadoCitaConcretada
 import argenris.Cita.EstadoCita.EstadoCitaPlanificada
 import argenris.OrdenDeEstudio.OrdenDeEstudio
 import argenris.Prioridad
-
+import grails.compiler.GrailsCompileStatic
 
 import java.time.Duration
 import java.time.LocalDateTime
 
+@GrailsCompileStatic
 class Cita {
 
     EstadoCita estadoDeCita

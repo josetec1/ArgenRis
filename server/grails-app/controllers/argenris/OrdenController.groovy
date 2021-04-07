@@ -3,6 +3,7 @@ package argenris
 import argenris.Cita.Cita
 import argenris.OrdenDeEstudio.OrdenDeEstudio
 import grails.gorm.transactions.*
+import org.apache.tools.ant.taskdefs.condition.Or
 
 import java.time.Instant
 import java.time.ZoneId
@@ -10,6 +11,7 @@ import java.time.ZoneId
 import static org.springframework.http.HttpStatus.*
 import java.time.LocalDateTime
 
+//todo todo esto es para refactorizar
 //A1  Defino un command para la validacion de los imputs que deben cargarse por la vista
 class CreacionCommand{
     
@@ -103,25 +105,25 @@ class OrdenController {
           }
 	  }
    
- /*
+ 
     //todo refactor
     //validar quien puede entrar
     //validar que la orden exista
     //atrapar excepciones
-    @Transactional
+    
     def cancelar(Long id ) {
         if(id == null) {render status: BAD_REQUEST}
         else {
-    
-            OrdenDeEstudio.findById(id).cancelar(LocalDateTime.now())
+            def orden = ordenService.cancelar(id)
+            
             //si no lo encuentra devuelve NOT_FOUND automaticamente.... no se si esta bueno dejarlo asi
-            respond OrdenDeEstudio.findById(id)
+            respond orden
         }
     }
     
-    */
+ 
     
-    /*
+    
     @Transactional   //todo hacer bien
     def crearCita (CitaCommand cmd) {
     
@@ -143,18 +145,20 @@ class OrdenController {
             //todo refactor metodo
             LocalDateTime fechaYHoraActualConvertida = LocalDateTime.ofInstant(cmd.fechaYHoraActual.toInstant(),ZoneId.systemDefault());
             LocalDateTime fechaYHoraDeCitaConvertida = LocalDateTime.ofInstant(cmd.fechaYHoraDeCita.toInstant(),ZoneId.systemDefault());
-            
+            //atrapar exepciones del dominio
             //3 llamar al servicio para crear la cita
-            def orden = OrdenDeEstudio.get(ordenID)
-            def sala = SalaDeExamen.get(cmd.salaId)
-    
-            Cita cita = orden.agregarCita(fechaYHoraActualConvertida,sala,fechaYHoraDeCitaConvertida)
-           
-            // cita.save(failOnError : true)
-    
-    
-            //4 mostrar una pantalla de ok
-            respond  cita, [status: CREATED, view:"show"]
+            try {
+                def orden = OrdenDeEstudio.get(ordenID)  //validar que existan las cosas
+                if (!orden) throw new Exception("Error: no existe la orden")
+                def sala = SalaDeExamen.get(cmd.salaId)
+                if (!sala) throw new Exception("Error: no existe la sala")
+                Cita cita = orden.agregarCita(fechaYHoraActualConvertida,sala,fechaYHoraDeCitaConvertida)
+                cita.save(failOnError : true)
+                //4 mostrar una pantalla de ok
+                respond  cita, [status: CREATED, view:"show"]
+            } catch (e) {
+               respond (text: e.message, status: BAD_REQUEST)
+            }
 
         }else {     //4.1 mostrar una pantalla de error
             respond cmd.errors, view: 'create'
@@ -162,9 +166,63 @@ class OrdenController {
    
     }
     
+    /*
+            Que reciba id de paciente
+            Y me traiga todas las órdenes con ese paciente asociado
+                Calculo que sería solo una linda con diferencia al show.
+     */
+    def buscarPorPacienteId (String pacienteId) {
+        def paciente
+        
+        if (!pacienteId){render status: BAD_REQUEST
+            return
+        }
+        
+        if ( pacienteId.isNumber()  && pacienteId.toLong() >0){
+            paciente = Paciente.get(pacienteId)
+        }else {
+            render status: BAD_REQUEST
+            return
+        }
+        
+        if (!paciente) {
+            render status: NOT_FOUND
+            return
+        }
+        
+       def  ordenes = OrdenDeEstudio.findAllByPaciente(paciente)
+        respond ordenes
     
-	  */
-	  
+    }
+   
+    /*
+     obtener citaPorIdOrden
+        Le pasó el id de la orden y me trae todas las citas de esa orden
+        */
+    def buscarcitaPorIdOrden(String ordenId) {
+        def orden
+        
+        if (!ordenId){render status: BAD_REQUEST
+            return
+        }
+        
+        if ( ordenId.isNumber()  && ordenId.toLong() >0){
+            orden = OrdenDeEstudio.get(ordenId)
+        }else {
+            render status: BAD_REQUEST
+            return
+        }
+        
+        if (!orden) {
+            render status: NOT_FOUND
+            return
+        }
+        respond orden.citas
+        
+        
+    }
+    
+    
 	  
 	  /*
 	  def ordenes() {
@@ -209,21 +267,7 @@ class OrdenController {
         
     }
   */
-  /*
-    
-    def nuevaOrden() {
-        [
-         procedimientos:Procedimiento.list(), pacientes:Paciente.list()  //provisorio no usar esto
-        ]
-    }
- */
-   
-    
-    
-    
-    
-    
-    
+ 
     
     
     
@@ -233,11 +277,6 @@ class OrdenController {
      *********************************************************************************************************/
     //todo esto es provisorio
  /*
-    def nuevaCita() {
-        [
-                ordenes:OrdenDeEstudio.list(), salas:SalaDeExamen.list()  //provisorio no usar esto
-        ]
-    }
     
     def crearCita (Long ordenId, Long salaId){
         

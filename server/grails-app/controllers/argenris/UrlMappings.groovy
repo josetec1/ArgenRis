@@ -31,7 +31,12 @@ class UrlMappings {
       
         post "/ordenes/$id/cita"(controller:"orden", action:"crearCita")
           put "/ordenes/$id/cancelar"(controller:"orden", action:"cancelar")
+       get "/ordenes/buscarporpacienteid"(controller:"orden", action:"buscarPorPacienteId")
+        get "/ordenes/buscarcitaporidorden"(controller:"orden", action:"buscarcitaPorIdOrden")
     
+    
+        
+       
        
        
        
@@ -54,11 +59,11 @@ class UrlMappings {
         
         // ojo, no tiene que existir el save cita, por que eso se crea por la orden.
          "/citas"(resources:'cita', excludes:['save','delete', 'update', 'edit','create'])
-    
+        put "/citas/$id/cancelar"(controller:"cita", action:"cancelar")
        
         // SALAS **********************************************
-       // "/salasdeexamen"(resources:'salaDeExamen', excludes:['delete', 'update', 'edit','create'])
-      //  get "/salasdeexamen/$id/obtenercitasdeldia"(controller:"salaDeExamen", action:"obtenerCitasDelDia")
+        "/salas"(resources:'salaDeExamen', excludes:['delete', 'update', 'edit','create'])
+        get "/salas/$id/obtenercitasdeldia"(controller:"salaDeExamen", action:"obtenerCitasDelDia")
         
         
         "/"(controller: 'application', action:'index')

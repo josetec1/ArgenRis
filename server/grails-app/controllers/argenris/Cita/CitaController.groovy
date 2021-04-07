@@ -1,6 +1,11 @@
 package argenris.Cita
 
 import grails.validation.ValidationException
+
+import java.time.LocalDateTime
+import java.time.ZoneId
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST
 import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.NOT_FOUND
 import static org.springframework.http.HttpStatus.NO_CONTENT
@@ -9,6 +14,21 @@ import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY
 
 import grails.gorm.transactions.ReadOnly
 import grails.gorm.transactions.Transactional
+
+
+
+class CitaCommand{
+    
+    Date fechaYHoraActual
+    
+    static constraints = {
+        fechaYHoraActual nullable: false, blank: false, date: true
+    }
+}
+
+
+
+
 
 @ReadOnly
 class CitaController {
@@ -52,6 +72,45 @@ class CitaController {
 
         respond cita, [status: CREATED, view:"show"]
     }
+    
+    @Transactional  //todo hacer bien
+    def cancelar(CitaCommand cmd ) {
+    
+        def citaID
+        if ( params.id.isNumber()  && params.id.toLong() >0){
+            citaID = params.id.toLong()
+        }else {
+            render status: BAD_REQUEST
+            return
+        }
+    
+    
+        if(!cmd.hasErrors()) {
+    
+            LocalDateTime fechaYHoraActualConvertida = LocalDateTime.ofInstant(cmd.fechaYHoraActual.toInstant(), ZoneId.systemDefault());
+            try {
+        
+                def cita = Cita.get(citaID)
+        
+                if (!cita) throw new Exception("Error: no existe la cita")
+                cita.cancelar(fechaYHoraActualConvertida)
+        
+        
+                //si no lo encuentra devuelve NOT_FOUND automaticamente.... no se si esta bueno dejarlo asi
+                respond cita
+        
+            } catch (e) {
+                respond (text: e.message, status: BAD_REQUEST)
+            }
+           
+        }
+        else {
+            respond cmd.errors, view:'create'
+        }
+    }
+    
+    
+    
 /*
     @Transactional
     def update(Cita cita) {
@@ -76,14 +135,14 @@ class CitaController {
     }
 
     @Transactional
-    def delete(Long id) {
-        if (id == null || citaService.delete(id) == null) {
+    def cancelar(Long id) {
+        if (id == null || citaService.cancelar(id) == null) {
             render status: NOT_FOUND
             return
         }
 
         render status: NO_CONTENT
     }
-    
- */
+  */
+ 
 }

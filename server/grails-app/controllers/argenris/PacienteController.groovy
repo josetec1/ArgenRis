@@ -1,5 +1,5 @@
 package argenris
-//todo implementar
+//todo todo esto es para refactorizar
 import grails.validation.ValidationException
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST

@@ -2,6 +2,7 @@ package argenris
 
 import argenris.Cita.Cita
 import argenris.OrdenDeEstudio.OrdenDeEstudio
+import grails.compiler.GrailsCompileStatic
 
 import java.time.LocalDateTime
 
@@ -21,6 +22,7 @@ abstract class AreaDeExamen {
     }
 
     abstract List<Cita> obtenerCitasDelDia(LocalDateTime dia)
+    
 
     abstract boolean puedoAgregarCita(LocalDateTime fechaCita)
 
